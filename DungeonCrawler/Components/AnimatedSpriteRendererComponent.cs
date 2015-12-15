@@ -11,6 +11,7 @@ namespace AnimationTest.Components {
         Dictionary<string, Rectangle[]> AnimationBank = null;
         public int CurrentFrame = 0;
         public string CurrentSprite = null;
+        protected int sprite = 0;
 
         public AnimatedSpriteRendererComponent(string name, GameObject game) : base(name, game) {
             Name = name;
@@ -39,6 +40,9 @@ namespace AnimationTest.Components {
             }
             CurrentSprite = name;
             CurrentFrame = 0;
+        }
+        public void LoadSprite(string spriteSheet) {
+            sprite = TextureManager.Instance.LoadTexture(spriteSheet);
         }
     }
 }
