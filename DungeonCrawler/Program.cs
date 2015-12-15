@@ -15,7 +15,7 @@ namespace AnimationTest {
             TextureManager.Instance.Initialize(Window);
             InputManager.Instance.Initialize(Window);
             SoundManager.Instance.Initialize(Window);
-            //Game.Instance.Initialize();
+            SceneManager.Instance.PushScene(new AnimationTest());
         }
         public static void Update(object sender, FrameEventArgs e) {
             float dTime = (float)e.Time;
@@ -36,7 +36,7 @@ namespace AnimationTest {
             GraphicsManager.Instance.SwapBuffers();
         }
         public static void Shutdown(object sender, EventArgs e) {
-            //Game.Instance.Shutdown();
+            SceneManager.Instance.PopScene();
             SoundManager.Instance.Shutdown();
             InputManager.Instance.Shutdown();
             TextureManager.Instance.Shutdown();

@@ -37,7 +37,9 @@ namespace GameFramework {
         }
 
         public virtual void Shutdown() {
-
+            if (Root != null) {
+                Root.Destroy();
+            }
         }
         
     }

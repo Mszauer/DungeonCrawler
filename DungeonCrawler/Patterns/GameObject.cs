@@ -11,6 +11,14 @@ using System.Drawing;
 namespace GameFramework {
     class GameObject {
         public string Name = null;
+        public Point GlobalPosition {
+            get {
+                if (Parent == null) {
+                    return LocalPosition;
+                }
+                return new Point(LocalPosition.X + Parent.GlobalPosition.X, LocalPosition.Y + Parent.GlobalPosition.Y);
+            }
+        }
         public Point LocalPosition = new Point(0, 0);
         private bool _enabled = false;
         public bool Enabled {
@@ -193,6 +201,18 @@ namespace GameFramework {
             Console.WriteLine("Component not found");
 #endif
             return null;
+        }
+        public void Destroy() {
+            if (Components != null) {
+                for (int i = Components.Count - 1; i >= 0; i--) {
+                    Components[i].DoDestroy();
+                }
+            }
+            if (Children != null) {
+                for (int i = Children.Count - 1; i >= 0; i--) {
+                    Children[i].Destroy();
+                }
+            }
         }
     }
 }

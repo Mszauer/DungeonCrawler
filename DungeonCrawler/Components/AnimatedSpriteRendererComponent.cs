@@ -9,49 +9,69 @@ using System.Drawing;
 namespace Components {
     class AnimatedSpriteRendererComponent : Component{
         Dictionary<string, Rectangle[]> AnimationBank = null;
+        Dictionary<string, int> SpriteBank = null;
         public int CurrentFrame = 0;
-        public string CurrentSprite = null;
-        protected int sprite = 0;
         protected float animTimer = 0.0f;
-        protected float frameTimer = 1.0f / 30.0f; //two frames per second
-        protected Point Position = new Point(0,0);
+        protected float frameTimer = 1.0f / 30.0f;
+        public string CurrentAnimation = null;
 
-        public AnimatedSpriteRendererComponent(string name, GameObject game) : base(name, game) {
-            Name = name;
+        public AnimatedSpriteRendererComponent(GameObject game) : base("AnimatedSpriteRendererComponent", game) {
+            AnimationBank = new Dictionary<string, Rectangle[]>();
+            SpriteBank = new Dictionary<string, int>();
         }
         public override void OnRender() {
-            TextureManager.Instance.Draw(sprite, gameObject.LocalPosition, 1.0f, AnimationBank[CurrentSprite][CurrentFrame]);
+            if (CurrentAnimation == null) {
+                return;
+            }
+            if (gameObject == null) {
+                Console.WriteLine("gameObject is null on "+Name);
+                return;
+            }
+            TextureManager.Instance.Draw(SpriteBank[CurrentAnimation], gameObject.GlobalPosition, 1.0f, AnimationBank[CurrentAnimation][CurrentFrame]);
         }
         public override void OnUpdate(float dTime) {
+            if (CurrentAnimation == null) {
+                return;
+            }
             Animate(dTime);
         }
-        public void AddSprite(string name, params Rectangle[] sourceRect) {
-            if (AnimationBank == null) {
-                AnimationBank = new Dictionary<string, Rectangle[]>();
+        public void AddAnimation(string name, string spriteSheet, params Rectangle[] sourceRect) {
+            if (AnimationBank.ContainsKey(name)) {
+                Console.WriteLine("AnimationBank already contains animation: " + name);
+                return;
             }
-            if (CurrentSprite == null) {
-                CurrentSprite = name;
+            if (SpriteBank.ContainsKey(name)) {
+                Console.WriteLine("SpriteBank already contains sprite: "+ name);
             }
+            int sprite = TextureManager.Instance.LoadTexture(spriteSheet);
             AnimationBank.Add(name, sourceRect);
+            SpriteBank.Add(name, sprite);
         }
         public void Animate(float dTime) {
             animTimer += dTime;
-            if (animTimer > frameTimer) {
+            if (animTimer >= frameTimer) {
+                animTimer -= frameTimer;
                 CurrentFrame++;
-                if (CurrentFrame > AnimationBank[CurrentSprite].Length - 1) {
+                if (CurrentFrame > AnimationBank[CurrentAnimation].Length - 1) {
                     CurrentFrame = 0;
                 }
             }
         }
-        public void SetSprite(string name) {
-            if (Name == name) {
+        public void PlayAnimation(string name) {
+            if (!SpriteBank.ContainsKey(name)) {
+                Console.WriteLine("SpriteBank doesn't contain: " + name);
                 return;
             }
-            CurrentSprite = name;
+            if (!AnimationBank.ContainsKey(name)) {
+                Console.WriteLine("AnimationBank doesn't contain: " + name);
+                return;            }
+            CurrentAnimation = name;
             CurrentFrame = 0;
         }
-        public void LoadSprite(string spriteSheet) {
-            sprite = TextureManager.Instance.LoadTexture(spriteSheet);
+        public override void OnDestroy() {
+            foreach (KeyValuePair<string,int> kvp in SpriteBank) {
+                TextureManager.Instance.UnloadTexture(kvp.Value);
+            }
         }
     }
 }

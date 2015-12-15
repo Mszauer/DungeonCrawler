@@ -32,30 +32,37 @@ namespace GameFramework {
                 }
             }
         }
-        public void PopScene(Scene scene) {
+        public void PopScene() {
             if (SceneStack != null && SceneStack.Count >= 0) {
+                PeekScene().Exit();
+                PeekScene().Shutdown();
                 SceneStack.RemoveAt(SceneStack.Count - 1);
 #if SCENEDEBUG
-                Console.WriteLine("Removed Scene: " + scene);
+                Console.WriteLine("Removed Scene");
 #endif
+                if (PeekScene() != null) {
+                    PeekScene().Enter();
+                }
             }
         }
         public void PushScene(Scene scene) {
             if (SceneStack == null) {
                 SceneStack = new List<Scene>();
             }
+            if (PeekScene() != null) {
+                PeekScene().Exit();
+            }
             SceneStack.Add(scene);
+            scene.Initialize();
+            scene.Enter();
 #if SCENEDEBUG
             Console.WriteLine("Added Scene: "+scene);
 #endif
         }
         public Scene PeekScene() {
-            if (SceneStack != null && SceneStack.Count >= 0) {
+            if (SceneStack != null && SceneStack.Count > 0) {
                 return SceneStack[SceneStack.Count - 1];
             }
-#if SCENEDEBUG
-            Console.WriteLine("SceneStack is null or empty");
-#endif
             return null;
         }
     }

@@ -44,6 +44,12 @@ namespace GameFramework {
         public virtual void OnRender() {
 
         }
+        public virtual void OnDestroy() {
+
+        }
+        public void DoDestroy() {
+            OnDestroy();
+        }
 
         public void DoUpdate(float dTime) {
             if (Active) {
