@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="AnimationTest.cs" />
     <Compile Include="Components\AnimatedSpriteRendererComponent.cs" />
+    <Compile Include="Components\StaticSpriteRendererComponent.cs" />
     <Compile Include="Managers\GraphicsManager.cs" />
     <Compile Include="Managers\InputManager.cs" />
     <Compile Include="Managers\SoundManager.cs" />

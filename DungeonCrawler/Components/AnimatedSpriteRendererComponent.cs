@@ -1,4 +1,5 @@
-﻿using System;
+﻿#define ANIMATEDSPRITEDEBUG
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,7 +25,9 @@ namespace Components {
                 return;
             }
             if (gameObject == null) {
-                Console.WriteLine("gameObject is null on "+Name);
+#if ANIMATEDSPRITEDEBUG
+                Console.WriteLine("AnimatedSprite gameObject is null on "+Name);
+#endif
                 return;
             }
             TextureManager.Instance.Draw(SpriteBank[CurrentAnimation], gameObject.GlobalPosition, 1.0f, AnimationBank[CurrentAnimation][CurrentFrame]);
@@ -37,11 +40,15 @@ namespace Components {
         }
         public void AddAnimation(string name, string spriteSheet, params Rectangle[] sourceRect) {
             if (AnimationBank.ContainsKey(name)) {
-                Console.WriteLine("AnimationBank already contains animation: " + name);
+#if ANIMATEDSPRITEDEBUG
+                Console.WriteLine("Animated AnimationBank already contains animation: " + name);
+#endif
                 return;
             }
             if (SpriteBank.ContainsKey(name)) {
-                Console.WriteLine("SpriteBank already contains sprite: "+ name);
+#if ANIMATEDSPRITEDEBUG
+                Console.WriteLine("Animated SpriteBank already contains sprite: "+ name);
+#endif
             }
             int sprite = TextureManager.Instance.LoadTexture(spriteSheet);
             AnimationBank.Add(name, sourceRect);
@@ -59,11 +66,15 @@ namespace Components {
         }
         public void PlayAnimation(string name) {
             if (!SpriteBank.ContainsKey(name)) {
-                Console.WriteLine("SpriteBank doesn't contain: " + name);
+#if ANIMATEDSPRITEDEBUG
+                Console.WriteLine("Animated SpriteBank doesn't contain: " + name);
+#endif
                 return;
             }
             if (!AnimationBank.ContainsKey(name)) {
-                Console.WriteLine("AnimationBank doesn't contain: " + name);
+#if ANIMATEDSPRITEDEBUG
+                Console.WriteLine("AnimatedSprite AnimationBank doesn't contain: " + name);
+#endif
                 return;            }
             CurrentAnimation = name;
             CurrentFrame = 0;

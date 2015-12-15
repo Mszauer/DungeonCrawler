@@ -45,7 +45,7 @@ namespace AnimationTest {
         [STAThread]
         static void Main(string[] args) {
             Window = new OpenTK.GameWindow();
-            Window.Title = "Animation Test";
+            Window.Title = "Rendering Test";
             Window.ClientSize = new System.Drawing.Size(320, 480);
             Window.Load += new EventHandler<EventArgs>(Initialize);
             Window.UpdateFrame += new EventHandler<FrameEventArgs>(Update);
