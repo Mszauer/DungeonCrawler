@@ -52,8 +52,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnimationTest.cs" />
+    <Compile Include="Scenes\AnimationTest.cs" />
     <Compile Include="Components\AnimatedSpriteRendererComponent.cs" />
+    <Compile Include="Components\AudioSourceComponent.cs" />
+    <Compile Include="Components\FontRendererComponent.cs" />
     <Compile Include="Components\StaticSpriteRendererComponent.cs" />
     <Compile Include="Managers\GraphicsManager.cs" />
     <Compile Include="Managers\InputManager.cs" />
@@ -70,9 +72,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Scenes\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
