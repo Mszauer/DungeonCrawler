@@ -18,7 +18,7 @@ namespace AnimationTest {
             animator.PlayAnimation("Idle");
             
             GameObject testStaticRender = new GameObject("StaticTester", Root);
-            testStaticRender.LocalPosition = new Point(256, 0);
+            testStaticRender.LocalPosition = new Point(0, 256);
             Root.AddChild(testStaticRender);
             StaticSpriteRendererComponent staticSprite = new StaticSpriteRendererComponent(testStaticRender);
             testStaticRender.AddComponent(staticSprite);
