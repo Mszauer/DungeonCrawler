@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonCrawler", "DungeonCrawler\DungeonCrawler.csproj", "{AAA2A7D4-EF1D-4B0B-9FF7-4299CF313374}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnimationTest", "AnimationTest\AnimationTest.csproj", "{64B989C2-9ADA-49AD-9DBA-0AB1B7113E24}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AAA2A7D4-EF1D-4B0B-9FF7-4299CF313374}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAA2A7D4-EF1D-4B0B-9FF7-4299CF313374}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAA2A7D4-EF1D-4B0B-9FF7-4299CF313374}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAA2A7D4-EF1D-4B0B-9FF7-4299CF313374}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64B989C2-9ADA-49AD-9DBA-0AB1B7113E24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64B989C2-9ADA-49AD-9DBA-0AB1B7113E24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64B989C2-9ADA-49AD-9DBA-0AB1B7113E24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64B989C2-9ADA-49AD-9DBA-0AB1B7113E24}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
