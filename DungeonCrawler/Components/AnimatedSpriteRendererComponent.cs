@@ -6,18 +6,24 @@ using System.Threading.Tasks;
 using GameFramework;
 using System.Drawing;
 
-namespace AnimationTest.Components {
+namespace Components {
     class AnimatedSpriteRendererComponent : Component{
         Dictionary<string, Rectangle[]> AnimationBank = null;
         public int CurrentFrame = 0;
         public string CurrentSprite = null;
         protected int sprite = 0;
+        protected float animTimer = 0.0f;
+        protected float frameTimer = 1.0f / 30.0f; //two frames per second
+        protected Point Position = new Point(0,0);
 
         public AnimatedSpriteRendererComponent(string name, GameObject game) : base(name, game) {
             Name = name;
         }
         public override void OnRender() {
-            
+            TextureManager.Instance.Draw(sprite, gameObject.LocalPosition, 1.0f, AnimationBank[CurrentSprite][CurrentFrame]);
+        }
+        public override void OnUpdate(float dTime) {
+            Animate(dTime);
         }
         public void AddSprite(string name, params Rectangle[] sourceRect) {
             if (AnimationBank == null) {
@@ -28,10 +34,13 @@ namespace AnimationTest.Components {
             }
             AnimationBank.Add(name, sourceRect);
         }
-        public void Animate() {
-            CurrentFrame++;
-            if (CurrentFrame > AnimationBank[CurrentSprite].Length - 1) {
-                CurrentFrame = 0;
+        public void Animate(float dTime) {
+            animTimer += dTime;
+            if (animTimer > frameTimer) {
+                CurrentFrame++;
+                if (CurrentFrame > AnimationBank[CurrentSprite].Length - 1) {
+                    CurrentFrame = 0;
+                }
             }
         }
         public void SetSprite(string name) {

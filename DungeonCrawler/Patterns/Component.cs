@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameFramework {
     class Component {
-        GameObject gameObject = null;
+        protected GameObject gameObject = null;
         public string Name = null;
         private bool _active = true;
         public bool Active {
