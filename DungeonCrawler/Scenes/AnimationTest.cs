@@ -23,6 +23,20 @@ namespace AnimationTest {
             StaticSpriteRendererComponent staticSprite = new StaticSpriteRendererComponent(testStaticRender);
             testStaticRender.AddComponent(staticSprite);
             staticSprite.AddSprite("Background", "Assets/DarkKnight2/DarkKnight2_Idle.png", new Rectangle(0,768,256,256));
+
+            GameObject StaticFontRenderer = new GameObject("FontTester", Root);
+            StaticFontRenderer.LocalPosition = new Point(256, 0);
+            Root.AddChild(StaticFontRenderer);
+            FontRendererComponent fontRenderer = new FontRendererComponent(StaticFontRenderer, "Assets/FontSheet.png");
+            StaticFontRenderer.AddComponent(fontRenderer);
+            fontRenderer.DrawString("Hello \n World");
+
+            GameObject AudioPlayer = new GameObject("AudioPlayer", Root);
+            Root.AddChild(AudioPlayer);
+            AudioSourceComponent audio = new AudioSourceComponent(AudioPlayer);
+            AudioPlayer.AddComponent(audio);
+            audio.AddSound("BackgroundMusic", "Assets/CourseClear.wav");
+            audio.PlaySound("BackgroundMusic");
         }
     }
 }
