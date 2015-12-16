@@ -1,5 +1,4 @@
-﻿
-#define FONTDEBUG
+﻿#define FONTDEBUG
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,86 +6,70 @@ using System.Text;
 using System.Threading.Tasks;
 using GameFramework;
 using System.Drawing;
+using System.IO;
 
 namespace Components {
     class FontRendererComponent : Component{
         Dictionary<char, Rectangle> GlyphBank = null;
+        Dictionary<char, Point> GlyphOffset = null;
+        Dictionary<char, int> GlyphSpacing = null;
         protected int sprite = 0;
         protected string currentWord = null;
-        public FontRendererComponent(GameObject game,string spritePath) : base("FontRendererComponent", game) {
+        
+        public FontRendererComponent(GameObject game,string spritePath, string fntPath) : base("FontRendererComponent", game) {
             sprite = TextureManager.Instance.LoadTexture(spritePath);
             GlyphBank = new Dictionary<char, Rectangle>();
+            GlyphOffset = new Dictionary<char, Point>();
+            GlyphSpacing = new Dictionary<char, int>();
             currentWord = "";
-            AddGlyph(' ', new Rectangle(0, 0, 50, 50));
-            AddGlyph('!', new Rectangle(50,0,50,50));
-            AddGlyph('@', new Rectangle(150,0,50,50));
-            AddGlyph('%', new Rectangle(250,0,50,50));
-            AddGlyph(',', new Rectangle(600,0,50,50));
-            AddGlyph('0', new Rectangle(0,50,50,50));
-            AddGlyph('1', new Rectangle(50, 50, 50, 50));
-            AddGlyph('2', new Rectangle(100, 50, 50, 50));
-            AddGlyph('3', new Rectangle(150, 50, 50, 50));
-            AddGlyph('4', new Rectangle(200, 50, 50, 50));
-            AddGlyph('5', new Rectangle(250, 50, 50, 50));
-            AddGlyph('6', new Rectangle(300, 50, 50, 50));
-            AddGlyph('7', new Rectangle(350, 50, 50, 50));
-            AddGlyph('8', new Rectangle(400, 50, 50, 50));
-            AddGlyph('9', new Rectangle(450, 50, 50, 50));
-            AddGlyph(':', new Rectangle(500, 50, 50, 50));
-            AddGlyph(';', new Rectangle(550, 50, 50, 50));
-            AddGlyph('?', new Rectangle(750, 50, 50, 50));
-            AddGlyph('A', new Rectangle(50, 100, 50, 50));
-            AddGlyph('B', new Rectangle(100, 100, 50, 50));
-            AddGlyph('C', new Rectangle(150, 100, 50, 50));
-            AddGlyph('D', new Rectangle(200, 100, 50, 50));
-            AddGlyph('E', new Rectangle(250, 100, 50, 50));
-            AddGlyph('F', new Rectangle(300, 100, 50, 50));
-            AddGlyph('G', new Rectangle(350, 100, 50, 50));
-            AddGlyph('H', new Rectangle(400, 100, 50, 50));
-            AddGlyph('I', new Rectangle(450, 100, 50, 50));
-            AddGlyph('J', new Rectangle(500, 100, 50, 50));
-            AddGlyph('K', new Rectangle(550, 100, 50, 50));
-            AddGlyph('L', new Rectangle(600, 100, 50, 50));
-            AddGlyph('M', new Rectangle(650, 100, 50, 50));
-            AddGlyph('N', new Rectangle(700, 100, 50, 50));
-            AddGlyph('O', new Rectangle(750, 100, 50, 50));
-            AddGlyph('P', new Rectangle(0, 150, 50, 50));
-            AddGlyph('Q', new Rectangle(50, 150, 50, 50));
-            AddGlyph('R', new Rectangle(100, 150, 50, 50));
-            AddGlyph('S', new Rectangle(150, 150, 50, 50));
-            AddGlyph('T', new Rectangle(200, 150, 50, 50));
-            AddGlyph('U', new Rectangle(250, 150, 50, 50));
-            AddGlyph('V', new Rectangle(300, 150, 50, 50));
-            AddGlyph('W', new Rectangle(350, 150, 50, 50));
-            AddGlyph('X', new Rectangle(400, 150, 50, 50));
-            AddGlyph('Y', new Rectangle(450, 150, 50, 50));
-            AddGlyph('Z', new Rectangle(500, 150, 50, 50));
-            AddGlyph('a', new Rectangle(50, 150, 50, 50));
-            AddGlyph('b', new Rectangle(100, 150, 50, 50));
-            AddGlyph('c', new Rectangle(150, 150, 50, 50));
-            AddGlyph('d', new Rectangle(200, 100, 50, 50));
-            AddGlyph('e', new Rectangle(250, 100, 50, 50));
-            AddGlyph('f', new Rectangle(300, 150, 50, 50));
-            AddGlyph('g', new Rectangle(350, 150, 50, 50));
-            AddGlyph('h', new Rectangle(400, 150, 50, 50));
-            AddGlyph('i', new Rectangle(450, 150, 50, 50));
-            AddGlyph('j', new Rectangle(500, 100, 50, 50));
-            AddGlyph('k', new Rectangle(550, 150, 50, 50));
-            AddGlyph('l', new Rectangle(600, 100, 50, 50));
-            AddGlyph('m', new Rectangle(650, 150, 50, 50));
-            AddGlyph('n', new Rectangle(700, 150, 50, 50));
-            AddGlyph('o', new Rectangle(750, 100, 50, 50));
-            AddGlyph('p', new Rectangle(0, 200, 50, 50));
-            AddGlyph('q', new Rectangle(50, 200, 50, 50));
-            AddGlyph('r', new Rectangle(100, 250, 50, 50));
-            AddGlyph('s', new Rectangle(150, 200, 50, 50));
-            AddGlyph('t', new Rectangle(200, 250, 50, 50));
-            AddGlyph('u', new Rectangle(250, 200, 50, 50));
-            AddGlyph('v', new Rectangle(300, 200, 50, 50));
-            AddGlyph('w', new Rectangle(350, 200, 50, 50));
-            AddGlyph('x', new Rectangle(400, 200, 50, 50));
-            AddGlyph('y', new Rectangle(450, 200, 50, 50));
-            AddGlyph('z', new Rectangle(500, 200, 50, 50));
+            if (System.IO.File.Exists(fntPath)) {
+                using (TextReader reader = File.OpenText(fntPath)) {
+#if FONTDEBUG
+                    int lineNum = 1;
+#endif
+                    string contents = reader.ReadLine();
+                    while (!string.IsNullOrEmpty(contents)) {
+                        string[] content = contents.Split(' ');
+                        if (contents[0] != ' ') {
+                            if (GlyphBank.ContainsKey(content[0][0])) {
+#if FONTDEBUG
+                                Console.WriteLine("FontRenderer already contains Char: " + content[0][0]);
+#endif
+                                continue;
+                            }
+                            Point sourceLoc = new Point(System.Convert.ToInt32(content[1]), System.Convert.ToInt32(content[2]));
+                            Size sourceSizee = new Size(System.Convert.ToInt32(content[3]), System.Convert.ToInt32(content[4]));
+                            Rectangle sourceRect = new Rectangle(sourceLoc, sourceSizee);
+                            GlyphBank.Add(content[0][0], sourceRect);
+                            Point sourceOffset = new Point(System.Convert.ToInt32(content[5]), System.Convert.ToInt32(content[6]));
+                            GlyphOffset.Add(content[0][0], sourceOffset);
+                            GlyphSpacing.Add(content[0][0], System.Convert.ToInt32(content[7]));
+#if FONTDEBUG
+                            lineNum++;
+#endif
+                        }
+                        else {
+                            Point sourceLoc = new Point(System.Convert.ToInt32(content[2]), System.Convert.ToInt32(content[3]));
+                            Size sourceSizee = new Size(System.Convert.ToInt32(content[4]), System.Convert.ToInt32(content[5]));
+                            Rectangle sourceRect = new Rectangle(sourceLoc, sourceSizee);
+                            GlyphBank.Add(' ', sourceRect);
+                            Point sourceOffset = new Point(System.Convert.ToInt32(content[6]), System.Convert.ToInt32(content[7]));
+                            GlyphOffset.Add(' ', sourceOffset);
+                            GlyphSpacing.Add(' ', System.Convert.ToInt32(content[8]));
+#if FONTDEBUG
+                            lineNum++;
+#endif
+                        }
+                        contents = reader.ReadLine();
+                    }
+                }
+            }
+            else {
+#if FONTDEBUG
+                Console.WriteLine("FontRenderer trying to load nonexistant .fnt: " + fntPath);
+#endif
+                return;
+            }
         }
         protected void AddGlyph(char c,Rectangle sourceRect) {
             if (GlyphBank.ContainsKey(c)) {
@@ -112,7 +95,7 @@ namespace Components {
         }
 
         public override void OnRender() {
-        Point karrat = gameObject.GlobalPosition;
+            Point karrat = gameObject.GlobalPosition;
             for (int i = 0; i < currentWord.Length; i++) {
                 if (currentWord[i] == '\n') {
                     karrat.Y += GlyphBank['A'].Height;
@@ -124,9 +107,10 @@ namespace Components {
                     continue;
                 }
                 Rectangle source = GlyphBank[currentWord[i]];
-                TextureManager.Instance.Draw(sprite, karrat, 1.0f, source);
-                karrat.X += GlyphBank[currentWord[i]].Width;
+                TextureManager.Instance.Draw(sprite, new Point(karrat.X + GlyphOffset[currentWord[i]].X, karrat.Y + GlyphOffset[currentWord[i]].Y), 1.0f, source);
+                karrat.X += GlyphSpacing[currentWord[i]];
             }
+            
         }
         public override void OnDestroy() {
             TextureManager.Instance.UnloadTexture(sprite);

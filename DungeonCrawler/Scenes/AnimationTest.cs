@@ -27,16 +27,17 @@ namespace AnimationTest {
             GameObject StaticFontRenderer = new GameObject("FontTester", Root);
             StaticFontRenderer.LocalPosition = new Point(256, 0);
             Root.AddChild(StaticFontRenderer);
-            FontRendererComponent fontRenderer = new FontRendererComponent(StaticFontRenderer, "Assets/FontSheet.png");
+            FontRendererComponent fontRenderer = new FontRendererComponent(StaticFontRenderer, "Assets/Font/bane.png","Assets/Font/bane.fnt");
             StaticFontRenderer.AddComponent(fontRenderer);
-            fontRenderer.DrawString("Hello \n World");
+            fontRenderer.DrawString("The Quick Brown Fox Jumped Over The Lazy Brown Dog");
 
-            GameObject AudioPlayer = new GameObject("AudioPlayer", Root);
+            /*GameObject AudioPlayer = new GameObject("AudioPlayer", Root);
             Root.AddChild(AudioPlayer);
             AudioSourceComponent audio = new AudioSourceComponent(AudioPlayer);
             AudioPlayer.AddComponent(audio);
             audio.AddSound("BackgroundMusic", "Assets/CourseClear.wav");
             audio.PlaySound("BackgroundMusic");
+            */
         }
     }
 }
