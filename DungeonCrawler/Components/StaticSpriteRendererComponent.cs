@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using GameFramework;
 using System.Drawing;
 
-namespace AnimationTest {
+namespace Components {
     class StaticSpriteRendererComponent : Component{
         public Dictionary<string, int> SpriteBank = null;
         protected Dictionary<string,Rectangle> sourceRects = null;

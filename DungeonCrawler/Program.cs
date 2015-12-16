@@ -7,7 +7,7 @@ using GameFramework;
 using System.Drawing;
 using OpenTK;
 
-namespace AnimationTest {
+namespace Game {
     class Program {
         public static OpenTK.GameWindow Window = null;
         public static void Initialize(object sender, EventArgs e) {
@@ -15,7 +15,7 @@ namespace AnimationTest {
             TextureManager.Instance.Initialize(Window);
             InputManager.Instance.Initialize(Window);
             SoundManager.Instance.Initialize(Window);
-            SceneManager.Instance.PushScene(new AnimationTest());
+            SceneManager.Instance.PushScene(new HomeScene());
         }
         public static void Update(object sender, FrameEventArgs e) {
             float dTime = (float)e.Time;

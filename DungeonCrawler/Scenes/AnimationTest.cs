@@ -7,7 +7,7 @@ using GameFramework;
 using Components;
 using System.Drawing;
 
-namespace AnimationTest {
+namespace Game {
     class AnimationTest : Scene{
         public override void Initialize() {
             GameObject testAnimRenderer = new GameObject("AnimationTester", Root);
