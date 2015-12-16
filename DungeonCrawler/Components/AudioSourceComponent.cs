@@ -73,6 +73,8 @@ namespace Components {
 #endif
                 return;
             }
+            CurrentSound = name;
+            loopBank[CurrentSound] = false;
             SoundManager.Instance.PlaySound(SoundBank[name]);
         }
 
