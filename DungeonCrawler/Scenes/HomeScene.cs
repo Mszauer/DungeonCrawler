@@ -10,19 +10,24 @@ using System.Drawing;
 namespace Game {
     class HomeScene : Scene{
         public override void Initialize() {
+            
             GameObject background = new GameObject("Background", Root);
             Root.AddChild(background);
             StaticSpriteRendererComponent backgroundPicture = new StaticSpriteRendererComponent(background);
             background.AddComponent(backgroundPicture);
-            //backgroundPicture.AddSprite();
-
+            backgroundPicture.AddSprite("Background","Assets/ObjectSpriteSheet.png",new Rectangle(0,0,320,480));
+            
             //turn audio on/off when clicked
             GameObject audioButton = new GameObject("AudioButton", Root);
+            audioButton.LocalPosition = new Point(10, 425);
             Root.AddChild(audioButton);
             StaticSpriteRendererComponent aButton = new StaticSpriteRendererComponent(audioButton);
             audioButton.AddComponent(aButton);
-            //aButton.AddSprite();
-
+            aButton.AddSprite("AudioButtonDefault","Assets/ObjectSpriteSheet.png",new Rectangle(982,0,46,46));
+            aButton.AddSprite("AudioButtonHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 46, 46, 46));
+            aButton.AddSprite("AudioButtonHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 92, 46, 46));
+            aButton.AddSprite("AudioButtonClick", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 134, 46, 46));
+            /*
             //exit application when clicker
             GameObject quitButton = new GameObject("QuitButton", Root);
             Root.AddChild(quitButton);
@@ -68,6 +73,7 @@ namespace Game {
             versionNumber.AddComponent(versionBG);
             FontRendererComponent versionText = new FontRendererComponent(versionNumber, "Assets/Font/bane.png", "Assets/Font/bane.txt");
             versionText.DrawString("Version : 1.0");
+            */
         }
     }
 }

@@ -15,6 +15,7 @@ namespace Components {
         protected float animTimer = 0.0f;
         protected float frameTimer = 1.0f / 30.0f;
         public string CurrentAnimation = null;
+        public bool loop = false;
 
         public AnimatedSpriteRendererComponent(GameObject game) : base("AnimatedSpriteRendererComponent", game) {
             AnimationBank = new Dictionary<string, Rectangle[]>();
@@ -36,7 +37,9 @@ namespace Components {
             if (CurrentAnimation == null) {
                 return;
             }
-            Animate(dTime);
+            do {
+                Animate(dTime);
+            } while (loop);
         }
         public void AddAnimation(string name, string spriteSheet, params Rectangle[] sourceRect) {
             if (AnimationBank.ContainsKey(name)) {
