@@ -46,7 +46,30 @@ namespace Game {
             StaticSpriteRendererComponent heartBuy = new StaticSpriteRendererComponent(healthBuyButton);
             heartBuyObj.AddComponent(heartBuy);
             heartBuy.AddSprite("HeartBuy", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 365, 45, 45));
-            
+
+            //attack buy button
+            GameObject attackBuyButton = new GameObject("Attack", Root);
+            Root.AddChild(attackBuyButton);
+            attackBuyButton.LocalPosition = new Point(3, 123);
+            StaticSpriteRendererComponent attackBG = new StaticSpriteRendererComponent(attackBuyButton);
+            attackBuyButton.AddComponent(attackBG);
+            attackBG.AddSprite("AttackBG", "Assets/ObjectSpriteSheet.png", new Rectangle(326, 105, 188, 63));
+
+            GameObject attackIcoObj = new GameObject("AttackIco", attackBuyButton);
+            attackBuyButton.AddChild(attackIcoObj);
+            //16,135 for location
+            attackIcoObj.LocalPosition = new Point(13, 12);
+            StaticSpriteRendererComponent attackIco = new StaticSpriteRendererComponent(attackBuyButton);
+            attackIcoObj.AddComponent(attackIco);
+            attackIco.AddSprite("AttackIco", "Assets/ObjectSpriteSheet.png", new Rectangle(93, 759, 38, 38));
+
+            GameObject attackBuyObj = new GameObject("AttackBuyObj", attackBuyButton);
+            attackBuyButton.AddChild(attackBuyObj);
+            attackBuyObj.LocalPosition = new Point(133, 10);
+            StaticSpriteRendererComponent attackBuy = new StaticSpriteRendererComponent(attackBuyButton);
+            attackBuyObj.AddComponent(attackBuy);
+            attackBuy.AddSprite("AttackBuy", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 365, 45, 45));
+
         }
     }
 }
