@@ -17,6 +17,13 @@ namespace Game {
             background.AddComponent(backgroundPicture);
             backgroundPicture.AddSprite("Background","Assets/ObjectSpriteSheet.png",new Rectangle(0,0,320,480));
 
+            GameObject currency = new GameObject("Currency", Root);
+            Root.AddChild(currency);
+            currency.LocalPosition = new Point(7,5);
+            StaticSpriteRendererComponent currencyBG = new StaticSpriteRendererComponent(currency);
+            currency.AddComponent(currencyBG);
+            currencyBG.AddSprite("Currency", "Assets/ObjectSpriteSheet.png", new Rectangle(327, 50, 113, 42));
+
             //turn audio on/off when clicked
             GameObject audioButton = new GameObject("AudioButton", Root);
             audioButton.LocalPosition = new Point(10, 425);
@@ -36,6 +43,7 @@ namespace Game {
             quitButton.AddComponent(xButton);
             //xButton.AddSprite();
             */
+
             //Welcome message
             GameObject welcomeBox = new GameObject("WelcomeBox", Root);
             Root.AddChild(welcomeBox);
@@ -43,12 +51,6 @@ namespace Game {
             StaticSpriteRendererComponent welcomeBG = new StaticSpriteRendererComponent(welcomeBox);
             welcomeBox.AddComponent(welcomeBG);
             welcomeBG.AddSprite("WelcomeBox","Assets/ObjectSpriteSheet.png",new Rectangle(467,0,228,99));
-
-            /*
-            FontRendererComponent welcomeText = new FontRendererComponent(welcomeBox, "Assets/Font/bane.png", "Assets/Font/bane.txt");
-            welcomeBox.AddComponent(welcomeText);
-            welcomeText.DrawString("Welcome Back,\n Explorer");
-            */
 
             //switch to scene 4:HeroSelectionScene if clicked
             GameObject startButton = new GameObject("StartButton", welcomeBox);
@@ -61,29 +63,13 @@ namespace Game {
             sButton.AddSprite("PlayButtonDefaultHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(926, 240, 57, 57));
             sButton.AddSprite("PlayButtonDefaultClick", "Assets/ObjectSpriteSheet.png", new Rectangle(926, 297, 57, 57));
 
-            /*
-            //switch to Scene2:CreditsScene if clicked
-            GameObject creditsButton = new GameObject("CreditsButton", Root);
-            Root.AddChild(creditsButton);
-            StaticSpriteRendererComponent cButton = new StaticSpriteRendererComponent(creditsButton);
-            creditsButton.AddComponent(cButton);
-            //cButton.AddSprite();
-
-            //switch to scene3:LogScene if clicked
-            GameObject logButton = new GameObject("LogButton", Root);
-            Root.AddChild(logButton);
-            StaticSpriteRendererComponent lButton = new StaticSpriteRendererComponent(logButton);
-            logButton.AddComponent(lButton);
-            //lButton.AddSprite();
-
-            //Displays version number
-            GameObject versionNumber = new GameObject("VersionNumber", Root);
-            Root.AddChild(versionNumber);
-            StaticSpriteRendererComponent versionBG = new StaticSpriteRendererComponent(versionNumber); //semi-transparent background
-            versionNumber.AddComponent(versionBG);
-            FontRendererComponent versionText = new FontRendererComponent(versionNumber, "Assets/Font/bane.png", "Assets/Font/bane.txt");
-            versionText.DrawString("Version : 1.0");
-            */
+            //Displays Creator
+            GameObject creator = new GameObject("Creator", Root);
+            Root.AddChild(creator);
+            creator.LocalPosition = new Point(170,425);
+            StaticSpriteRendererComponent creatorBox = new StaticSpriteRendererComponent(creator); //semi-transparent background
+            creator.AddComponent(creatorBox);
+            creatorBox.AddSprite("CreatorBox", "Assets/ObjectSpriteSheet.png", new Rectangle(322, 1, 144, 47));
         }
     }
 }
