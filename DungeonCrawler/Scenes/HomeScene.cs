@@ -54,7 +54,7 @@ namespace Game {
 
             //switch to scene 4:HeroSelectionScene if clicked
             GameObject startButton = new GameObject("StartButton", welcomeBox);
-            Root.AddChild(startButton);
+            welcomeBox.AddChild(startButton);
             startButton.LocalPosition = new Point(156, 18);
             StaticSpriteRendererComponent sButton = new StaticSpriteRendererComponent(startButton);
             startButton.AddComponent(sButton);
