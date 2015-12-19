@@ -67,6 +67,7 @@
     <Compile Include="Patterns\SceneManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scenes\HeroSelectionScene.cs" />
     <Compile Include="Scenes\HomeScene.cs" />
     <Compile Include="Scenes\ShopScene.cs" />
   </ItemGroup>
