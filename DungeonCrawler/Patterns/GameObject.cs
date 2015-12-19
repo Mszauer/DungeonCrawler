@@ -69,14 +69,14 @@ namespace GameFramework {
             if (Enabled) {
                 //do self render stuff here
                 if (Components != null) {
-                    for (int i = Components.Count - 1; i >= 0; i--) {
+                    for (int i = 0; i < Components.Count;i++) {
                         if (Components[i].Active) {
                             Components[i].DoRender();
                         }
                     }
                 }
                 if (Children != null) {
-                    for (int i = Children.Count - 1; i >= 0; i--) {
+                    for (int i = 0; i < Children.Count; i++) {
                         Children[i].Render();
                     }
                 }
@@ -94,6 +94,7 @@ namespace GameFramework {
                 Children = new List<GameObject>();
             }
             Children.Add(child);
+            child.Parent = this;
 #if CHILDDEBUG
             Console.WriteLine("Added child:" + child.ToString());
             Console.WriteLine("Children Length: " + Children.Count);

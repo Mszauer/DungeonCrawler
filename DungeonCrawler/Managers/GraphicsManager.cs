@@ -97,7 +97,7 @@ namespace GameFramework {
             }
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
-            GL.Ortho(0, width, height, 0, 1.0, -1.0);
+            GL.Ortho(0, width, height, 0, -1.0, 1.0);
             GL.Viewport(0, 0, width, height);
             GL.MatrixMode(MatrixMode.Modelview);
         }
