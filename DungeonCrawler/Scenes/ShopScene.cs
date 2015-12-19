@@ -128,6 +128,17 @@ namespace Game {
             StaticSpriteRendererComponent skill3UpBuy = new StaticSpriteRendererComponent(skill3UpBuyObj);
             skill3UpBuyObj.AddComponent(skill3UpBuy);
             skill3UpBuy.AddSprite("Skill3UpBuy", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 365, 45, 45));
+
+            //Back button
+            GameObject backButton = new GameObject("BackButton", Root);
+            Root.AddChild(backButton);
+            backButton.LocalPosition = new Point(10,423);
+            StaticSpriteRendererComponent back = new StaticSpriteRendererComponent(backButton);
+            backButton.AddComponent(back);
+            back.AddSprite("BackDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 181, 46, 46));
+            back.AddSprite("BackHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 227, 46, 46));
+            back.AddSprite("BackHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 273, 46, 46));
+            back.AddSprite("BackClick", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 319, 46, 46));
         }
     }
 }
