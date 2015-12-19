@@ -57,7 +57,6 @@ namespace Game {
 
             GameObject attackIcoObj = new GameObject("AttackIco", attackBuyButton);
             attackBuyButton.AddChild(attackIcoObj);
-            //16,135 for location
             attackIcoObj.LocalPosition = new Point(13, 12);
             StaticSpriteRendererComponent attackIco = new StaticSpriteRendererComponent(attackBuyButton);
             attackIcoObj.AddComponent(attackIco);
@@ -70,6 +69,65 @@ namespace Game {
             attackBuyObj.AddComponent(attackBuy);
             attackBuy.AddSprite("AttackBuy", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 365, 45, 45));
 
+            //skill 1 level up button
+            GameObject skill1UpButtonObj = new GameObject("Skill1", Root);
+            Root.AddChild(skill1UpButtonObj);
+            skill1UpButtonObj.LocalPosition =new Point(3, 186);
+            StaticSpriteRendererComponent skill1BgButton = new StaticSpriteRendererComponent(skill1UpButtonObj);
+            skill1UpButtonObj.AddComponent(skill1BgButton);
+            skill1BgButton.AddSprite("Skill1BG", "Assets/ObjectSpriteSheet.png", new Rectangle(326,105,188,63));
+
+            GameObject skill1IcoObj = new GameObject("Skill1IcoObj", skill1UpButtonObj);
+            skill1UpButtonObj.AddChild(skill1IcoObj);
+            StaticSpriteRendererComponent skill1Ico = new StaticSpriteRendererComponent(skill1IcoObj);
+            skill1IcoObj.AddComponent(skill1Ico);
+            skill1Ico.AddSprite("Skill1Ico","Assets/ObjectSpriteSheet.png",new Rectangle(45, 757, 41, 39));
+
+            GameObject skill1UpBuyObj = new GameObject("Skill1UpObj", skill1UpButtonObj);
+            skill1UpButtonObj.AddChild(skill1UpBuyObj);
+            StaticSpriteRendererComponent skill1UpBuy = new StaticSpriteRendererComponent(skill1UpBuyObj);
+            skill1UpBuyObj.AddComponent(skill1UpBuy);
+            skill1UpBuy.AddSprite("Skill1UpBuy", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 365, 45, 45));
+
+            //skill 2 level up button
+            GameObject skill2UpButtonObj = new GameObject("Skill2", Root);
+            Root.AddChild(skill2UpButtonObj);
+            skill2UpButtonObj.LocalPosition = new Point(3, 249);
+            StaticSpriteRendererComponent skill2BgButton = new StaticSpriteRendererComponent(skill2UpButtonObj);
+            skill2UpButtonObj.AddComponent(skill2BgButton);
+            skill2BgButton.AddSprite("Skill2BG", "Assets/ObjectSpriteSheet.png", new Rectangle(326, 105, 188, 63));
+
+            GameObject skill2IcoObj = new GameObject("Skill2IcoObj", skill2UpButtonObj);
+            skill2UpButtonObj.AddChild(skill2IcoObj);
+            StaticSpriteRendererComponent skill2Ico = new StaticSpriteRendererComponent(skill2IcoObj);
+            skill2IcoObj.AddComponent(skill2Ico);
+            skill2Ico.AddSprite("Skill2Ico", "Assets/ObjectSpriteSheet.png", new Rectangle(45, 757, 41, 39));
+
+            GameObject skill2UpBuyObj = new GameObject("Skill2UpObj", skill2UpButtonObj);
+            skill2UpButtonObj.AddChild(skill2UpBuyObj);
+            StaticSpriteRendererComponent skill2UpBuy = new StaticSpriteRendererComponent(skill2UpBuyObj);
+            skill2UpBuyObj.AddComponent(skill2UpBuy);
+            skill2UpBuy.AddSprite("Skill2UpBuy", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 365, 45, 45));
+
+            //skill 3 level up button
+            GameObject skill3UpButtonObj = new GameObject("Skill3", Root);
+            Root.AddChild(skill3UpButtonObj);
+            skill3UpButtonObj.LocalPosition = new Point(3, 312);
+            StaticSpriteRendererComponent skill3BgButton = new StaticSpriteRendererComponent(skill3UpButtonObj);
+            skill3UpButtonObj.AddComponent(skill3BgButton);
+            skill3BgButton.AddSprite("Skill3BG", "Assets/ObjectSpriteSheet.png", new Rectangle(326, 105, 188, 63));
+
+            GameObject skill3IcoObj = new GameObject("Skill3IcoObj", skill3UpButtonObj);
+            skill3UpButtonObj.AddChild(skill3IcoObj);
+            StaticSpriteRendererComponent skill3Ico = new StaticSpriteRendererComponent(skill3IcoObj);
+            skill3IcoObj.AddComponent(skill3Ico);
+            skill3Ico.AddSprite("Skill3Ico", "Assets/ObjectSpriteSheet.png", new Rectangle(45, 757, 41, 39));
+
+            GameObject skill3UpBuyObj = new GameObject("Skill3UpObj", skill3UpButtonObj);
+            skill3UpButtonObj.AddChild(skill3UpBuyObj);
+            StaticSpriteRendererComponent skill3UpBuy = new StaticSpriteRendererComponent(skill3UpBuyObj);
+            skill3UpBuyObj.AddComponent(skill3UpBuy);
+            skill3UpBuy.AddSprite("Skill3UpBuy", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 365, 45, 45));
         }
     }
 }
