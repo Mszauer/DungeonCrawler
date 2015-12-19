@@ -28,6 +28,7 @@ namespace GameFramework {
         public Component(string name, GameObject game) {
             Name = name;
             gameObject = game;
+            gameObject.AddComponent(this);
         }
         public virtual void OnActivate() {
 

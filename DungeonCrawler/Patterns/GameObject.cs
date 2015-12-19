@@ -40,10 +40,9 @@ namespace GameFramework {
         public List<GameObject> Children = null;
         public GameObject Parent = null;
         public List<Component> Components = null;
-        public GameObject(string name, GameObject parent = null) {
+        public GameObject(string name) {
             Name = name;
             Enabled = true;
-            Parent = parent;
         }
 
         public void Update(float dTime) {
@@ -104,6 +103,7 @@ namespace GameFramework {
         public void RemoveChild(GameObject child) {
             for (int i = Children.Count - 1; i >= 0; i--) {
                 if (Children[i] == child) {
+                    child.Parent = null;
                     Children.RemoveAt(i);
 #if CHILDDEBUG
                     Console.WriteLine("Removed child:" + child.ToString() + " at: " + i);
@@ -155,11 +155,13 @@ namespace GameFramework {
             if (Components == null) {
                 Components = new List<Component>();
             }
-            for (int i = 0; i < Components.Count; i++) {
+            for (int i = 0; i < Components.Count ; i++) {
+                if (Components[i].Name == component.Name) {
 #if COMPONENTDEBUG
-                Console.WriteLine("Component already exists, was not added");
+                    Console.WriteLine("Component already exists, was not added: "+component.Name);
 #endif
-                return;
+                    return;
+                }
             }
             Components.Add(component);
 #if COMPONENTDEBUG
