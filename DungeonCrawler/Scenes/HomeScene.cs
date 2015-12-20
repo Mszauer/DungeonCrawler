@@ -58,12 +58,24 @@ namespace Game {
             sButton.AddSprite("PlayButtonDefaultHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(926, 240, 57, 57));
             sButton.AddSprite("PlayButtonDefaultClick", "Assets/ObjectSpriteSheet.png", new Rectangle(926, 297, 57, 57));
 
+            GameObject startObj = new GameObject("StartObj");
+            welcomeBox.AddChild(startObj);
+            startObj.LocalPosition = new Point(55,-15);
+            FontRendererComponent startFont = new FontRendererComponent(startObj, "Assets/Font/42Fontsheet.png", "Assets/Font/42Fontsheet.fnt");
+            startFont.DrawString("Start");
+
             //Displays Creator
             GameObject creator = new GameObject("Creator");
             Root.AddChild(creator);
             creator.LocalPosition = new Point(170,425);
-            StaticSpriteRendererComponent creatorBox = new StaticSpriteRendererComponent(creator); //semi-transparent background
+            StaticSpriteRendererComponent creatorBox = new StaticSpriteRendererComponent(creator);
             creatorBox.AddSprite("CreatorBox", "Assets/ObjectSpriteSheet.png", new Rectangle(322, 1, 144, 47));
+
+            GameObject createrObj = new GameObject("CreatorObj");
+            creator.AddChild(createrObj);
+            createrObj.LocalPosition = new Point(5, 7);
+            FontRendererComponent creatorFont = new FontRendererComponent(createrObj, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
+            creatorFont.DrawString("By:MSzauer");
         }
     }
 }
