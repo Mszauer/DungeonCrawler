@@ -16,11 +16,18 @@ namespace Game {
             StaticSpriteRendererComponent backgroundPicture = new StaticSpriteRendererComponent(background);
             backgroundPicture.AddSprite("Background","Assets/ObjectSpriteSheet.png",new Rectangle(0,0,320,480));
 
+            //currency counter
             GameObject currency = new GameObject("Currency");
             Root.AddChild(currency);
             currency.LocalPosition = new Point(7,5);
             StaticSpriteRendererComponent currencyBG = new StaticSpriteRendererComponent(currency);
             currencyBG.AddSprite("Currency", "Assets/ObjectSpriteSheet.png", new Rectangle(327, 50, 113, 42));
+
+            GameObject currencyAmtObj = new GameObject("CurrencyAmtObj");
+            currency.AddChild(currencyAmtObj);
+            currencyAmtObj.LocalPosition = new Point(90, 9);
+            FontRendererComponent currencyAmt = new FontRendererComponent(currencyAmtObj, "Assets/Font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
+            currencyAmt.DrawString("0");//insert currency variable here
 
             //turn audio on/off when clicked
             GameObject audioButton = new GameObject("AudioButton");
@@ -31,15 +38,6 @@ namespace Game {
             aButton.AddSprite("AudioButtonHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 46, 46, 46));
             aButton.AddSprite("AudioButtonHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 92, 46, 46));
             aButton.AddSprite("AudioButtonClick", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 134, 46, 46));
-
-            /*
-            //exit application when clicker
-            GameObject quitButton = new GameObject("QuitButton", Root);
-            Root.AddChild(quitButton);
-            StaticSpriteRendererComponent xButton = new StaticSpriteRendererComponent(quitButton);
-            quitButton.AddComponent(xButton);
-            //xButton.AddSprite();
-            */
 
             //Welcome message
             GameObject welcomeBox = new GameObject("WelcomeBox");

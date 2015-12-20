@@ -79,6 +79,9 @@ namespace GameFramework {
                         Children[i].Render();
                     }
                 }
+
+                //GraphicsManager.Instance.DrawString(Name, GlobalPosition,  Name== "Skill3IdentifierObj"?Color.Red : Color.Black);
+
             }
         }
 
