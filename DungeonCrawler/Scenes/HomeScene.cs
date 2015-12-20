@@ -58,7 +58,7 @@ namespace Game {
 
             GameObject startObj = new GameObject("StartObj");
             welcomeBox.AddChild(startObj);
-            startObj.LocalPosition = new Point(55,-15);
+            startObj.LocalPosition = new Point(55,25);
             FontRendererComponent startFont = new FontRendererComponent(startObj, "Assets/Font/42Fontsheet.png", "Assets/Font/42Fontsheet.fnt");
             startFont.DrawString("Start");
 
