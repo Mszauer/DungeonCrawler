@@ -23,6 +23,12 @@ namespace Game {
             StaticSpriteRendererComponent currencyBG = new StaticSpriteRendererComponent(currency);
             currencyBG.AddSprite("Currency", "Assets/ObjectSpriteSheet.png", new Rectangle(327, 50, 113, 42));
 
+            GameObject currencyAmtObj = new GameObject("CurrencyAmtObj");
+            currency.AddChild(currencyAmtObj);
+            currencyAmtObj.LocalPosition = new Point(90, 9);
+            FontRendererComponent currencyAmt = new FontRendererComponent(currencyAmtObj, "Assets/Font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
+            currencyAmt.DrawString("0");//insert currency variable here
+
             //Back button
             GameObject backButton = new GameObject("BackButton");
             Root.AddChild(backButton);
@@ -52,6 +58,12 @@ namespace Game {
             StaticSpriteRendererComponent healthLevelSprite = new StaticSpriteRendererComponent(healthLevelObj);
             healthLevelSprite.AddSprite("HeslthLevelSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(948, 351, 36, 36));
 
+            GameObject healthAmtObj = new GameObject("HealthIdentifierAmtObj");
+            healthObj.AddChild(healthAmtObj);
+            healthAmtObj.LocalPosition = new Point(23, 41);
+            FontRendererComponent healthAmtFnt = new FontRendererComponent(healthAmtObj, "Assets/font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
+            healthAmtFnt.DrawString("0"); //insert variable here
+
             //attack identifier
             GameObject attackObj = new GameObject("AttackObj");
             Root.AddChild(attackObj);
@@ -71,12 +83,25 @@ namespace Game {
             StaticSpriteRendererComponent attackLevelSprite = new StaticSpriteRendererComponent(attackLevelObj);
             attackLevelSprite.AddSprite("AttackLevelSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(948,351,36,36));
 
+            GameObject attackAmtObj = new GameObject("HealthIdentifierAmtObj");
+            attackObj.AddChild(attackAmtObj);
+            attackAmtObj.LocalPosition = new Point(23, 41);
+            FontRendererComponent attackAmtFnt = new FontRendererComponent(attackAmtObj, "Assets/font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
+            attackAmtFnt.DrawString("0"); //insert variable here
+
             //name plate
             GameObject namePlateObj = new GameObject("NamePlateObj");
             Root.AddChild(namePlateObj);
             namePlateObj.LocalPosition = new Point(18,60);
             StaticSpriteRendererComponent namePlateSprite = new StaticSpriteRendererComponent(namePlateObj);
             namePlateSprite.AddSprite("NamePlateSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(320, 180, 286, 54));
+
+            //hero name
+            GameObject heroNameObj = new GameObject("heroNameObj");
+            namePlateObj.AddChild(heroNameObj);
+            heroNameObj.LocalPosition = new Point(70, 5);
+            FontRendererComponent heroNameFont = new FontRendererComponent(heroNameObj, "Assets/Font/42Fontsheet.png", "Assets/Font/42Fontsheet.fnt");
+            heroNameFont.DrawString("That Gai"); // insert CurrentHero.Name here
 
             //name plate prev button
             GameObject namePlatePrevObj = new GameObject("NamePlatePrevObj");
@@ -165,6 +190,7 @@ namespace Game {
             StaticSpriteRendererComponent skill3TooltipSprite = new StaticSpriteRendererComponent(skill3TooltipObj);
             skill3TooltipSprite.AddSprite("Skill3TooltipSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(730, 3, 240, 117));
 
+            /*
             //hero
             GameObject heroAnimObj = new GameObject("heroAnimObj");
             Root.AddChild(heroAnimObj);
@@ -172,6 +198,7 @@ namespace Game {
             AnimatedSpriteRendererComponent heroAnimation = new AnimatedSpriteRendererComponent(heroAnimObj);
             heroAnimation.AddAnimation("Idle", "Assets/DarkKnight2/DarkKnight2_Idle.png", new Rectangle(0, 768, 256, 256), new Rectangle(256, 768, 256, 256), new Rectangle(512, 768, 256, 256), new Rectangle(768, 768, 256, 256), new Rectangle(0, 512, 256, 256), new Rectangle(256, 512, 256, 256), new Rectangle(512, 512, 256, 256), new Rectangle(768, 512, 256, 256), new Rectangle(0, 256, 256, 256), new Rectangle(256, 256, 256, 256));
             heroAnimation.PlayAnimation("Idle");
+            */
         }
     }
 }

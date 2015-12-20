@@ -10,7 +10,6 @@ using System.Drawing;
 namespace Game {
     class HomeScene : Scene{
         public override void Initialize() {
-
             GameObject background = new GameObject("Background");
             Root.AddChild(background);
             StaticSpriteRendererComponent backgroundPicture = new StaticSpriteRendererComponent(background);
@@ -25,8 +24,9 @@ namespace Game {
 
             GameObject currencyAmtObj = new GameObject("CurrencyAmtObj");
             currency.AddChild(currencyAmtObj);
-            currencyAmtObj.LocalPosition = new Point(90, 9);
+            currencyAmtObj.LocalPosition = new Point(109, 12);//90,9
             FontRendererComponent currencyAmt = new FontRendererComponent(currencyAmtObj, "Assets/Font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
+            currencyAmt.CurrentAllignment = FontRendererComponent.Allignment.Right;
             currencyAmt.DrawString("0");//insert currency variable here
 
             //turn audio on/off when clicked
@@ -73,7 +73,7 @@ namespace Game {
             creator.AddChild(createrObj);
             createrObj.LocalPosition = new Point(5, 7);
             FontRendererComponent creatorFont = new FontRendererComponent(createrObj, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
-            creatorFont.DrawString("By:MSzauer");
+            creatorFont.DrawString("By : MSzauer");
         }
     }
 }

@@ -1,6 +1,5 @@
-﻿
-#define CHILDDEBUG
-#define COMPONENTDEBUG
+﻿//#define CHILDDEBUG
+//#define COMPONENTDEBUG
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -10,6 +10,8 @@ using System.IO;
 
 namespace Components {
     class FontRendererComponent : Component{
+        public enum Allignment { Center, Left, Right}
+        public Allignment CurrentAllignment = Allignment.Left;
         Dictionary<char, Rectangle> GlyphBank = null;
         Dictionary<char, Point> GlyphOffset = null;
         Dictionary<char, int> GlyphSpacing = null;
@@ -96,6 +98,13 @@ namespace Components {
 
         public override void OnRender() {
             Point karrat = gameObject.GlobalPosition;
+            if (CurrentAllignment == Allignment.Right) {
+                int _xOffset = 0;
+                foreach (char c in currentWord) {
+                    _xOffset += GlyphBank[c].Width + GlyphOffset[c].X ;
+                }
+                karrat.X -= _xOffset;
+            }
             for (int i = 0; i < currentWord.Length; i++) {
                 if (currentWord[i] == '\n') {
                     karrat.Y += GlyphBank['A'].Height;
