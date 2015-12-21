@@ -33,16 +33,14 @@ namespace Components {
             if (gameObject.GlobalPosition.X < i.MousePosition.X && i.MousePosition.X < (gameObject.GlobalPosition.X+buttonRenderer.SourceRects[buttonRenderer.CurrentSprite].Width) && gameObject.GlobalPosition.Y < i.MousePosition.Y && i.MousePosition.Y < (gameObject.GlobalPosition.Y + buttonRenderer.SourceRects[buttonRenderer.CurrentSprite].Height)) {
                 if (DoHover != null) {
                         DoHover();
-                }//end y
+                }
                 if (DoClick != null) {
                     if (i.MousePressed(OpenTK.Input.MouseButton.Left)) {
                         wasPushed = true;
                     }
-                    else {
-                        wasPushed = false;
-                    }
-                    if (i.MouseReleased(OpenTK.Input.MouseButton.Left)) {
+                    if (i.MouseReleased(OpenTK.Input.MouseButton.Left ) && wasPushed) {
                         DoClick();
+                        wasPushed = false;
                     }
                 }
             }//end x
@@ -50,6 +48,9 @@ namespace Components {
                 if (NoHover != null) {
                     NoHover();
                 }
+            }//end else
+            if (i.MouseUp(OpenTK.Input.MouseButton.LastButton)) {
+                wasPushed = false;
             }
         }//end update
     }
