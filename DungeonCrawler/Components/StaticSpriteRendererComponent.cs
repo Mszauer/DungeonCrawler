@@ -10,7 +10,7 @@ using System.Drawing;
 namespace Components {
     class StaticSpriteRendererComponent : Component{
         public Dictionary<string, int> SpriteBank = null;
-        protected Dictionary<string,Rectangle> sourceRects = null;
+        public Dictionary<string,Rectangle> SourceRects = null;
         protected string currentSprite = null;
         public string CurrentSprite {
             get {
@@ -22,7 +22,7 @@ namespace Components {
         }
         public StaticSpriteRendererComponent(GameObject game) : base("StaticSpriteRendererComponent", game) {
             SpriteBank = new Dictionary<string, int>();
-            sourceRects = new Dictionary<string, Rectangle>();
+            SourceRects = new Dictionary<string, Rectangle>();
         }
         public override void OnRender() {
             if (gameObject == null) {
@@ -35,10 +35,10 @@ namespace Components {
                 Console.WriteLine("StaticSpriteRenderer CurrentSprite is null");
 #endif
             }
-            TextureManager.Instance.Draw(SpriteBank[CurrentSprite],gameObject.GlobalPosition,1.0f, sourceRects[CurrentSprite]);
+            TextureManager.Instance.Draw(SpriteBank[CurrentSprite],gameObject.GlobalPosition,1.0f, SourceRects[CurrentSprite]);
         }
         public void AddSprite(string name, string spriteSheet, Rectangle source) {
-            if (SpriteBank.ContainsKey(name) || sourceRects.ContainsKey(name)) {
+            if (SpriteBank.ContainsKey(name) || SourceRects.ContainsKey(name)) {
 #if STATICSPRITEDEBUG
                 Console.WriteLine("Static SpriteBank already contains: " + name);
 #endif
@@ -49,7 +49,7 @@ namespace Components {
             }
             int sprite = TextureManager.Instance.LoadTexture(spriteSheet);
             SpriteBank.Add(name, sprite);
-            sourceRects.Add(name, source);
+            SourceRects.Add(name, source);
         }
 
         public void SetSprite(string name) {

@@ -52,10 +52,24 @@ namespace Game {
             startButton.LocalPosition = new Point(156, 18);
             StaticSpriteRendererComponent sButton = new StaticSpriteRendererComponent(startButton);
             sButton.AddSprite("PlayButtonDefault","Assets/ObjectSpriteSheet.png",new Rectangle(926,126,57,57));
-            sButton.AddSprite("PlayButtonDefaultHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(926, 126, 57, 57));
-            sButton.AddSprite("PlayButtonDefaultHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(926, 240, 57, 57));
+            sButton.AddSprite("PlayButtonDefaultHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(925, 126, 57, 57));
+            sButton.AddSprite("PlayButtonDefaultHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(925, 240, 57, 57));
             sButton.AddSprite("PlayButtonDefaultClick", "Assets/ObjectSpriteSheet.png", new Rectangle(926, 297, 57, 57));
-
+            ButtonComponent play = new ButtonComponent(startButton);
+            play.DoHover += delegate () {
+                if (sButton.CurrentSprite != "PlayButtonDefaultHover2") {
+                    sButton.SetSprite("PlayButtonDefaultHover2");
+                }
+            };
+            play.DoClick += delegate () {
+                SceneManager.Instance.PopScene();
+                SceneManager.Instance.PushScene(new HeroSelectionScene());
+            };
+            play.NoHover += delegate () {
+                if (sButton.CurrentSprite != "PlayButtonDefault") {
+                    sButton.SetSprite("PlayButtonDefault");
+                }
+            };
             GameObject startObj = new GameObject("StartObj");
             welcomeBox.AddChild(startObj);
             startObj.LocalPosition = new Point(105,25);
@@ -77,5 +91,6 @@ namespace Game {
             creatorFont.CurrentAllignment = FontRendererComponent.Allignment.Center;
             creatorFont.DrawString("By : MSzauer");
         }
+
     }
 }
