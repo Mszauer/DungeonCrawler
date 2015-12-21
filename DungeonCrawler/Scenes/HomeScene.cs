@@ -24,7 +24,7 @@ namespace Game {
 
             GameObject currencyAmtObj = new GameObject("CurrencyAmtObj");
             currency.AddChild(currencyAmtObj);
-            currencyAmtObj.LocalPosition = new Point(109, 12);//90,9
+            currencyAmtObj.LocalPosition = new Point(107, 12);//90,9
             FontRendererComponent currencyAmt = new FontRendererComponent(currencyAmtObj, "Assets/Font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
             currencyAmt.CurrentAllignment = FontRendererComponent.Allignment.Right;
             currencyAmt.DrawString("0");//insert currency variable here
@@ -58,8 +58,9 @@ namespace Game {
 
             GameObject startObj = new GameObject("StartObj");
             welcomeBox.AddChild(startObj);
-            startObj.LocalPosition = new Point(55,25);
+            startObj.LocalPosition = new Point(105,25);
             FontRendererComponent startFont = new FontRendererComponent(startObj, "Assets/Font/42Fontsheet.png", "Assets/Font/42Fontsheet.fnt");
+            startFont.CurrentAllignment = FontRendererComponent.Allignment.Center;
             startFont.DrawString("Start");
 
             //Displays Creator
@@ -71,8 +72,9 @@ namespace Game {
 
             GameObject createrObj = new GameObject("CreatorObj");
             creator.AddChild(createrObj);
-            createrObj.LocalPosition = new Point(5, 7);
+            createrObj.LocalPosition = new Point(72, 13);
             FontRendererComponent creatorFont = new FontRendererComponent(createrObj, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
+            creatorFont.CurrentAllignment = FontRendererComponent.Allignment.Center;
             creatorFont.DrawString("By : MSzauer");
         }
     }

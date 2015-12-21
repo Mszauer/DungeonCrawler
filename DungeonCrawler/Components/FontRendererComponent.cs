@@ -16,6 +16,28 @@ namespace Components {
         Dictionary<char, Point> GlyphOffset = null;
         Dictionary<char, int> GlyphSpacing = null;
         protected int sprite = 0;
+        public int Width {
+            get {
+                List<int> width = new List<int>();
+                width.Add(0);
+                foreach (char c in currentWord) {
+                    if (c == '\n') {
+                        width.Add(0);
+                        continue;
+                    }
+                    if (c == '\t') {
+                        width[width.Count-1] += GlyphBank['A'].Width * 4;
+                        continue;
+                    }
+                    width[width.Count-1] += GlyphSpacing[c];
+                }
+                int max = 0;
+                for (int i = 0; i < width.Count; i++) {
+                    max = Math.Max(max, width[i]);
+                }
+                return max;
+            }
+        }
         protected string currentWord = null;
         
         public FontRendererComponent(GameObject game,string spritePath, string fntPath) : base("FontRendererComponent", game) {
@@ -99,11 +121,10 @@ namespace Components {
         public override void OnRender() {
             Point karrat = gameObject.GlobalPosition;
             if (CurrentAllignment == Allignment.Right) {
-                int _xOffset = 0;
-                foreach (char c in currentWord) {
-                    _xOffset += GlyphBank[c].Width + GlyphOffset[c].X ;
-                }
-                karrat.X -= _xOffset;
+                karrat.X -= Width;
+            }
+            else if (CurrentAllignment == Allignment.Center) {
+                karrat.X -= Width / 2;
             }
             for (int i = 0; i < currentWord.Length; i++) {
                 if (currentWord[i] == '\n') {

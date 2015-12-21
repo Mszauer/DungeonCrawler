@@ -25,8 +25,9 @@ namespace Game {
 
             GameObject currencyAmtObj = new GameObject("CurrencyAmtObj");
             currency.AddChild(currencyAmtObj);
-            currencyAmtObj.LocalPosition = new Point(90, 9);
+            currencyAmtObj.LocalPosition = new Point(107, 12);//90,9
             FontRendererComponent currencyAmt = new FontRendererComponent(currencyAmtObj, "Assets/Font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
+            currencyAmt.CurrentAllignment = FontRendererComponent.Allignment.Right;
             currencyAmt.DrawString("0");//insert currency variable here
 
             //Back button
