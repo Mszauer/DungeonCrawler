@@ -9,6 +9,7 @@ using System.Drawing;
 
 namespace Game {
     class HomeScene : Scene{
+        protected bool audioEnabled = true;
         public override void Initialize() {
             GameObject background = new GameObject("Background");
             Root.AddChild(background);
@@ -38,10 +39,31 @@ namespace Game {
             audioButton.LocalPosition = new Point(10, 425);
             Root.AddChild(audioButton);
             StaticSpriteRendererComponent aButton = new StaticSpriteRendererComponent(audioButton);
-            aButton.AddSprite("AudioButtonDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 0, 46, 46));
-            aButton.AddSprite("AudioButtonHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 46, 46, 46));
-            aButton.AddSprite("AudioButtonHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 92, 46, 46));
-            aButton.AddSprite("AudioButtonClick", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 134, 46, 46));
+            aButton.AddSprite("AudioButtonDisabled", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 0, 45, 45));
+            aButton.AddSprite("AudioButtonHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 46, 45, 45));
+            aButton.AddSprite("AudioButtonHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 91, 45, 45));
+            aButton.AddSprite("AudioButtonEnabled", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 134, 45, 45));
+            ButtonComponent audio = new ButtonComponent(audioButton);
+            audio.DoClick += delegate {
+                audioEnabled = (audioEnabled) ? false : true;
+            };
+            audio.DoHover += delegate {
+                if (aButton.CurrentSprite != "AudioButtonHover2") {
+                    aButton.SetSprite("AudioButtonHover2");
+                }
+            };
+            audio.NoHover += delegate {
+                if (audioEnabled) {
+                    if (aButton.CurrentSprite != "AudioButtonEnabled") {
+                        aButton.SetSprite("AudioButtonEnabled");
+                    }
+                }
+                else {
+                    if (aButton.CurrentSprite != "AudioButtonDisabled") {
+                        aButton.SetSprite("AudioButtonDisabled");
+                    }
+                }
+            };
 
             //Welcome message
             GameObject welcomeBox = new GameObject("WelcomeBox");
@@ -93,6 +115,10 @@ namespace Game {
             FontRendererComponent creatorFont = new FontRendererComponent(createrObj, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
             creatorFont.CurrentAllignment = FontRendererComponent.Allignment.Center;
             creatorFont.DrawString("By : MSzauer");
+
+            if (audioEnabled) {
+                //play music here
+            }
         }
 
     }
