@@ -182,11 +182,15 @@ namespace Game {
             GameObject backButton = new GameObject("BackButton");
             Root.AddChild(backButton);
             backButton.LocalPosition = new Point(10,423);
-            StaticSpriteRendererComponent back = new StaticSpriteRendererComponent(backButton);
-            back.AddSprite("BackDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 181, 46, 46));
-            back.AddSprite("BackHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 227, 46, 46));
-            back.AddSprite("BackHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 273, 46, 46));
-            back.AddSprite("BackClick", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 319, 46, 46));
+            StaticSpriteRendererComponent backSprite = new StaticSpriteRendererComponent(backButton);
+            backSprite.AddSprite("BackDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 181, 46, 46));
+            backSprite.AddSprite("BackHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 227, 46, 46));
+            backSprite.AddSprite("BackHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 273, 46, 46));
+            backSprite.AddSprite("BackClick", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 319, 46, 46));
+            ButtonComponent back = new ButtonComponent(backButton);
+            back.DoClick += delegate {
+                SceneManager.Instance.PopScene();
+            };
 
             //health identifier
             GameObject healthObj = new GameObject("HealthObj");

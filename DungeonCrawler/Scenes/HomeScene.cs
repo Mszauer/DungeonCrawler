@@ -21,6 +21,10 @@ namespace Game {
             currency.LocalPosition = new Point(7,5);
             StaticSpriteRendererComponent currencyBG = new StaticSpriteRendererComponent(currency);
             currencyBG.AddSprite("Currency", "Assets/ObjectSpriteSheet.png", new Rectangle(327, 50, 113, 42));
+            ButtonComponent currencyShop = new ButtonComponent(currency);
+            currencyShop.DoClick += delegate {
+                SceneManager.Instance.PushScene(new ShopScene());
+            };
 
             GameObject currencyAmtObj = new GameObject("CurrencyAmtObj");
             currency.AddChild(currencyAmtObj);

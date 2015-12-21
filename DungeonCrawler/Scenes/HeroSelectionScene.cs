@@ -22,6 +22,10 @@ namespace Game {
             currency.LocalPosition = new Point(7, 5);
             StaticSpriteRendererComponent currencyBG = new StaticSpriteRendererComponent(currency);
             currencyBG.AddSprite("Currency", "Assets/ObjectSpriteSheet.png", new Rectangle(327, 50, 113, 42));
+            ButtonComponent currencyShop = new ButtonComponent(currency);
+            currencyShop.DoClick += delegate {
+                SceneManager.Instance.PushScene(new ShopScene());
+            };
 
             GameObject currencyAmtObj = new GameObject("CurrencyAmtObj");
             currency.AddChild(currencyAmtObj);
@@ -30,15 +34,30 @@ namespace Game {
             currencyAmt.CurrentAllignment = FontRendererComponent.Allignment.Right;
             currencyAmt.DrawString("0");//insert currency variable here
 
+
             //Back button
             GameObject backButton = new GameObject("BackButton");
             Root.AddChild(backButton);
             backButton.LocalPosition = new Point(10, 423);
-            StaticSpriteRendererComponent back = new StaticSpriteRendererComponent(backButton);
-            back.AddSprite("BackDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 181, 46, 46));
-            back.AddSprite("BackHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 227, 46, 46));
-            back.AddSprite("BackHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 273, 46, 46));
-            back.AddSprite("BackClick", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 319, 46, 46));
+            StaticSpriteRendererComponent backSprite = new StaticSpriteRendererComponent(backButton);
+            backSprite.AddSprite("BackDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 181, 46, 46));
+            backSprite.AddSprite("BackHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 227, 46, 46));
+            backSprite.AddSprite("BackHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 273, 46, 46));
+            backSprite.AddSprite("BackClick", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 319, 46, 46));
+            ButtonComponent back = new ButtonComponent(backButton);
+            back.DoHover += delegate {
+                if (backSprite.CurrentSprite != "BackHover2") {
+                    backSprite.SetSprite("BackHover2");
+                }
+            };
+            back.DoClick += delegate {
+                SceneManager.Instance.PopScene();
+            };
+            back.NoHover += delegate {
+                if (backSprite.CurrentSprite != "BackDefault") {
+                    backSprite.SetSprite("BackDefault");
+                }
+            };
 
             //health identifier
             GameObject healthObj = new GameObject("HealthObj");
@@ -57,7 +76,7 @@ namespace Game {
             healthObj.AddChild(healthLevelObj);
             healthLevelObj.LocalPosition = new Point(54, 0);
             StaticSpriteRendererComponent healthLevelSprite = new StaticSpriteRendererComponent(healthLevelObj);
-            healthLevelSprite.AddSprite("HeslthLevelSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(948, 351, 36, 36));
+            healthLevelSprite.AddSprite("HeslthLevelSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(947, 348, 36, 36));
 
             GameObject healthAmtObj = new GameObject("HealthIdentifierAmtObj");
             healthObj.AddChild(healthAmtObj);
@@ -83,7 +102,7 @@ namespace Game {
             attackObj.AddChild(attackLevelObj);
             attackLevelObj.LocalPosition = new Point(54,0);//284,415 global
             StaticSpriteRendererComponent attackLevelSprite = new StaticSpriteRendererComponent(attackLevelObj);
-            attackLevelSprite.AddSprite("AttackLevelSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(948,351,36,36));
+            attackLevelSprite.AddSprite("AttackLevelSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(947, 348, 36, 36));
 
             GameObject attackAmtObj = new GameObject("HealthIdentifierAmtObj");
             attackObj.AddChild(attackAmtObj);

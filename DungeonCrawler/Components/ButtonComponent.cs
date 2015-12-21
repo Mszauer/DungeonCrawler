@@ -49,7 +49,7 @@ namespace Components {
                     NoHover();
                 }
             }//end else
-            if (i.MouseUp(OpenTK.Input.MouseButton.LastButton)) {
+            if (i.MouseUp(OpenTK.Input.MouseButton.Left)) {
                 wasPushed = false;
             }
         }//end update
