@@ -76,7 +76,26 @@ namespace Game {
             healthObj.AddChild(healthLevelObj);
             healthLevelObj.LocalPosition = new Point(54, 0);
             StaticSpriteRendererComponent healthLevelSprite = new StaticSpriteRendererComponent(healthLevelObj);
-            healthLevelSprite.AddSprite("HeslthLevelSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(947, 348, 36, 36));
+            healthLevelSprite.AddSprite("HealthLevelSpriteDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(948, 350, 35, 35));
+            healthLevelSprite.AddSprite("HealthLevelSpriteHover", "Assets/ObjectSpriteSheet.png", new Rectangle(948, 418, 35, 35));
+            healthLevelSprite.AddSprite("HealthLevelSpriteClick", "Assets/ObjectSpriteSheet.png", new Rectangle(948, 453, 35, 35));
+            ButtonComponent health = new ButtonComponent(healthLevelObj);
+            health.DoClick += delegate {
+                if (healthLevelSprite.CurrentSprite != "HealthLevelSpriteClick") {
+                    healthLevelSprite.SetSprite("HealthLevelSpriteClick");
+                }
+                SceneManager.Instance.PushScene(new ShopScene());
+            };
+            health.DoHover += delegate {
+                if (healthLevelSprite.CurrentSprite != "HealthLevelSpriteHover") {
+                    healthLevelSprite.SetSprite("HealthLevelSpriteHover");
+                }
+            };
+            health.NoHover += delegate {
+                if (healthLevelSprite.CurrentSprite != "HealthLevelSpriteDefault") {
+                    healthLevelSprite.SetSprite("HealthLevelSpriteDefault");
+                }
+            };
 
             GameObject healthAmtObj = new GameObject("HealthIdentifierAmtObj");
             healthObj.AddChild(healthAmtObj);
@@ -102,7 +121,26 @@ namespace Game {
             attackObj.AddChild(attackLevelObj);
             attackLevelObj.LocalPosition = new Point(54,0);//284,415 global
             StaticSpriteRendererComponent attackLevelSprite = new StaticSpriteRendererComponent(attackLevelObj);
-            attackLevelSprite.AddSprite("AttackLevelSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(947, 348, 36, 36));
+            attackLevelSprite.AddSprite("AttackLevelSpriteDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(948, 350, 35, 35));
+            attackLevelSprite.AddSprite("AttackLevelSpriteHover", "Assets/ObjectSpriteSheet.png", new Rectangle(948, 418, 35, 35));
+            attackLevelSprite.AddSprite("AttackLevelSpriteClick", "Assets/ObjectSpriteSheet.png", new Rectangle(948, 453, 35, 35));
+            ButtonComponent attackShop = new ButtonComponent(attackLevelObj);
+            attackShop.DoClick += delegate {
+                if (attackLevelSprite.CurrentSprite != "AttackLevelSpriteClick") {
+                    attackLevelSprite.SetSprite("AttackLevelSpriteClick");
+                }
+                 SceneManager.Instance.PushScene(new ShopScene());
+             };
+            attackShop.DoHover += delegate {
+                if (attackLevelSprite.CurrentSprite != "AttackLevelSpriteHover") {
+                    attackLevelSprite.SetSprite("AttackLevelSpriteHover");
+                }
+            };
+            attackShop.NoHover += delegate {
+                if (attackLevelSprite.CurrentSprite != "AttackLevelSpriteDefault") {
+                    attackLevelSprite.SetSprite("AttackLevelSpriteDefault");
+                }
+            };
 
             GameObject attackAmtObj = new GameObject("HealthIdentifierAmtObj");
             attackObj.AddChild(attackAmtObj);

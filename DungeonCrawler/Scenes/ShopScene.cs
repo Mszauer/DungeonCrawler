@@ -47,7 +47,27 @@ namespace Game {
             healthBuyButton.AddChild(heartBuyObj);
             heartBuyObj.LocalPosition = new Point(133,10);
             StaticSpriteRendererComponent heartBuy = new StaticSpriteRendererComponent(heartBuyObj);
-            heartBuy.AddSprite("HeartBuy", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 365, 45, 45));
+            heartBuy.AddSprite("HeartBuyDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 365, 45, 45));
+            heartBuy.AddSprite("HeartBuyHover", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 453, 45, 45));
+            heartBuy.AddSprite("HeartBuyClick", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 498, 45, 45));
+            ButtonComponent heartPurchase = new ButtonComponent(heartBuyObj);
+            heartPurchase.DoHover += delegate {
+                if (heartBuy.CurrentSprite != "HeartBuyHover") {
+                    heartBuy.SetSprite("HeartBuyHover");
+                }
+            };
+            heartPurchase.NoHover += delegate {
+                if (heartBuy.CurrentSprite != "HeartBuyDefault") {
+                    heartBuy.SetSprite("HeartBuyDefault");
+                }
+            };
+            heartPurchase.DoClick += delegate {
+                //increase level of skill
+                //increase cost
+                if (heartBuy.CurrentSprite != "HeartBuyClick") {
+                    heartBuy.SetSprite("HeartBuyClick");
+                }
+            };
 
             GameObject healthBuyAmtObj = new GameObject("HealthBuyAmtObj");
             healthBuyButton.AddChild(healthBuyAmtObj);
@@ -73,7 +93,27 @@ namespace Game {
             attackBuyButton.AddChild(attackBuyObj);
             attackBuyObj.LocalPosition = new Point(133, 10);
             StaticSpriteRendererComponent attackBuy = new StaticSpriteRendererComponent(attackBuyObj);
-            attackBuy.AddSprite("AttackBuy", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 365, 45, 45));
+            attackBuy.AddSprite("AttackBuyDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 365, 45, 45));
+            attackBuy.AddSprite("AttackBuyHover", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 453, 45, 45));
+            attackBuy.AddSprite("AttackBuyClick", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 498, 45, 45));
+            ButtonComponent attackPurchase = new ButtonComponent(attackBuyObj);
+            attackPurchase.DoHover += delegate {
+                if (attackBuy.CurrentSprite != "AttackBuyHover") {
+                    attackBuy.SetSprite("AttackBuyHover");
+                }
+            };
+            attackPurchase.NoHover += delegate {
+                if (attackBuy.CurrentSprite != "AttackBuyDefault") {
+                    attackBuy.SetSprite("AttackBuyDefault");
+                }
+            };
+            attackPurchase.DoClick += delegate {
+                //increase level of skill
+                //increase cost
+                if (attackBuy.CurrentSprite != "AttackBuyClick") {
+                    attackBuy.SetSprite("AttackBuyClick");
+                }
+            };
 
             GameObject attackBuyAmtObj = new GameObject("AttackBuyAmtObj");
             attackBuyButton.AddChild(attackBuyAmtObj);
@@ -99,7 +139,27 @@ namespace Game {
             skill1UpButtonObj.AddChild(skill1UpBuyObj);
             skill1UpBuyObj.LocalPosition = new Point(136,8);
             StaticSpriteRendererComponent skill1UpBuy = new StaticSpriteRendererComponent(skill1UpBuyObj);
-            skill1UpBuy.AddSprite("Skill1UpBuy", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 365, 45, 45));
+            skill1UpBuy.AddSprite("Skill1UpBuyDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 365, 45, 45));
+            skill1UpBuy.AddSprite("Skill1UpBuyHover", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 453, 45, 45));
+            skill1UpBuy.AddSprite("Skill1UpBuyClick", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 498, 45, 45));
+            ButtonComponent skill1Up = new ButtonComponent(skill1UpBuyObj);
+            skill1Up.DoHover += delegate {
+                if (skill1UpBuy.CurrentSprite != "Skill1UpBuyHover") {
+                    skill1UpBuy.SetSprite("Skill1UpBuyHover");
+                }
+            };
+            skill1Up.NoHover += delegate {
+                if (skill1UpBuy.CurrentSprite != "Skill1UpBuyDefault") {
+                    skill1UpBuy.SetSprite("Skill1UpBuyDefault");
+                }
+            };
+            skill1Up.DoClick += delegate {
+                //increase level of skill
+                //increase cost
+                if (skill1UpBuy.CurrentSprite != "Skill1UpBuyClick") {
+                    skill1UpBuy.SetSprite("Skill1UpBuyClick");
+                }
+            };
 
             GameObject skill1BuyAmtObj = new GameObject("Skill1BuyAmtObj");
             skill1UpButtonObj.AddChild(skill1BuyAmtObj);
@@ -131,7 +191,27 @@ namespace Game {
             skill2UpButtonObj.AddChild(skill2UpBuyObj);
             skill2UpBuyObj.LocalPosition = new Point(136, 8);
             StaticSpriteRendererComponent skill2UpBuy = new StaticSpriteRendererComponent(skill2UpBuyObj);
-            skill2UpBuy.AddSprite("Skill2UpBuy", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 365, 45, 45));
+            skill2UpBuy.AddSprite("Skill2UpBuyDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 365, 45, 45));
+            skill2UpBuy.AddSprite("Skill2UpBuyHover", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 453, 45, 45));
+            skill2UpBuy.AddSprite("Skill2UpBuyClick", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 498, 45, 45));
+            ButtonComponent skill2Up = new ButtonComponent(skill2UpBuyObj);
+            skill2Up.DoHover += delegate {
+                if (skill2UpBuy.CurrentSprite != "Skill2UpBuyHover") {
+                    skill2UpBuy.SetSprite("Skill2UpBuyHover");
+                }
+            };
+            skill2Up.NoHover += delegate {
+                if (skill2UpBuy.CurrentSprite != "Skill2UpBuyDefault") {
+                    skill2UpBuy.SetSprite("Skill2UpBuyDefault");
+                }
+            };
+            skill2Up.DoClick += delegate {
+                //increase level of skill
+                //increase cost
+                if (skill2UpBuy.CurrentSprite != "Skill2UpBuyClick") {
+                    skill2UpBuy.SetSprite("Skill2UpBuyClick");
+                }
+            };
 
             GameObject skill2BuyAmtObj = new GameObject("Skill2BuyAmtObj");
             skill2UpButtonObj.AddChild(skill2BuyAmtObj);
@@ -163,7 +243,27 @@ namespace Game {
             skill3UpButtonObj.AddChild(skill3UpBuyObj);
             StaticSpriteRendererComponent skill3UpBuy = new StaticSpriteRendererComponent(skill3UpBuyObj);
             skill3UpBuyObj.LocalPosition = new Point(136, 8);
-            skill3UpBuy.AddSprite("Skill3UpBuy", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 365, 45, 45));
+            skill3UpBuy.AddSprite("Skill3UpBuyDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 365, 45, 45));
+            skill3UpBuy.AddSprite("Skill3UpBuyHover", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 453, 45, 45));
+            skill3UpBuy.AddSprite("Skill3UpBuyClick", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 498, 45, 45));
+            ButtonComponent skill3Up = new ButtonComponent(skill3UpBuyObj);
+            skill3Up.DoHover += delegate {
+                if (skill3UpBuy.CurrentSprite != "Skill3UpBuyHover") {
+                    skill3UpBuy.SetSprite("Skill3UpBuyHover");
+                }
+            };
+            skill3Up.NoHover += delegate {
+                if (skill3UpBuy.CurrentSprite != "Skill3UpBuyDefault") {
+                    skill3UpBuy.SetSprite("Skill3UpBuyDefault");
+                }
+            };
+            skill3Up.DoClick += delegate {
+                //increase level of skill
+                //increase cost
+                if (skill3UpBuy.CurrentSprite != "Skill3UpBuyClick") {
+                    skill3UpBuy.SetSprite("Skill3UpBuyClick");
+                }
+            };
 
             GameObject skill3BuyAmtObj = new GameObject("Skill3BuyAmtObj");
             skill3UpButtonObj.AddChild(skill3BuyAmtObj);
@@ -191,7 +291,16 @@ namespace Game {
             back.DoClick += delegate {
                 SceneManager.Instance.PopScene();
             };
-
+            back.DoHover += delegate {
+                if (backSprite.CurrentSprite != "BackHover2") {
+                    backSprite.SetSprite("BackHover2");
+                }
+            };
+            back.NoHover += delegate {
+                if (backSprite.CurrentSprite != "BackDefault") {
+                    backSprite.SetSprite("BackDefault");
+                }
+            };
             //health identifier
             GameObject healthObj = new GameObject("HealthObj");
             Root.AddChild(healthObj);

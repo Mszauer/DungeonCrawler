@@ -36,7 +36,7 @@ namespace Game {
             GraphicsManager.Instance.SwapBuffers();
         }
         public static void Shutdown(object sender, EventArgs e) {
-            SceneManager.Instance.PopScene();
+            SceneManager.Instance.Shutdown();
             SoundManager.Instance.Shutdown();
             InputManager.Instance.Shutdown();
             TextureManager.Instance.Shutdown();

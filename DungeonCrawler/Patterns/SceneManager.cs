@@ -65,5 +65,10 @@ namespace GameFramework {
             }
             return null;
         }
+        public void Shutdown() {
+            for (int i = SceneStack.Count - 1;i >= 0; i--) {
+                PopScene();
+            }
+        }
     }
 }
