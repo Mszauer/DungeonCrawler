@@ -25,7 +25,7 @@ namespace Game {
 
             GameObject currencyAmtObj = new GameObject("CurrencyAmtObj");
             currency.AddChild(currencyAmtObj);
-            currencyAmtObj.LocalPosition = new Point(107, 12);//90,9
+            currencyAmtObj.LocalPosition = new Point(105, 12);//90,9
             FontRendererComponent currencyAmt = new FontRendererComponent(currencyAmtObj, "Assets/Font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
             currencyAmt.CurrentAllignment = FontRendererComponent.Allignment.Right;
             currencyAmt.DrawString("0");//insert currency variable here
@@ -61,8 +61,9 @@ namespace Game {
 
             GameObject healthAmtObj = new GameObject("HealthIdentifierAmtObj");
             healthObj.AddChild(healthAmtObj);
-            healthAmtObj.LocalPosition = new Point(23, 41);
+            healthAmtObj.LocalPosition = new Point(27, 45);
             FontRendererComponent healthAmtFnt = new FontRendererComponent(healthAmtObj, "Assets/font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
+            healthAmtFnt.CurrentAllignment = FontRendererComponent.Allignment.Center;
             healthAmtFnt.DrawString("0"); //insert variable here
 
             //attack identifier
@@ -86,8 +87,9 @@ namespace Game {
 
             GameObject attackAmtObj = new GameObject("HealthIdentifierAmtObj");
             attackObj.AddChild(attackAmtObj);
-            attackAmtObj.LocalPosition = new Point(23, 41);
+            attackAmtObj.LocalPosition = new Point(27, 45);
             FontRendererComponent attackAmtFnt = new FontRendererComponent(attackAmtObj, "Assets/font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
+            attackAmtFnt.CurrentAllignment = FontRendererComponent.Allignment.Center;
             attackAmtFnt.DrawString("0"); //insert variable here
 
             //name plate
@@ -100,9 +102,10 @@ namespace Game {
             //hero name
             GameObject heroNameObj = new GameObject("heroNameObj");
             namePlateObj.AddChild(heroNameObj);
-            heroNameObj.LocalPosition = new Point(70, 5);
+            heroNameObj.LocalPosition = new Point(143, 5);
             FontRendererComponent heroNameFont = new FontRendererComponent(heroNameObj, "Assets/Font/42Fontsheet.png", "Assets/Font/42Fontsheet.fnt");
-            heroNameFont.DrawString("That Gai"); // insert CurrentHero.Name here
+            heroNameFont.CurrentAllignment = FontRendererComponent.Allignment.Center;
+            heroNameFont.DrawString("Hero Name"); // insert CurrentHero.Name here
 
             //name plate prev button
             GameObject namePlatePrevObj = new GameObject("NamePlatePrevObj");
@@ -151,6 +154,13 @@ namespace Game {
             StaticSpriteRendererComponent skill1TooltipSprite = new StaticSpriteRendererComponent(skill1TooltipObj);
             skill1TooltipSprite.AddSprite("Skill1TooltipSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(730, 3, 240, 117));
 
+            GameObject skill1NameObj = new GameObject("Skill1NameObj");
+            skill1BgObj.AddChild(skill1NameObj);
+            skill1NameObj.LocalPosition = new Point(95, 5);
+            FontRendererComponent skill1NameFnt = new FontRendererComponent(skill1NameObj, "Assets/Font/42Fontsheet.png", "Assets/Font/42Fontsheet.fnt");
+            skill1NameFnt.CurrentAllignment = FontRendererComponent.Allignment.Center;
+            skill1NameFnt.DrawString("Skill 1"); //insert hero skill 1
+
             //skill 2
             GameObject skill2BgObj = new GameObject("Skill2BgObj");
             Root.AddChild(skill2BgObj);
@@ -171,6 +181,12 @@ namespace Game {
             StaticSpriteRendererComponent skill2TooltipSprite = new StaticSpriteRendererComponent(skill2TooltipObj);
             skill2TooltipSprite.AddSprite("Skill2TooltipSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(730, 3, 240, 117));
 
+            GameObject skill2NameObj = new GameObject("Skill2NameObj");
+            skill2BgObj.AddChild(skill2NameObj);
+            skill2NameObj.LocalPosition = new Point(95, 5);
+            FontRendererComponent skill2NameFnt = new FontRendererComponent(skill2NameObj, "Assets/Font/42Fontsheet.png", "Assets/Font/42Fontsheet.fnt");
+            skill2NameFnt.CurrentAllignment = FontRendererComponent.Allignment.Center;
+            skill2NameFnt.DrawString("Skill 2"); //insert hero skill 1
             //skill 3
             GameObject skill3BgObj = new GameObject("Skill3BgObj");
             Root.AddChild(skill3BgObj);
@@ -191,7 +207,13 @@ namespace Game {
             StaticSpriteRendererComponent skill3TooltipSprite = new StaticSpriteRendererComponent(skill3TooltipObj);
             skill3TooltipSprite.AddSprite("Skill3TooltipSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(730, 3, 240, 117));
 
-            /*
+            GameObject skill3NameObj = new GameObject("Skill3NameObj");
+            skill3BgObj.AddChild(skill3NameObj);
+            skill3NameObj.LocalPosition = new Point(95, 5);
+            FontRendererComponent skill3NameFnt = new FontRendererComponent(skill3NameObj, "Assets/Font/42Fontsheet.png", "Assets/Font/42Fontsheet.fnt");
+            skill3NameFnt.CurrentAllignment = FontRendererComponent.Allignment.Center;
+            skill3NameFnt.DrawString("Skill 3"); //insert hero skill 3
+            
             //hero
             GameObject heroAnimObj = new GameObject("heroAnimObj");
             Root.AddChild(heroAnimObj);
@@ -199,7 +221,7 @@ namespace Game {
             AnimatedSpriteRendererComponent heroAnimation = new AnimatedSpriteRendererComponent(heroAnimObj);
             heroAnimation.AddAnimation("Idle", "Assets/DarkKnight2/DarkKnight2_Idle.png", new Rectangle(0, 768, 256, 256), new Rectangle(256, 768, 256, 256), new Rectangle(512, 768, 256, 256), new Rectangle(768, 768, 256, 256), new Rectangle(0, 512, 256, 256), new Rectangle(256, 512, 256, 256), new Rectangle(512, 512, 256, 256), new Rectangle(768, 512, 256, 256), new Rectangle(0, 256, 256, 256), new Rectangle(256, 256, 256, 256));
             heroAnimation.PlayAnimation("Idle");
-            */
+            
         }
     }
 }
