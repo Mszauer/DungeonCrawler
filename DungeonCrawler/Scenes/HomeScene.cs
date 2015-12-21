@@ -62,7 +62,6 @@ namespace Game {
                 }
             };
             play.DoClick += delegate () {
-                SceneManager.Instance.PopScene();
                 SceneManager.Instance.PushScene(new HeroSelectionScene());
             };
             play.NoHover += delegate () {
