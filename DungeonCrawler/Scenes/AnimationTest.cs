@@ -13,14 +13,14 @@ namespace Game {
             GameObject testAnimRenderer = new GameObject("AnimationTester");
             Root.AddChild(testAnimRenderer);
             AnimatedSpriteRendererComponent animator = new AnimatedSpriteRendererComponent(testAnimRenderer);
-            animator.AddAnimation("Idle", "Assets/DarkKnight2/DarkKnight2_Idle.png", new Rectangle(0, 768, 256, 256), new Rectangle(256, 768, 256, 256), new Rectangle(512, 768, 256, 256), new Rectangle(768, 768, 256, 256), new Rectangle(0, 512, 256, 256), new Rectangle(256, 512, 256, 256), new Rectangle(512, 512, 256, 256), new Rectangle(768, 512, 256, 256), new Rectangle(0, 256, 256, 256), new Rectangle(256, 256, 256, 256));
+            animator.AddAnimation("Idle", "Assets/Characters/DarkKnight2/DarkKnight2_Idle.png", new Rectangle(0, 768, 256, 256), new Rectangle(256, 768, 256, 256), new Rectangle(512, 768, 256, 256), new Rectangle(768, 768, 256, 256), new Rectangle(0, 512, 256, 256), new Rectangle(256, 512, 256, 256), new Rectangle(512, 512, 256, 256), new Rectangle(768, 512, 256, 256), new Rectangle(0, 256, 256, 256), new Rectangle(256, 256, 256, 256));
             animator.PlayAnimation("Idle");
             
             GameObject testStaticRender = new GameObject("StaticTester");
             testStaticRender.LocalPosition = new Point(0, 256);
             Root.AddChild(testStaticRender);
             StaticSpriteRendererComponent staticSprite = new StaticSpriteRendererComponent(testStaticRender);
-            staticSprite.AddSprite("Background", "Assets/DarkKnight2/DarkKnight2_Idle.png", new Rectangle(0,768,256,256));
+            staticSprite.AddSprite("Background", "Assets/Characters/DarkKnight2/DarkKnight2_Idle.png", new Rectangle(0,768,256,256));
 
             GameObject StaticFontRenderer = new GameObject("FontTester");
             StaticFontRenderer.LocalPosition = new Point(256, 0);

@@ -217,9 +217,9 @@ namespace Game {
             //hero
             GameObject heroAnimObj = new GameObject("heroAnimObj");
             Root.AddChild(heroAnimObj);
-            heroAnimObj.LocalPosition = new Point(0,150);
+            heroAnimObj.LocalPosition = new Point(15,235);
             AnimatedSpriteRendererComponent heroAnimation = new AnimatedSpriteRendererComponent(heroAnimObj);
-            heroAnimation.AddAnimation("Idle", "Assets/DarkKnight2/DarkKnight2_Idle.png", new Rectangle(0, 768, 256, 256), new Rectangle(256, 768, 256, 256), new Rectangle(512, 768, 256, 256), new Rectangle(768, 768, 256, 256), new Rectangle(0, 512, 256, 256), new Rectangle(256, 512, 256, 256), new Rectangle(512, 512, 256, 256), new Rectangle(768, 512, 256, 256), new Rectangle(0, 256, 256, 256), new Rectangle(256, 256, 256, 256));
+            heroAnimation.AddAnimation("Idle", "Assets/Characters/Archer/Archer_Idle.png", heroAnimation.AddAnimation(4,4,128,128));
             heroAnimation.PlayAnimation("Idle");
             
         }

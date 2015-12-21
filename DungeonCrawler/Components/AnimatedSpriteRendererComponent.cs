@@ -13,7 +13,7 @@ namespace Components {
         Dictionary<string, int> SpriteBank = null;
         public int CurrentFrame = 0;
         protected float animTimer = 0.0f;
-        protected float frameTimer = 1.0f / 30.0f;
+        protected float frameTimer = 1.0f / 15.0f;
         public string CurrentAnimation = null;
         public bool loop = false;
 
@@ -86,6 +86,22 @@ namespace Components {
             foreach (KeyValuePair<string,int> kvp in SpriteBank) {
                 TextureManager.Instance.UnloadTexture(kvp.Value);
             }
+        }
+        public Rectangle[] AddAnimation(int rows,int cols, int spriteWidth,int spriteHeight) {
+            Rectangle[] frames = new Rectangle[rows*cols];
+            int frameNum = 0;
+            for (int row = rows-1;row >= 0; row--) {
+                Rectangle frame = new Rectangle(0, 0, spriteWidth,spriteHeight);
+                frame.Y = row * spriteHeight;
+                int sourceCol = 0;
+                for (int col = cols-1; col >= 0; col--) {
+                    frame.X = spriteWidth * sourceCol;
+                    frames[frameNum] = frame;
+                    frameNum++;
+                    sourceCol++;
+                }
+            }
+            return frames;
         }
     }
 }
