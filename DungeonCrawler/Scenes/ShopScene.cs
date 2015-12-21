@@ -25,7 +25,7 @@ namespace Game {
 
             GameObject currencyAmtObj = new GameObject("CurrencyAmtObj");
             currency.AddChild(currencyAmtObj);
-            currencyAmtObj.LocalPosition = new Point(107, 12);//90,9
+            currencyAmtObj.LocalPosition = new Point(105, 12);//90,9
             FontRendererComponent currencyAmt = new FontRendererComponent(currencyAmtObj, "Assets/Font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
             currencyAmt.CurrentAllignment = FontRendererComponent.Allignment.Right;
             currencyAmt.DrawString("0");//insert currency variable here
@@ -51,8 +51,9 @@ namespace Game {
 
             GameObject healthBuyAmtObj = new GameObject("HealthBuyAmtObj");
             healthBuyButton.AddChild(healthBuyAmtObj);
-            healthBuyAmtObj.LocalPosition = new Point(105, 12);
+            healthBuyAmtObj.LocalPosition = new Point(120, 17);
             FontRendererComponent healthBuyAmt = new FontRendererComponent(healthBuyAmtObj, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
+            healthBuyAmt.CurrentAllignment = FontRendererComponent.Allignment.Right;
             healthBuyAmt.DrawString("0"); //insert variable for cost here
 
             //attack buy button
@@ -76,8 +77,9 @@ namespace Game {
 
             GameObject attackBuyAmtObj = new GameObject("AttackBuyAmtObj");
             attackBuyButton.AddChild(attackBuyAmtObj);
-            attackBuyAmtObj.LocalPosition = new Point(105, 12);
+            attackBuyAmtObj.LocalPosition = new Point(120, 17);
             FontRendererComponent attackBuyAmt = new FontRendererComponent(attackBuyAmtObj, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
+            attackBuyAmt.CurrentAllignment = FontRendererComponent.Allignment.Right;
             attackBuyAmt.DrawString("0"); //insert variable for cost here
 
             //skill 1 level up button
@@ -101,8 +103,9 @@ namespace Game {
 
             GameObject skill1BuyAmtObj = new GameObject("Skill1BuyAmtObj");
             skill1UpButtonObj.AddChild(skill1BuyAmtObj);
-            skill1BuyAmtObj.LocalPosition = new Point(105, 12);
+            skill1BuyAmtObj.LocalPosition = new Point(120, 17);
             FontRendererComponent skill1BuyAmt = new FontRendererComponent(skill1BuyAmtObj, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
+            skill1BuyAmt.CurrentAllignment = FontRendererComponent.Allignment.Right;
             skill1BuyAmt.DrawString("0"); //insert variable for cost here
 
             GameObject Skill1IdentifierObj = new GameObject("Skill1IdentifierObj");
@@ -132,8 +135,9 @@ namespace Game {
 
             GameObject skill2BuyAmtObj = new GameObject("Skill2BuyAmtObj");
             skill2UpButtonObj.AddChild(skill2BuyAmtObj);
-            skill2BuyAmtObj.LocalPosition = new Point(105, 12);
+            skill2BuyAmtObj.LocalPosition = new Point(120, 17);
             FontRendererComponent skill2BuyAmt = new FontRendererComponent(skill2BuyAmtObj, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
+            skill2BuyAmt.CurrentAllignment = FontRendererComponent.Allignment.Right;
             skill2BuyAmt.DrawString("0"); //insert variable for cost here
 
             GameObject Skill2IdentifierObj = new GameObject("Skill2IdentifierObj");
@@ -163,8 +167,9 @@ namespace Game {
 
             GameObject skill3BuyAmtObj = new GameObject("Skill3BuyAmtObj");
             skill3UpButtonObj.AddChild(skill3BuyAmtObj);
-            skill3BuyAmtObj.LocalPosition = new Point(105, 12);
+            skill3BuyAmtObj.LocalPosition = new Point(120, 17);
             FontRendererComponent skill3BuyAmt = new FontRendererComponent(skill3BuyAmtObj, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
+            skill3BuyAmt.CurrentAllignment = FontRendererComponent.Allignment.Right;
             skill3BuyAmt.DrawString("0"); //insert variable for cost here
 
             GameObject Skill3IdentifierObj = new GameObject("Skill3IdentifierObj");
@@ -198,8 +203,9 @@ namespace Game {
 
             GameObject healthAmtObj = new GameObject("HealthIdentifierAmtObj");
             healthObj.AddChild(healthAmtObj);
-            healthAmtObj.LocalPosition = new Point(23, 41);
+            healthAmtObj.LocalPosition = new Point(27, 45);
             FontRendererComponent healthAmtFnt = new FontRendererComponent(healthAmtObj, "Assets/font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
+            healthAmtFnt.CurrentAllignment = FontRendererComponent.Allignment.Center;
             healthAmtFnt.DrawString("0"); //insert variable here
 
             //attack identifier
@@ -217,8 +223,9 @@ namespace Game {
 
             GameObject attackAmtObj = new GameObject("HealthIdentifierAmtObj");
             attackObj.AddChild(attackAmtObj);
-            attackAmtObj.LocalPosition = new Point(23, 41);
+            attackAmtObj.LocalPosition = new Point(27, 45);
             FontRendererComponent attackAmtFnt = new FontRendererComponent(attackAmtObj, "Assets/font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
+            attackAmtFnt.CurrentAllignment = FontRendererComponent.Allignment.Center;
             attackAmtFnt.DrawString("0"); //insert variable here
         }
     }
