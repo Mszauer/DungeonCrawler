@@ -70,11 +70,15 @@ namespace Game {
 
             //HEROES
             //That Gai hero
-            GameObject thatGaiObj = new GameObject("ThatGai");
+            GameObject thatGaiObj = new GameObject("That Gai");
             Root.AddChild(thatGaiObj);
             thatGaiObj.LocalPosition = new Point(15, 235);
             thatGaiObj.Enabled = true;
             Heroes.Add(thatGaiObj);
+            HeroComponent gai = new HeroComponent(thatGaiObj);
+            gai.AddSkill("Pull Sumo", 4, "\"Pull Sumo Eat Butt!\"\nIncreases health by 2 per level");
+            gai.AddSkill("Glutes of Steel", 4, "Rumour has it his glutes are actually made of steel!\nIncreases attack by 1 per level");
+            gai.AddSkill("Almond Lover", 4,"Almond Milk is life\n increases health by 1 per level");
             AnimatedSpriteRendererComponent thatGai = new AnimatedSpriteRendererComponent(thatGaiObj);
             thatGai.AddAnimation("Idle", "Assets/Characters/Archer/Archer_Idle.png", thatGai.AddAnimation(4, 4, 128, 128));
             thatGai.PlayAnimation("Idle");
@@ -85,6 +89,10 @@ namespace Game {
             boveMasterObj.LocalPosition = new Point(5, 235);
             boveMasterObj.Enabled = false;
             Heroes.Add(boveMasterObj);
+            HeroComponent bove = new HeroComponent(boveMasterObj);
+            bove.AddSkill("Beard of Gods", 4, "A beard even Zues is jealous of\nBestows 2 health per level");
+            bove.AddSkill("Whittler", 4, "");
+            bove.AddSkill("Coach", 4, " ");
             AnimatedSpriteRendererComponent boveMaster = new AnimatedSpriteRendererComponent(boveMasterObj);
             boveMaster.AddAnimation("Idle", "Assets/Characters/Knight/Knight_Idle.png", boveMaster.AddAnimation(4, 4, 128, 128));
             boveMaster.PlayAnimation("Idle");
@@ -95,6 +103,10 @@ namespace Game {
             sassyCalvesObj.LocalPosition = new Point(15, 235);
             sassyCalvesObj.Enabled = false;
             Heroes.Add(sassyCalvesObj);
+            HeroComponent sassy = new HeroComponent(sassyCalvesObj);
+            sassy.AddSkill("Lion's Mane", 4, " ");
+            sassy.AddSkill("Sassy Calves", 4, " ");
+            sassy.AddSkill("Pet Rock", 4, "Some of the most feral beasts known to this realm \n Chance to deal 5 extra damage");
             AnimatedSpriteRendererComponent sassyCalves = new AnimatedSpriteRendererComponent(sassyCalvesObj);
             sassyCalves.AddAnimation("Idle", "Assets/Characters/Barbarian/Barbarian_Idle.png", sassyCalves.AddAnimation(4, 4, 128, 128));
             sassyCalves.PlayAnimation("Idle");
@@ -152,7 +164,8 @@ namespace Game {
             healthAmtObj.LocalPosition = new Point(27, 45);
             FontRendererComponent healthAmtFnt = new FontRendererComponent(healthAmtObj, "Assets/font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
             healthAmtFnt.CurrentAllignment = FontRendererComponent.Allignment.Center;
-            healthAmtFnt.DrawString("0"); //insert variable here
+            HeroComponent healthAmt = (HeroComponent)Heroes[CurrentHero].FindComponent("HeroComponent");
+            healthAmtFnt.DrawString(healthAmt.Health.ToString());
 
             //attack identifier
             GameObject attackObj = new GameObject("AttackObj");
@@ -197,7 +210,8 @@ namespace Game {
             attackAmtObj.LocalPosition = new Point(27, 45);
             FontRendererComponent attackAmtFnt = new FontRendererComponent(attackAmtObj, "Assets/font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
             attackAmtFnt.CurrentAllignment = FontRendererComponent.Allignment.Center;
-            attackAmtFnt.DrawString("0"); //insert variable here
+            HeroComponent attackAmt = (HeroComponent)Heroes[CurrentHero].FindComponent("HeroComponent");
+            attackAmtFnt.DrawString(attackAmt.Attack.ToString());
 
             //name plate
             GameObject namePlateObj = new GameObject("NamePlateObj");
@@ -223,29 +237,6 @@ namespace Game {
             namePlatePrevSprite.AddSprite("NamePlatePrevSpriteHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 769, 46, 46));
             namePlatePrevSprite.AddSprite("NamePlatePrevSpriteHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 811, 46, 46));
             namePlatePrevSprite.AddSprite("NamePlatePrevSpriteClick", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 858, 46, 46));
-            ButtonComponent namePlatePrev = new ButtonComponent(namePlatePrevObj);
-            namePlatePrev.DoClick += delegate {
-                if (namePlatePrevSprite.CurrentSprite != "NamePlatePrevSpriteClick") {
-                    namePlatePrevSprite.SetSprite("NamePlatePrevSpriteClick");
-                }
-                Heroes[CurrentHero].Enabled = false;
-                CurrentHero--;
-                if (CurrentHero < 0) {
-                    CurrentHero = Heroes.Count - 1;
-                }
-                Heroes[CurrentHero].Enabled = true;
-                heroNameFont.DrawString(Heroes[CurrentHero].Name); // CurrentHero.Name
-            };
-            namePlatePrev.DoHover += delegate {
-                if (namePlatePrevSprite.CurrentSprite != "NamePlatePrevSpriteHover2") {
-                    namePlatePrevSprite.SetSprite("NamePlatePrevSpriteHover2");
-                }
-            };
-            namePlatePrev.NoHover += delegate {
-                if (namePlatePrevSprite.CurrentSprite != "NamePlatePrevSpriteDefault") {
-                    namePlatePrevSprite.SetSprite("NamePlatePrevSpriteDefault");
-                }
-            };
 
             //name plate next button
             GameObject namePlateNextObj = new GameObject("NamePlateNextObj");
@@ -256,30 +247,6 @@ namespace Game {
             namePlateNextSprite.AddSprite("NamePlatenextSpriteHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 587, 46, 46));
             namePlateNextSprite.AddSprite("NamePlatenextSpriteHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 632, 46, 46));
             namePlateNextSprite.AddSprite("NamePlatenextSpriteClick", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 678, 46, 46));
-            ButtonComponent namePlateNext = new ButtonComponent(namePlateNextObj);
-            namePlateNext.DoClick += delegate {
-                if (namePlateNextSprite.CurrentSprite != "NamePlatenextSpriteClick") {
-                    namePlateNextSprite.SetSprite("NamePlatenextSpriteClick");
-                }
-                //do logic to swap her component and skills
-                Heroes[CurrentHero].Enabled = false;
-                CurrentHero++;
-                if (CurrentHero > Heroes.Count-1) {
-                    CurrentHero = 0;
-                }
-                Heroes[CurrentHero].Enabled = true;
-                heroNameFont.DrawString(Heroes[CurrentHero].Name); // CurrentHero.Name
-            };
-            namePlateNext.DoHover += delegate {
-                if (namePlateNextSprite.CurrentSprite != "NamePlatenextSpriteHover2") {
-                    namePlateNextSprite.SetSprite("NamePlatenextSpriteHover2");
-                }
-            };
-            namePlateNext.NoHover += delegate {
-                if (namePlateNextSprite.CurrentSprite != "NamePlateNextSpriteDefault") {
-                    namePlateNextSprite.SetSprite("NamePlateNextSpriteDefault");
-                }
-            };
 
             //skill 1
             GameObject skill1BgObj = new GameObject("Skill1BgObj");
@@ -293,7 +260,8 @@ namespace Game {
             skill1NameObj.LocalPosition = new Point(95, 5);
             FontRendererComponent skill1NameFnt = new FontRendererComponent(skill1NameObj, "Assets/Font/42Fontsheet.png", "Assets/Font/42Fontsheet.fnt");
             skill1NameFnt.CurrentAllignment = FontRendererComponent.Allignment.Center;
-            skill1NameFnt.DrawString("Skill 1"); //insert hero skill 1
+            HeroComponent heroSkills = (HeroComponent)Heroes[CurrentHero].FindComponent("HeroComponent");
+            skill1NameFnt.DrawString(heroSkills.SkillIndexer[1]); //insert hero skill 1
 
             GameObject skill1TooltipObj = new GameObject("Skill1TooltipObj");
             skill1BgObj.AddChild(skill1TooltipObj);
@@ -301,6 +269,11 @@ namespace Game {
             skill1TooltipObj.LocalPosition = new Point(-20, -50); //75,80 global
             StaticSpriteRendererComponent skill1TooltipSprite = new StaticSpriteRendererComponent(skill1TooltipObj);
             skill1TooltipSprite.AddSprite("Skill1TooltipSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(730, 3, 240, 117));
+            FontRendererComponent tooltip1 = new FontRendererComponent(skill1TooltipObj, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
+            tooltip1.CurrentAllignment = FontRendererComponent.Allignment.Center;
+            HeroComponent skillTooltips = (HeroComponent)Heroes[CurrentHero].FindComponent("HeroComponent");
+            tooltip1.DrawString(skillTooltips.ToolTips[skillTooltips.SkillIndexer[1]]);
+
 
             GameObject skill1LevelObj = new GameObject("Skill1LevelObj");
             skill1BgObj.AddChild(skill1LevelObj);
@@ -326,7 +299,7 @@ namespace Game {
             skill2NameObj.LocalPosition = new Point(95, 5);
             FontRendererComponent skill2NameFnt = new FontRendererComponent(skill2NameObj, "Assets/Font/42Fontsheet.png", "Assets/Font/42Fontsheet.fnt");
             skill2NameFnt.CurrentAllignment = FontRendererComponent.Allignment.Center;
-            skill2NameFnt.DrawString("Skill 2"); //insert hero skill 1
+            skill2NameFnt.DrawString(heroSkills.SkillIndexer[2]); //insert hero skill 2
 
             GameObject skill2TooltipObj = new GameObject("Skill2TooltipObj");
             skill2BgObj.AddChild(skill2TooltipObj);
@@ -334,6 +307,9 @@ namespace Game {
             skill2TooltipObj.LocalPosition = new Point(-20, -50); //80,172 global
             StaticSpriteRendererComponent skill2TooltipSprite = new StaticSpriteRendererComponent(skill2TooltipObj);
             skill2TooltipSprite.AddSprite("Skill2TooltipSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(730, 3, 240, 117));
+            FontRendererComponent tooltip2 = new FontRendererComponent(skill2TooltipObj, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
+            tooltip2.CurrentAllignment = FontRendererComponent.Allignment.Center;
+            tooltip2.DrawString(skillTooltips.ToolTips[skillTooltips.SkillIndexer[2]]);
 
             GameObject skill2LevelObj = new GameObject("Skill2LevelObj");
             skill2BgObj.AddChild(skill2LevelObj);
@@ -360,7 +336,7 @@ namespace Game {
             skill3NameObj.LocalPosition = new Point(95, 5);
             FontRendererComponent skill3NameFnt = new FontRendererComponent(skill3NameObj, "Assets/Font/42Fontsheet.png", "Assets/Font/42Fontsheet.fnt");
             skill3NameFnt.CurrentAllignment = FontRendererComponent.Allignment.Center;
-            skill3NameFnt.DrawString("Skill 3"); //insert hero skill 3
+            skill3NameFnt.DrawString(heroSkills.SkillIndexer[3]); //insert hero skill 3
 
             GameObject skill3TooltipObj = new GameObject("Skill3TooltipObj");
             skill3BgObj.AddChild(skill3TooltipObj);
@@ -368,6 +344,9 @@ namespace Game {
             skill3TooltipObj.LocalPosition = new Point(-20, -55); //75,265 global
             StaticSpriteRendererComponent skill3TooltipSprite = new StaticSpriteRendererComponent(skill3TooltipObj);
             skill3TooltipSprite.AddSprite("Skill3TooltipSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(730, 3, 240, 117));
+            FontRendererComponent tooltip3 = new FontRendererComponent(skill3TooltipObj, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
+            tooltip3.CurrentAllignment = FontRendererComponent.Allignment.Center;
+            tooltip3.DrawString(skillTooltips.ToolTips[skillTooltips.SkillIndexer[3]]);
 
             GameObject skill3LevelObj = new GameObject("Skill3LevelObj");
             skill3BgObj.AddChild(skill3LevelObj);
@@ -382,6 +361,78 @@ namespace Game {
                 skill3TooltipObj.Enabled = false;
             };
 
+            ButtonComponent namePlateNext = new ButtonComponent(namePlateNextObj);
+            namePlateNext.DoClick += delegate {
+                if (namePlateNextSprite.CurrentSprite != "NamePlatenextSpriteClick") {
+                    namePlateNextSprite.SetSprite("NamePlatenextSpriteClick");
+                }
+                //do logic to swap her component and skills
+                Heroes[CurrentHero].Enabled = false;
+                CurrentHero++;
+                if (CurrentHero > Heroes.Count - 1) {
+                    CurrentHero = 0;
+                }
+                Heroes[CurrentHero].Enabled = true;
+                heroNameFont.DrawString(Heroes[CurrentHero].Name); // CurrentHero.Name
+                heroSkills = (HeroComponent)Heroes[CurrentHero].FindComponent("HeroComponent");
+                skill1NameFnt.DrawString(heroSkills.SkillIndexer[1]);
+                skill2NameFnt.DrawString(heroSkills.SkillIndexer[2]);
+                skill3NameFnt.DrawString(heroSkills.SkillIndexer[3]);
+                healthAmt = (HeroComponent)Heroes[CurrentHero].FindComponent("HeroComponent");
+                healthAmtFnt.DrawString(healthAmt.Health.ToString());
+                attackAmt = (HeroComponent)Heroes[CurrentHero].FindComponent("HeroComponent");
+                attackAmtFnt.DrawString(attackAmt.Attack.ToString());
+                skillTooltips = (HeroComponent)Heroes[CurrentHero].FindComponent("HeroComponent");
+                tooltip1.DrawString(skillTooltips.ToolTips[skillTooltips.SkillIndexer[1]]);
+                tooltip2.DrawString(skillTooltips.ToolTips[skillTooltips.SkillIndexer[2]]);
+                tooltip3.DrawString(skillTooltips.ToolTips[skillTooltips.SkillIndexer[3]]);
+            };
+            namePlateNext.DoHover += delegate {
+                if (namePlateNextSprite.CurrentSprite != "NamePlatenextSpriteHover2") {
+                    namePlateNextSprite.SetSprite("NamePlatenextSpriteHover2");
+                }
+            };
+            namePlateNext.NoHover += delegate {
+                if (namePlateNextSprite.CurrentSprite != "NamePlateNextSpriteDefault") {
+                    namePlateNextSprite.SetSprite("NamePlateNextSpriteDefault");
+                }
+            };
+            ButtonComponent namePlatePrev = new ButtonComponent(namePlatePrevObj);
+            namePlatePrev.DoClick += delegate {
+                if (namePlatePrevSprite.CurrentSprite != "NamePlatePrevSpriteClick") {
+                    namePlatePrevSprite.SetSprite("NamePlatePrevSpriteClick");
+                }
+                Heroes[CurrentHero].Enabled = false;
+                CurrentHero--;
+                if (CurrentHero < 0) {
+                    CurrentHero = Heroes.Count - 1;
+                }
+                Heroes[CurrentHero].Enabled = true;
+                heroNameFont.DrawString(Heroes[CurrentHero].Name); // CurrentHero.Name
+                heroSkills = (HeroComponent)Heroes[CurrentHero].FindComponent("HeroComponent");
+                skill1NameFnt.DrawString(heroSkills.SkillIndexer[1]);
+                skill2NameFnt.DrawString(heroSkills.SkillIndexer[2]);
+                skill3NameFnt.DrawString(heroSkills.SkillIndexer[3]);
+                healthAmt = (HeroComponent)Heroes[CurrentHero].FindComponent("HeroComponent");
+                healthAmtFnt.DrawString(healthAmt.Health.ToString());
+                attackAmt = (HeroComponent)Heroes[CurrentHero].FindComponent("HeroComponent");
+                attackAmtFnt.DrawString(attackAmt.Attack.ToString());
+                skillTooltips = (HeroComponent)Heroes[CurrentHero].FindComponent("HeroComponent");
+                tooltip1.DrawString(skillTooltips.ToolTips[skillTooltips.SkillIndexer[1]]);
+                tooltip2.DrawString(skillTooltips.ToolTips[skillTooltips.SkillIndexer[2]]);
+                tooltip3.DrawString(skillTooltips.ToolTips[skillTooltips.SkillIndexer[3]]);
+
+            };
+            namePlatePrev.DoHover += delegate {
+                if (namePlatePrevSprite.CurrentSprite != "NamePlatePrevSpriteHover2") {
+                    namePlatePrevSprite.SetSprite("NamePlatePrevSpriteHover2");
+                }
+            };
+            namePlatePrev.NoHover += delegate {
+                if (namePlatePrevSprite.CurrentSprite != "NamePlatePrevSpriteDefault") {
+                    namePlatePrevSprite.SetSprite("NamePlatePrevSpriteDefault");
+                }
+            };
         }//end update
     }
 }

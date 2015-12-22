@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\ButtonComponent.cs" />
+    <Compile Include="Components\HeroComponent.cs" />
     <Compile Include="Scenes\AnimationTest.cs" />
     <Compile Include="Components\AnimatedSpriteRendererComponent.cs" />
     <Compile Include="Components\AudioSourceComponent.cs" />
