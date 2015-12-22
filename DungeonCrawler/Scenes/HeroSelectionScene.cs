@@ -9,7 +9,10 @@ using System.Drawing;
 
 namespace Game {
     class HeroSelectionScene : Scene{
+        public List<GameObject> Heroes = null;
+        public int CurrentHero = 0;
         public override void Initialize() {
+            Heroes = new List<GameObject>();
             //background
             GameObject background = new GameObject("Background");
             Root.AddChild(background);
@@ -34,7 +37,6 @@ namespace Game {
             currencyAmt.CurrentAllignment = FontRendererComponent.Allignment.Right;
             currencyAmt.DrawString("0");//insert currency variable here
 
-
             //Back button
             GameObject backButton = new GameObject("BackButton");
             Root.AddChild(backButton);
@@ -58,6 +60,54 @@ namespace Game {
                     backSprite.SetSprite("BackDefault");
                 }
             };
+
+            //tree stump
+            GameObject treeStumpObj = new GameObject("TreeStumpObj");
+            Root.AddChild(treeStumpObj);
+            treeStumpObj.LocalPosition = new Point(0, 335);
+            StaticSpriteRendererComponent treeStumpSprite = new StaticSpriteRendererComponent(treeStumpObj);
+            treeStumpSprite.AddSprite("TreeStumpSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(244, 904, 112, 85));
+
+            //HEROES
+            //That Gai hero
+            GameObject thatGaiObj = new GameObject("ThatGai");
+            Root.AddChild(thatGaiObj);
+            thatGaiObj.LocalPosition = new Point(15, 235);
+            thatGaiObj.Enabled = true;
+            Heroes.Add(thatGaiObj);
+            AnimatedSpriteRendererComponent thatGai = new AnimatedSpriteRendererComponent(thatGaiObj);
+            thatGai.AddAnimation("Idle", "Assets/Characters/Archer/Archer_Idle.png", thatGai.AddAnimation(4, 4, 128, 128));
+            thatGai.PlayAnimation("Idle");
+
+            //BoveMaster Hero
+            GameObject boveMasterObj = new GameObject("BoveMaster");
+            Root.AddChild(boveMasterObj);
+            boveMasterObj.LocalPosition = new Point(5, 235);
+            boveMasterObj.Enabled = false;
+            Heroes.Add(boveMasterObj);
+            AnimatedSpriteRendererComponent boveMaster = new AnimatedSpriteRendererComponent(boveMasterObj);
+            boveMaster.AddAnimation("Idle", "Assets/Characters/Knight/Knight_Idle.png", boveMaster.AddAnimation(4, 4, 128, 128));
+            boveMaster.PlayAnimation("Idle");
+
+            //sassy calves hero
+            GameObject sassyCalvesObj = new GameObject("Sassy Calves");
+            Root.AddChild(sassyCalvesObj);
+            sassyCalvesObj.LocalPosition = new Point(15, 235);
+            sassyCalvesObj.Enabled = false;
+            Heroes.Add(sassyCalvesObj);
+            AnimatedSpriteRendererComponent sassyCalves = new AnimatedSpriteRendererComponent(sassyCalvesObj);
+            sassyCalves.AddAnimation("Idle", "Assets/Characters/Barbarian/Barbarian_Idle.png", sassyCalves.AddAnimation(4, 4, 128, 128));
+            sassyCalves.PlayAnimation("Idle");
+            GameObject petRockObj = new GameObject("PetRockObj");
+            sassyCalvesObj.AddChild(petRockObj);
+            petRockObj.LocalPosition = new Point(0, 100);
+            StaticSpriteRendererComponent petRock = new StaticSpriteRendererComponent(petRockObj);
+            petRock.Anchor = StaticSpriteRendererComponent.AnchorPosition.BottomMiddle;
+            petRock.AddSprite("Pet Rock1", "Assets/ObjectSpriteSheet.png", new Rectangle(448, 945, 80, 80));
+            petRock.AddSprite("Pet Rock2", "Assets/ObjectSpriteSheet.png", new Rectangle(448, 859, 80, 80));
+            petRock.AddSprite("Pet Rock3", "Assets/ObjectSpriteSheet.png", new Rectangle(365, 859, 80, 80));
+            petRock.AddSprite("Pet Rock4", "Assets/ObjectSpriteSheet.png", new Rectangle(365, 945, 80, 80));
+            petRock.SetSprite("Pet Rock1");
 
             //health identifier
             GameObject healthObj = new GameObject("HealthObj");
@@ -162,7 +212,7 @@ namespace Game {
             heroNameObj.LocalPosition = new Point(143, 5);
             FontRendererComponent heroNameFont = new FontRendererComponent(heroNameObj, "Assets/Font/42Fontsheet.png", "Assets/Font/42Fontsheet.fnt");
             heroNameFont.CurrentAllignment = FontRendererComponent.Allignment.Center;
-            heroNameFont.DrawString("Hero Name"); // insert CurrentHero.Name here
+            heroNameFont.DrawString(Heroes[CurrentHero].Name); // CurrentHero.Name
 
             //name plate prev button
             GameObject namePlatePrevObj = new GameObject("NamePlatePrevObj");
@@ -178,6 +228,12 @@ namespace Game {
                 if (namePlatePrevSprite.CurrentSprite != "NamePlatePrevSpriteClick") {
                     namePlatePrevSprite.SetSprite("NamePlatePrevSpriteClick");
                 }
+                Heroes[CurrentHero].Enabled = false;
+                CurrentHero--;
+                if (CurrentHero < 0) {
+                    CurrentHero = Heroes.Count - 1;
+                }
+                Heroes[CurrentHero].Enabled = true;
                 //do logic to swap her component and skills
             };
             namePlatePrev.DoHover += delegate {
@@ -206,6 +262,12 @@ namespace Game {
                     namePlateNextSprite.SetSprite("NamePlatenextSpriteClick");
                 }
                 //do logic to swap her component and skills
+                Heroes[CurrentHero].Enabled = false;
+                CurrentHero++;
+                if (CurrentHero > Heroes.Count-1) {
+                    CurrentHero = 0;
+                }
+                Heroes[CurrentHero].Enabled = true;
             };
             namePlateNext.DoHover += delegate {
                 if (namePlateNextSprite.CurrentSprite != "NamePlatenextSpriteHover2") {
@@ -217,13 +279,6 @@ namespace Game {
                     namePlateNextSprite.SetSprite("NamePlateNextSpriteDefault");
                 }
             };
-
-            //tree stump
-            GameObject treeStumpObj = new GameObject("TreeStumpObj");
-            Root.AddChild(treeStumpObj);
-            treeStumpObj.LocalPosition = new Point(0,335);
-            StaticSpriteRendererComponent treeStumpSprite = new StaticSpriteRendererComponent(treeStumpObj);
-            treeStumpSprite.AddSprite("TreeStumpSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(244, 904, 112, 85));
 
             //skill 1
             GameObject skill1BgObj = new GameObject("Skill1BgObj");
@@ -326,43 +381,6 @@ namespace Game {
                 skill3TooltipObj.Enabled = false;
             };
 
-            //That Gai hero
-            GameObject thatGaiObj = new GameObject("ThatGaiObj");
-            Root.AddChild(thatGaiObj);
-            thatGaiObj.LocalPosition = new Point(15,235);
-            thatGaiObj.Enabled = false; ;
-            AnimatedSpriteRendererComponent thatGai = new AnimatedSpriteRendererComponent(thatGaiObj);
-            thatGai.AddAnimation("Idle", "Assets/Characters/Archer/Archer_Idle.png", thatGai.AddAnimation(4,4,128,128));
-            thatGai.PlayAnimation("Idle");
-
-            //BoveMaster Hero
-            GameObject boveMasterObj = new GameObject("BoveMasterObj");
-            Root.AddChild(boveMasterObj);
-            boveMasterObj.LocalPosition = new Point(5, 235);
-            boveMasterObj.Enabled = false;
-            AnimatedSpriteRendererComponent boveMaster = new AnimatedSpriteRendererComponent(boveMasterObj);
-            boveMaster.AddAnimation("Idle", "Assets/Characters/Knight/Knight_Idle.png", boveMaster.AddAnimation(4, 4, 128, 128));
-            boveMaster.PlayAnimation("Idle");
-
-            //sassy calves hero
-            GameObject sassyCalvesObj = new GameObject("SassyCalvesObj");
-            Root.AddChild(sassyCalvesObj);
-            sassyCalvesObj.LocalPosition = new Point(15, 235);
-            sassyCalvesObj.Enabled = true;
-            AnimatedSpriteRendererComponent sassyCalves = new AnimatedSpriteRendererComponent(sassyCalvesObj);
-            sassyCalves.AddAnimation("Idle", "Assets/Characters/Barbarian/Barbarian_Idle.png", sassyCalves.AddAnimation(4, 4, 128, 128));
-            sassyCalves.PlayAnimation("Idle");
-            GameObject petRockObj = new GameObject("PetRockObj");
-            sassyCalvesObj.AddChild(petRockObj);
-            petRockObj.LocalPosition = new Point(0, 100);
-            StaticSpriteRendererComponent petRock = new StaticSpriteRendererComponent(petRockObj);
-            petRock.Anchor = StaticSpriteRendererComponent.AnchorPosition.BottomMiddle;
-            petRock.AddSprite("Pet Rock1", "Assets/ObjectSpriteSheet.png", new Rectangle(448, 945, 80, 80));
-            petRock.AddSprite("Pet Rock2", "Assets/ObjectSpriteSheet.png", new Rectangle(448, 859, 80, 80));
-            petRock.AddSprite("Pet Rock3", "Assets/ObjectSpriteSheet.png", new Rectangle(365, 859, 80, 80));
-            petRock.AddSprite("Pet Rock4", "Assets/ObjectSpriteSheet.png", new Rectangle(365, 945, 80, 80));
-            petRock.SetSprite("Pet Rock1");
-
-        }
+        }//end update
     }
 }
