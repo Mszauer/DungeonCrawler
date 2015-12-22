@@ -15,7 +15,7 @@ namespace Game {
             TextureManager.Instance.Initialize(Window);
             InputManager.Instance.Initialize(Window);
             SoundManager.Instance.Initialize(Window);
-            SceneManager.Instance.PushScene(new HomeScene());
+            SceneManager.Instance.PushScene(new HeroSelectionScene());
         }
         public static void Update(object sender, FrameEventArgs e) {
             float dTime = (float)e.Time;

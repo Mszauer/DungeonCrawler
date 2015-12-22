@@ -9,6 +9,8 @@ using System.Drawing;
 
 namespace Components {
     class StaticSpriteRendererComponent : Component{
+        public enum AnchorPosition { TopLeft, Center, BottomMiddle }
+        public AnchorPosition Anchor = AnchorPosition.TopLeft;
         public Dictionary<string, int> SpriteBank = null;
         public Dictionary<string,Rectangle> SourceRects = null;
         protected string currentSprite = null;
@@ -35,7 +37,15 @@ namespace Components {
                 Console.WriteLine("StaticSpriteRenderer CurrentSprite is null");
 #endif
             }
-            TextureManager.Instance.Draw(SpriteBank[CurrentSprite],gameObject.GlobalPosition,1.0f, SourceRects[CurrentSprite]);
+            Point renderPos = new Point(gameObject.GlobalPosition.X, gameObject.GlobalPosition.Y);
+            if (Anchor == AnchorPosition.Center) {
+                renderPos.X /= 2;
+                renderPos.Y /= 2;
+            }
+            else if (Anchor == AnchorPosition.BottomMiddle) {
+                renderPos.X /= 2;
+            }
+            TextureManager.Instance.Draw(SpriteBank[CurrentSprite],renderPos,1.0f, SourceRects[CurrentSprite]);
         }
         public void AddSprite(string name, string spriteSheet, Rectangle source) {
             if (SpriteBank.ContainsKey(name) || SourceRects.ContainsKey(name)) {
