@@ -234,7 +234,7 @@ namespace Game {
                     CurrentHero = Heroes.Count - 1;
                 }
                 Heroes[CurrentHero].Enabled = true;
-                //do logic to swap her component and skills
+                heroNameFont.DrawString(Heroes[CurrentHero].Name); // CurrentHero.Name
             };
             namePlatePrev.DoHover += delegate {
                 if (namePlatePrevSprite.CurrentSprite != "NamePlatePrevSpriteHover2") {
@@ -268,6 +268,7 @@ namespace Game {
                     CurrentHero = 0;
                 }
                 Heroes[CurrentHero].Enabled = true;
+                heroNameFont.DrawString(Heroes[CurrentHero].Name); // CurrentHero.Name
             };
             namePlateNext.DoHover += delegate {
                 if (namePlateNextSprite.CurrentSprite != "NamePlatenextSpriteHover2") {
