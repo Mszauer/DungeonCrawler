@@ -173,16 +173,50 @@ namespace Game {
             namePlatePrevSprite.AddSprite("NamePlatePrevSpriteHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 769, 46, 46));
             namePlatePrevSprite.AddSprite("NamePlatePrevSpriteHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 811, 46, 46));
             namePlatePrevSprite.AddSprite("NamePlatePrevSpriteClick", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 858, 46, 46));
+            ButtonComponent namePlatePrev = new ButtonComponent(namePlatePrevObj);
+            namePlatePrev.DoClick += delegate {
+                if (namePlatePrevSprite.CurrentSprite != "NamePlatePrevSpriteClick") {
+                    namePlatePrevSprite.SetSprite("NamePlatePrevSpriteClick");
+                }
+                //do logic to swap her component and skills
+            };
+            namePlatePrev.DoHover += delegate {
+                if (namePlatePrevSprite.CurrentSprite != "NamePlatePrevSpriteHover2") {
+                    namePlatePrevSprite.SetSprite("NamePlatePrevSpriteHover2");
+                }
+            };
+            namePlatePrev.NoHover += delegate {
+                if (namePlatePrevSprite.CurrentSprite != "NamePlatePrevSpriteDefault") {
+                    namePlatePrevSprite.SetSprite("NamePlatePrevSpriteDefault");
+                }
+            };
 
             //name plate next button
             GameObject namePlateNextObj = new GameObject("NamePlateNextObj");
             namePlateObj.AddChild(namePlateNextObj);
             namePlateNextObj.LocalPosition = new Point(237, 5);
             StaticSpriteRendererComponent namePlateNextSprite = new StaticSpriteRendererComponent(namePlateNextObj);
-            namePlateNextSprite.AddSprite("NamePlatenextSpriteDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 543, 46, 46));
+            namePlateNextSprite.AddSprite("NamePlateNextSpriteDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 543, 46, 46));
             namePlateNextSprite.AddSprite("NamePlatenextSpriteHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 587, 46, 46));
             namePlateNextSprite.AddSprite("NamePlatenextSpriteHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 632, 46, 46));
             namePlateNextSprite.AddSprite("NamePlatenextSpriteClick", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 678, 46, 46));
+            ButtonComponent namePlateNext = new ButtonComponent(namePlateNextObj);
+            namePlateNext.DoClick += delegate {
+                if (namePlateNextSprite.CurrentSprite != "NamePlatenextSpriteClick") {
+                    namePlateNextSprite.SetSprite("NamePlatenextSpriteClick");
+                }
+                //do logic to swap her component and skills
+            };
+            namePlateNext.DoHover += delegate {
+                if (namePlateNextSprite.CurrentSprite != "NamePlatenextSpriteHover2") {
+                    namePlateNextSprite.SetSprite("NamePlatenextSpriteHover2");
+                }
+            };
+            namePlateNext.NoHover += delegate {
+                if (namePlateNextSprite.CurrentSprite != "NamePlateNextSpriteDefault") {
+                    namePlateNextSprite.SetSprite("NamePlateNextSpriteDefault");
+                }
+            };
 
             //tree stump
             GameObject treeStumpObj = new GameObject("TreeStumpObj");
@@ -198,11 +232,12 @@ namespace Game {
             StaticSpriteRendererComponent skill1BgSprite = new StaticSpriteRendererComponent(skill1BgObj);
             skill1BgSprite.AddSprite("Skill1BgSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(528, 105, 189, 61));
 
-            GameObject skill1LevelObj = new GameObject("Skill1LevelObj");
-            skill1BgObj.AddChild(skill1LevelObj);
-            skill1LevelObj.LocalPosition = new Point(158, 45);
-            StaticSpriteRendererComponent skill1LeveSprite = new StaticSpriteRendererComponent(skill1LevelObj);
-            skill1LeveSprite.AddSprite("Skill1LevelSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(99, 804, 46, 46));
+            GameObject skill1NameObj = new GameObject("Skill1NameObj");
+            skill1BgObj.AddChild(skill1NameObj);
+            skill1NameObj.LocalPosition = new Point(95, 5);
+            FontRendererComponent skill1NameFnt = new FontRendererComponent(skill1NameObj, "Assets/Font/42Fontsheet.png", "Assets/Font/42Fontsheet.fnt");
+            skill1NameFnt.CurrentAllignment = FontRendererComponent.Allignment.Center;
+            skill1NameFnt.DrawString("Skill 1"); //insert hero skill 1
 
             GameObject skill1TooltipObj = new GameObject("Skill1TooltipObj");
             skill1BgObj.AddChild(skill1TooltipObj);
@@ -211,13 +246,18 @@ namespace Game {
             StaticSpriteRendererComponent skill1TooltipSprite = new StaticSpriteRendererComponent(skill1TooltipObj);
             skill1TooltipSprite.AddSprite("Skill1TooltipSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(730, 3, 240, 117));
 
-            GameObject skill1NameObj = new GameObject("Skill1NameObj");
-            skill1BgObj.AddChild(skill1NameObj);
-            skill1NameObj.LocalPosition = new Point(95, 5);
-            FontRendererComponent skill1NameFnt = new FontRendererComponent(skill1NameObj, "Assets/Font/42Fontsheet.png", "Assets/Font/42Fontsheet.fnt");
-            skill1NameFnt.CurrentAllignment = FontRendererComponent.Allignment.Center;
-            skill1NameFnt.DrawString("Skill 1"); //insert hero skill 1
-
+            GameObject skill1LevelObj = new GameObject("Skill1LevelObj");
+            skill1BgObj.AddChild(skill1LevelObj);
+            skill1LevelObj.LocalPosition = new Point(158, 45);
+            StaticSpriteRendererComponent skill1LeveSprite = new StaticSpriteRendererComponent(skill1LevelObj);
+            skill1LeveSprite.AddSprite("Skill1LevelSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(99, 804, 46, 46));
+            ButtonComponent skill1 = new ButtonComponent(skill1LevelObj);
+            skill1.DoHover += delegate {
+                skill1TooltipObj.Enabled = true;
+            };
+            skill1.NoHover += delegate {
+                skill1TooltipObj.Enabled = false;
+            };
             //skill 2
             GameObject skill2BgObj = new GameObject("Skill2BgObj");
             Root.AddChild(skill2BgObj);
@@ -225,11 +265,12 @@ namespace Game {
             StaticSpriteRendererComponent skill2BgSprite = new StaticSpriteRendererComponent(skill2BgObj);
             skill2BgSprite.AddSprite("Skill2BgSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(528, 105, 189, 61));
 
-            GameObject skill2LevelObj = new GameObject("Skill2LevelObj");
-            skill2BgObj.AddChild(skill2LevelObj);
-            skill2LevelObj.LocalPosition = new Point(158, 45);
-            StaticSpriteRendererComponent skill2LeveSprite = new StaticSpriteRendererComponent(skill2LevelObj);
-            skill2LeveSprite.AddSprite("Skill2LevelSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(99, 804, 46, 46));
+            GameObject skill2NameObj = new GameObject("Skill2NameObj");
+            skill2BgObj.AddChild(skill2NameObj);
+            skill2NameObj.LocalPosition = new Point(95, 5);
+            FontRendererComponent skill2NameFnt = new FontRendererComponent(skill2NameObj, "Assets/Font/42Fontsheet.png", "Assets/Font/42Fontsheet.fnt");
+            skill2NameFnt.CurrentAllignment = FontRendererComponent.Allignment.Center;
+            skill2NameFnt.DrawString("Skill 2"); //insert hero skill 1
 
             GameObject skill2TooltipObj = new GameObject("Skill2TooltipObj");
             skill2BgObj.AddChild(skill2TooltipObj);
@@ -238,12 +279,19 @@ namespace Game {
             StaticSpriteRendererComponent skill2TooltipSprite = new StaticSpriteRendererComponent(skill2TooltipObj);
             skill2TooltipSprite.AddSprite("Skill2TooltipSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(730, 3, 240, 117));
 
-            GameObject skill2NameObj = new GameObject("Skill2NameObj");
-            skill2BgObj.AddChild(skill2NameObj);
-            skill2NameObj.LocalPosition = new Point(95, 5);
-            FontRendererComponent skill2NameFnt = new FontRendererComponent(skill2NameObj, "Assets/Font/42Fontsheet.png", "Assets/Font/42Fontsheet.fnt");
-            skill2NameFnt.CurrentAllignment = FontRendererComponent.Allignment.Center;
-            skill2NameFnt.DrawString("Skill 2"); //insert hero skill 1
+            GameObject skill2LevelObj = new GameObject("Skill2LevelObj");
+            skill2BgObj.AddChild(skill2LevelObj);
+            skill2LevelObj.LocalPosition = new Point(158, 45);
+            StaticSpriteRendererComponent skill2LeveSprite = new StaticSpriteRendererComponent(skill2LevelObj);
+            skill2LeveSprite.AddSprite("Skill2LevelSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(99, 804, 46, 46));
+            ButtonComponent skill2 = new ButtonComponent(skill2LevelObj);
+            skill2.DoHover += delegate {
+                skill2TooltipObj.Enabled = true;
+            };
+            skill2.NoHover += delegate {
+                skill2TooltipObj.Enabled = false;
+            };
+
             //skill 3
             GameObject skill3BgObj = new GameObject("Skill3BgObj");
             Root.AddChild(skill3BgObj);
@@ -251,11 +299,12 @@ namespace Game {
             StaticSpriteRendererComponent skill3BgSprite = new StaticSpriteRendererComponent(skill3BgObj);
             skill3BgSprite.AddSprite("Skill3BgSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(528, 105, 189, 61));
 
-            GameObject skill3LevelObj = new GameObject("Skill3LevelObj");
-            skill3BgObj.AddChild(skill3LevelObj);
-            skill3LevelObj.LocalPosition = new Point(158, 45);
-            StaticSpriteRendererComponent skill3LeveSprite = new StaticSpriteRendererComponent(skill3LevelObj);
-            skill3LeveSprite.AddSprite("Skill3LevelSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(99, 804, 46, 46));
+            GameObject skill3NameObj = new GameObject("Skill3NameObj");
+            skill3BgObj.AddChild(skill3NameObj);
+            skill3NameObj.LocalPosition = new Point(95, 5);
+            FontRendererComponent skill3NameFnt = new FontRendererComponent(skill3NameObj, "Assets/Font/42Fontsheet.png", "Assets/Font/42Fontsheet.fnt");
+            skill3NameFnt.CurrentAllignment = FontRendererComponent.Allignment.Center;
+            skill3NameFnt.DrawString("Skill 3"); //insert hero skill 3
 
             GameObject skill3TooltipObj = new GameObject("Skill3TooltipObj");
             skill3BgObj.AddChild(skill3TooltipObj);
@@ -264,13 +313,19 @@ namespace Game {
             StaticSpriteRendererComponent skill3TooltipSprite = new StaticSpriteRendererComponent(skill3TooltipObj);
             skill3TooltipSprite.AddSprite("Skill3TooltipSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(730, 3, 240, 117));
 
-            GameObject skill3NameObj = new GameObject("Skill3NameObj");
-            skill3BgObj.AddChild(skill3NameObj);
-            skill3NameObj.LocalPosition = new Point(95, 5);
-            FontRendererComponent skill3NameFnt = new FontRendererComponent(skill3NameObj, "Assets/Font/42Fontsheet.png", "Assets/Font/42Fontsheet.fnt");
-            skill3NameFnt.CurrentAllignment = FontRendererComponent.Allignment.Center;
-            skill3NameFnt.DrawString("Skill 3"); //insert hero skill 3
-            
+            GameObject skill3LevelObj = new GameObject("Skill3LevelObj");
+            skill3BgObj.AddChild(skill3LevelObj);
+            skill3LevelObj.LocalPosition = new Point(158, 45);
+            StaticSpriteRendererComponent skill3LeveSprite = new StaticSpriteRendererComponent(skill3LevelObj);
+            skill3LeveSprite.AddSprite("Skill3LevelSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(99, 804, 46, 46));
+            ButtonComponent skill3 = new ButtonComponent(skill3LevelObj);
+            skill3.DoHover += delegate {
+                skill3TooltipObj.Enabled = true;
+            };
+            skill3.NoHover += delegate {
+                skill3TooltipObj.Enabled = false;
+            };
+
             //hero
             GameObject heroAnimObj = new GameObject("heroAnimObj");
             Root.AddChild(heroAnimObj);
