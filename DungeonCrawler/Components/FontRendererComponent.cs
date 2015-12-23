@@ -14,29 +14,27 @@ namespace Components {
         public Allignment CurrentAllignment = Allignment.Left;
         Dictionary<char, Rectangle> GlyphBank = null;
         Dictionary<char, Point> GlyphOffset = null;
-        Dictionary<char, int> GlyphSpacing = null;
+        Dictionary<char, int> GlyphKerning = null;
         protected int sprite = 0;
-        public int Width {
-            get {
-                List<int> width = new List<int>();
-                width.Add(0);
-                foreach (char c in currentWord) {
-                    if (c == '\n') {
-                        width.Add(0);
-                        continue;
-                    }
-                    if (c == '\t') {
-                        width[width.Count-1] += GlyphBank['A'].Width * 4;
-                        continue;
-                    }
-                    width[width.Count-1] += GlyphSpacing[c];
+        public int Width(int index) {
+            List<int> width = new List<int>();
+            width.Add(0);
+            foreach (char c in currentWord) {
+                if (c == '\n') {
+                    width.Add(0);
+                    continue;
                 }
-                int max = 0;
-                for (int i = 0; i < width.Count; i++) {
-                    max = Math.Max(max, width[i]);
+                if (c == '\t') {
+                    width[width.Count-1] += GlyphBank['A'].Width * 4;
+                    continue;
                 }
-                return max;
+                width[width.Count-1] += GlyphKerning[c];
             }
+            int max = 0;
+            for (int i = 0; i < width.Count; i++) {
+                max = Math.Max(max, width[i]);
+            }
+            return width[index];
         }
         protected string currentWord = null;
         
@@ -44,7 +42,7 @@ namespace Components {
             sprite = TextureManager.Instance.LoadTexture(spritePath);
             GlyphBank = new Dictionary<char, Rectangle>();
             GlyphOffset = new Dictionary<char, Point>();
-            GlyphSpacing = new Dictionary<char, int>();
+            GlyphKerning = new Dictionary<char, int>();
             currentWord = "";
             if (System.IO.File.Exists(fntPath)) {
                 using (TextReader reader = File.OpenText(fntPath)) {
@@ -67,7 +65,7 @@ namespace Components {
                             GlyphBank.Add(content[0][0], sourceRect);
                             Point sourceOffset = new Point(System.Convert.ToInt32(content[5]), System.Convert.ToInt32(content[6]));
                             GlyphOffset.Add(content[0][0], sourceOffset);
-                            GlyphSpacing.Add(content[0][0], System.Convert.ToInt32(content[7]));
+                            GlyphKerning.Add(content[0][0], System.Convert.ToInt32(content[7]));
 #if FONTDEBUG
                             lineNum++;
 #endif
@@ -79,7 +77,7 @@ namespace Components {
                             GlyphBank.Add(' ', sourceRect);
                             Point sourceOffset = new Point(System.Convert.ToInt32(content[6]), System.Convert.ToInt32(content[7]));
                             GlyphOffset.Add(' ', sourceOffset);
-                            GlyphSpacing.Add(' ', System.Convert.ToInt32(content[8]));
+                            GlyphKerning.Add(' ', System.Convert.ToInt32(content[8]));
 #if FONTDEBUG
                             lineNum++;
 #endif
@@ -119,17 +117,27 @@ namespace Components {
         }
 
         public override void OnRender() {
+            int lineCounter = 0;
             Point karrat = gameObject.GlobalPosition;
             if (CurrentAllignment == Allignment.Right) {
-                karrat.X -= Width;
+                karrat.X -= Width(lineCounter);
             }
             else if (CurrentAllignment == Allignment.Center) {
-                karrat.X -= Width / 2;
+                karrat.X -= Width(lineCounter)/2;
             }
             for (int i = 0; i < currentWord.Length; i++) {
                 if (currentWord[i] == '\n') {
+                    lineCounter++;
                     karrat.Y += GlyphBank['A'].Height;
-                    karrat.X = gameObject.GlobalPosition.X;
+                    if (CurrentAllignment == Allignment.Left) {
+                        karrat.X = gameObject.GlobalPosition.X;
+                    }
+                    else if (CurrentAllignment == Allignment.Right) {
+                        karrat.X = gameObject.GlobalPosition.X - Width(lineCounter);
+                    }
+                    else if (CurrentAllignment == Allignment.Center) {
+                        karrat.X = gameObject.GlobalPosition.X - (Width(lineCounter) /2);
+                    }
                     continue;
                 }
                 else if(currentWord[i] == '\t') {
@@ -138,7 +146,7 @@ namespace Components {
                 }
                 Rectangle source = GlyphBank[currentWord[i]];
                 TextureManager.Instance.Draw(sprite, new Point(karrat.X + GlyphOffset[currentWord[i]].X, karrat.Y + GlyphOffset[currentWord[i]].Y), 1.0f, source);
-                karrat.X += GlyphSpacing[currentWord[i]];
+                karrat.X += GlyphKerning[currentWord[i]];
             }
             
         }

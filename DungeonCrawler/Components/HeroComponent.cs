@@ -25,7 +25,18 @@ namespace Components {
             ToolTips.Add(name, tooltip);
             SkillIndexer.Add(Skills.Count, name);
         }
-        public bool MaxLevel(string skill) {
+        public void LevelSkill(string name) {
+            if (!Skills.ContainsKey(name)) {
+                return;
+            }
+            List<string> skills = new List<string>(Skills.Keys);
+            foreach (string skill in skills) {
+                if (name == skill) {
+                    Skills[skill]++;
+                }
+            }
+        }
+        protected bool MaxLevel(string skill) {
             if (!Skills.ContainsKey(skill)) {
 #if HERODEBUG
                 Console.WriteLine(Name + " does not contain " + skill + " skill");

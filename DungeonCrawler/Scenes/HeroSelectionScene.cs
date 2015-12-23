@@ -76,9 +76,9 @@ namespace Game {
             thatGaiObj.Enabled = true;
             Heroes.Add(thatGaiObj);
             HeroComponent gai = new HeroComponent(thatGaiObj);
-            gai.AddSkill("Pull Sumo", 4, "\"Pull Sumo Eat Butt!\"\nIncreases health by 2 per level");
-            gai.AddSkill("Glutes of Steel", 4, "Rumour has it his glutes are actually made of steel!\nIncreases attack by 1 per level");
-            gai.AddSkill("Almond Lover", 4,"Almond Milk is life\n increases health by 1 per level");
+            gai.AddSkill("Pull Sumo", 4, "\"Pull Sumo Eat Butt!\"\nIncreases health by 2/level");
+            gai.AddSkill("Glutes of Steel", 4, "Rumour has it his glutes\n are actually made of steel!\nIncreases attack by 1/level");
+            gai.AddSkill("Almond Lover", 4,"Almond Milk is life\n increases health by 1/level");
             AnimatedSpriteRendererComponent thatGai = new AnimatedSpriteRendererComponent(thatGaiObj);
             thatGai.AddAnimation("Idle", "Assets/Characters/Archer/Archer_Idle.png", thatGai.AddAnimation(4, 4, 128, 128));
             thatGai.PlayAnimation("Idle");
@@ -90,9 +90,9 @@ namespace Game {
             boveMasterObj.Enabled = false;
             Heroes.Add(boveMasterObj);
             HeroComponent bove = new HeroComponent(boveMasterObj);
-            bove.AddSkill("Beard of Gods", 4, "A beard even Zues is jealous of\nBestows 2 health per level");
-            bove.AddSkill("Whittler", 4, "");
-            bove.AddSkill("Coach", 4, " ");
+            bove.AddSkill("Beard of Gods", 4, "A beard Odin is jealous of\nIncreases 2 health/level");
+            bove.AddSkill("Whittler", 4, "Such dexterity, wow\nMuch whittling\n Increases attack 1/level");
+            bove.AddSkill("Coach", 4, "Perfect execution of hits\nIncreases attack 1/level");
             AnimatedSpriteRendererComponent boveMaster = new AnimatedSpriteRendererComponent(boveMasterObj);
             boveMaster.AddAnimation("Idle", "Assets/Characters/Knight/Knight_Idle.png", boveMaster.AddAnimation(4, 4, 128, 128));
             boveMaster.PlayAnimation("Idle");
@@ -104,9 +104,9 @@ namespace Game {
             sassyCalvesObj.Enabled = false;
             Heroes.Add(sassyCalvesObj);
             HeroComponent sassy = new HeroComponent(sassyCalvesObj);
-            sassy.AddSkill("Lion's Mane", 4, " ");
-            sassy.AddSkill("Sassy Calves", 4, " ");
-            sassy.AddSkill("Pet Rock", 4, "Some of the most feral beasts known to this realm \n Chance to deal 5 extra damage");
+            sassy.AddSkill("Lion's Mane", 4, "An Impenetrable mane\nIncreases health 1/level");
+            sassy.AddSkill("Pet Rock", 4, "A ferocious beast\nChance to deal 5 extra damage\nChance Increases/level");
+            sassy.AddSkill("Team Calves", 4, "Calves like this are\nbestowed upon few\nIncreases damage 1/level");
             AnimatedSpriteRendererComponent sassyCalves = new AnimatedSpriteRendererComponent(sassyCalvesObj);
             sassyCalves.AddAnimation("Idle", "Assets/Characters/Barbarian/Barbarian_Idle.png", sassyCalves.AddAnimation(4, 4, 128, 128));
             sassyCalves.PlayAnimation("Idle");
@@ -248,6 +248,8 @@ namespace Game {
             namePlateNextSprite.AddSprite("NamePlatenextSpriteHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 632, 46, 46));
             namePlateNextSprite.AddSprite("NamePlatenextSpriteClick", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 678, 46, 46));
 
+            HeroComponent skillTooltips = (HeroComponent)Heroes[CurrentHero].FindComponent("HeroComponent");
+
             //skill 1
             GameObject skill1BgObj = new GameObject("Skill1BgObj");
             Root.AddChild(skill1BgObj);
@@ -269,17 +271,27 @@ namespace Game {
             skill1TooltipObj.LocalPosition = new Point(-20, -50); //75,80 global
             StaticSpriteRendererComponent skill1TooltipSprite = new StaticSpriteRendererComponent(skill1TooltipObj);
             skill1TooltipSprite.AddSprite("Skill1TooltipSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(730, 3, 240, 117));
-            FontRendererComponent tooltip1 = new FontRendererComponent(skill1TooltipObj, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
-            tooltip1.CurrentAllignment = FontRendererComponent.Allignment.Center;
-            HeroComponent skillTooltips = (HeroComponent)Heroes[CurrentHero].FindComponent("HeroComponent");
-            tooltip1.DrawString(skillTooltips.ToolTips[skillTooltips.SkillIndexer[1]]);
 
+            GameObject skill1TooltipText = new GameObject("Skill1TooltipText");
+            skill1TooltipObj.AddChild(skill1TooltipText);
+            skill1TooltipText.LocalPosition = new Point(120, 13);
+            FontRendererComponent tooltip1 = new FontRendererComponent(skill1TooltipText, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
+            tooltip1.CurrentAllignment = FontRendererComponent.Allignment.Center;
+            tooltip1.DrawString(skillTooltips.ToolTips[skillTooltips.SkillIndexer[1]]);
 
             GameObject skill1LevelObj = new GameObject("Skill1LevelObj");
             skill1BgObj.AddChild(skill1LevelObj);
             skill1LevelObj.LocalPosition = new Point(158, 45);
             StaticSpriteRendererComponent skill1LeveSprite = new StaticSpriteRendererComponent(skill1LevelObj);
             skill1LeveSprite.AddSprite("Skill1LevelSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(99, 804, 46, 46));
+
+            GameObject skill1LevelText = new GameObject("Skill1LevelText");
+            skill1LevelObj.AddChild(skill1LevelText);
+            skill1LevelText.LocalPosition = new Point(23, 10);
+            FontRendererComponent skill1LvlTxt = new FontRendererComponent(skill1LevelText, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
+            skill1LvlTxt.DrawString(heroSkills.Skills[heroSkills.SkillIndexer[1]].ToString());
+            skill1LvlTxt.CurrentAllignment = FontRendererComponent.Allignment.Center;
+
             ButtonComponent skill1 = new ButtonComponent(skill1LevelObj);
             skill1.DoHover += delegate {
                 skill1TooltipObj.Enabled = true;
@@ -307,7 +319,11 @@ namespace Game {
             skill2TooltipObj.LocalPosition = new Point(-20, -50); //80,172 global
             StaticSpriteRendererComponent skill2TooltipSprite = new StaticSpriteRendererComponent(skill2TooltipObj);
             skill2TooltipSprite.AddSprite("Skill2TooltipSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(730, 3, 240, 117));
-            FontRendererComponent tooltip2 = new FontRendererComponent(skill2TooltipObj, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
+
+            GameObject skill2TooltipText = new GameObject("Skill2TooltipText");
+            skill2TooltipObj.AddChild(skill2TooltipText);
+            skill2TooltipText.LocalPosition = new Point(120, 5);
+            FontRendererComponent tooltip2 = new FontRendererComponent(skill2TooltipText, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
             tooltip2.CurrentAllignment = FontRendererComponent.Allignment.Center;
             tooltip2.DrawString(skillTooltips.ToolTips[skillTooltips.SkillIndexer[2]]);
 
@@ -316,6 +332,14 @@ namespace Game {
             skill2LevelObj.LocalPosition = new Point(158, 45);
             StaticSpriteRendererComponent skill2LeveSprite = new StaticSpriteRendererComponent(skill2LevelObj);
             skill2LeveSprite.AddSprite("Skill2LevelSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(99, 804, 46, 46));
+
+            GameObject skill2LevelText = new GameObject("Skill2LevelText");
+            skill2LevelObj.AddChild(skill2LevelText);
+            skill2LevelText.LocalPosition = new Point(23, 10);
+            FontRendererComponent skill2LvlTxt = new FontRendererComponent(skill2LevelText, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
+            skill2LvlTxt.DrawString(heroSkills.Skills[heroSkills.SkillIndexer[2]].ToString());
+            skill2LvlTxt.CurrentAllignment = FontRendererComponent.Allignment.Center;
+
             ButtonComponent skill2 = new ButtonComponent(skill2LevelObj);
             skill2.DoHover += delegate {
                 skill2TooltipObj.Enabled = true;
@@ -344,7 +368,11 @@ namespace Game {
             skill3TooltipObj.LocalPosition = new Point(-20, -55); //75,265 global
             StaticSpriteRendererComponent skill3TooltipSprite = new StaticSpriteRendererComponent(skill3TooltipObj);
             skill3TooltipSprite.AddSprite("Skill3TooltipSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(730, 3, 240, 117));
-            FontRendererComponent tooltip3 = new FontRendererComponent(skill3TooltipObj, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
+
+            GameObject skill3TooltipText = new GameObject("Skill3TooltipText");
+            skill3TooltipObj.AddChild(skill3TooltipText);
+            skill3TooltipText.LocalPosition = new Point(120, 8);
+            FontRendererComponent tooltip3 = new FontRendererComponent(skill3TooltipText, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
             tooltip3.CurrentAllignment = FontRendererComponent.Allignment.Center;
             tooltip3.DrawString(skillTooltips.ToolTips[skillTooltips.SkillIndexer[3]]);
 
@@ -353,6 +381,14 @@ namespace Game {
             skill3LevelObj.LocalPosition = new Point(158, 45);
             StaticSpriteRendererComponent skill3LeveSprite = new StaticSpriteRendererComponent(skill3LevelObj);
             skill3LeveSprite.AddSprite("Skill3LevelSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(99, 804, 46, 46));
+
+            GameObject skill3LevelText = new GameObject("Skill3LevelText");
+            skill3LevelObj.AddChild(skill3LevelText);
+            skill3LevelText.LocalPosition = new Point(23, 10);
+            FontRendererComponent skill3LvlTxt = new FontRendererComponent(skill3LevelText, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
+            skill3LvlTxt.DrawString(heroSkills.Skills[heroSkills.SkillIndexer[3]].ToString());
+            skill3LvlTxt.CurrentAllignment = FontRendererComponent.Allignment.Center;
+
             ButtonComponent skill3 = new ButtonComponent(skill3LevelObj);
             skill3.DoHover += delegate {
                 skill3TooltipObj.Enabled = true;
@@ -386,6 +422,9 @@ namespace Game {
                 tooltip1.DrawString(skillTooltips.ToolTips[skillTooltips.SkillIndexer[1]]);
                 tooltip2.DrawString(skillTooltips.ToolTips[skillTooltips.SkillIndexer[2]]);
                 tooltip3.DrawString(skillTooltips.ToolTips[skillTooltips.SkillIndexer[3]]);
+                skill1LvlTxt.DrawString(heroSkills.Skills[heroSkills.SkillIndexer[1]].ToString());
+                skill2LvlTxt.DrawString(heroSkills.Skills[heroSkills.SkillIndexer[2]].ToString());
+                skill3LvlTxt.DrawString(heroSkills.Skills[heroSkills.SkillIndexer[3]].ToString());
             };
             namePlateNext.DoHover += delegate {
                 if (namePlateNextSprite.CurrentSprite != "NamePlatenextSpriteHover2") {
@@ -421,6 +460,9 @@ namespace Game {
                 tooltip1.DrawString(skillTooltips.ToolTips[skillTooltips.SkillIndexer[1]]);
                 tooltip2.DrawString(skillTooltips.ToolTips[skillTooltips.SkillIndexer[2]]);
                 tooltip3.DrawString(skillTooltips.ToolTips[skillTooltips.SkillIndexer[3]]);
+                skill1LvlTxt.DrawString(heroSkills.Skills[heroSkills.SkillIndexer[1]].ToString());
+                skill2LvlTxt.DrawString(heroSkills.Skills[heroSkills.SkillIndexer[2]].ToString());
+                skill3LvlTxt.DrawString(heroSkills.Skills[heroSkills.SkillIndexer[3]].ToString());
 
             };
             namePlatePrev.DoHover += delegate {
