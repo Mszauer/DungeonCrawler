@@ -207,6 +207,7 @@ namespace GameFramework {
 #endif
             return null;
         }
+
         public void Destroy() {
             if (Components != null) {
                 for (int i = Components.Count - 1; i >= 0; i--) {

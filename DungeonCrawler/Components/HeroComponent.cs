@@ -6,9 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using GameFramework;
+using System.IO;
 
 namespace Components {
     class HeroComponent : Component{
+        public int HeroIndex = 0;
         public Dictionary<int, string> SkillIndexer = null;
         public Dictionary<string, int> Skills = null;
         public Dictionary<string, string> ToolTips = null;
@@ -52,5 +54,15 @@ namespace Components {
             }
             return false;
         }
+
+        public override void OnDestroy() {
+            using (StreamWriter writer = new StreamWriter("Assets/Data/hero_" + HeroIndex + ".txt")) {
+                writer.WriteLine(Health.ToString());
+                writer.WriteLine(Attack.ToString());
+                foreach(KeyValuePair<string,int> kvp in Skills) {
+                    writer.WriteLine(kvp.Value.ToString());
+                }
+            }
+        }//end destroy
     }
 }

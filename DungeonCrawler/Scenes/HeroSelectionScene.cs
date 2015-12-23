@@ -6,13 +6,22 @@ using System.Threading.Tasks;
 using Components;
 using GameFramework;
 using System.Drawing;
+using System.IO;
 
 namespace Game {
     class HeroSelectionScene : Scene{
-        public List<GameObject> Heroes = null;
-        public int CurrentHero = 0;
+         protected int CurrentHero = 0;
+        
         public override void Initialize() {
-            Heroes = new List<GameObject>();
+            List<GameObject> Heroes = new List<GameObject>();
+
+            //load last hero selected
+            if (File.Exists("Assets/Data/CurrentHero.txt")) {
+                using (TextReader reader = File.OpenText("Assets/Data/CurrentHero.txt")) {
+                    CurrentHero = System.Convert.ToInt32(reader.ReadLine());
+                }
+            }//end if
+
             //background
             GameObject background = new GameObject("Background");
             Root.AddChild(background);
@@ -73,9 +82,10 @@ namespace Game {
             GameObject thatGaiObj = new GameObject("That Gai");
             Root.AddChild(thatGaiObj);
             thatGaiObj.LocalPosition = new Point(15, 235);
-            thatGaiObj.Enabled = true;
+            thatGaiObj.Enabled = CurrentHero == 0;
             Heroes.Add(thatGaiObj);
             HeroComponent gai = new HeroComponent(thatGaiObj);
+            gai.HeroIndex = 0;
             gai.AddSkill("Pull Sumo", 4, "\"Pull Sumo Eat Butt!\"\nIncreases health by 2/level");
             gai.AddSkill("Glutes of Steel", 4, "Rumour has it his glutes\n are actually made of steel!\nIncreases attack by 1/level");
             gai.AddSkill("Almond Lover", 4,"Almond Milk is life\n increases health by 1/level");
@@ -87,9 +97,10 @@ namespace Game {
             GameObject boveMasterObj = new GameObject("BoveMaster");
             Root.AddChild(boveMasterObj);
             boveMasterObj.LocalPosition = new Point(5, 235);
-            boveMasterObj.Enabled = false;
+            boveMasterObj.Enabled = CurrentHero == 1;
             Heroes.Add(boveMasterObj);
             HeroComponent bove = new HeroComponent(boveMasterObj);
+            bove.HeroIndex = 1;
             bove.AddSkill("Beard of Gods", 4, "A beard Odin is jealous of\nIncreases 2 health/level");
             bove.AddSkill("Whittler", 4, "Such dexterity, wow\nMuch whittling\n Increases attack 1/level");
             bove.AddSkill("Coach", 4, "Perfect execution of hits\nIncreases attack 1/level");
@@ -101,9 +112,10 @@ namespace Game {
             GameObject sassyCalvesObj = new GameObject("Sassy Calves");
             Root.AddChild(sassyCalvesObj);
             sassyCalvesObj.LocalPosition = new Point(15, 235);
-            sassyCalvesObj.Enabled = false;
+            sassyCalvesObj.Enabled = CurrentHero == 2;
             Heroes.Add(sassyCalvesObj);
             HeroComponent sassy = new HeroComponent(sassyCalvesObj);
+            sassy.HeroIndex = 2;
             sassy.AddSkill("Lion's Mane", 4, "An Impenetrable mane\nIncreases health 1/level");
             sassy.AddSkill("Pet Rock", 4, "A ferocious beast\nChance to deal 5 extra damage\nChance Increases/level");
             sassy.AddSkill("Team Calves", 4, "Calves like this are\nbestowed upon few\nIncreases damage 1/level");
@@ -476,5 +488,11 @@ namespace Game {
                 }
             };
         }//end update
+
+        public override void Exit() {
+            using (StreamWriter writer = new StreamWriter("Assets/Data/CurrentHero.txt")) {
+                writer.Write(CurrentHero.ToString());
+            }
+        }
     }
 }
