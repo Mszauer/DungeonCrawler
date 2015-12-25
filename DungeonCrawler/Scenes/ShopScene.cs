@@ -6,10 +6,38 @@ using System.Threading.Tasks;
 using Components;
 using GameFramework;
 using System.Drawing;
+using System.IO;
 
 namespace Game {
     class ShopScene : Scene{
+        protected int Monies = 0;
+        protected int CurrentHero = 0;
+        protected int heroHealth = 0;
+        protected int heroAttack = 0;
+        protected int heroSkill1 = 1;
+        protected int heroSkill2 = 1;
+        protected int heroSkill3 = 1;
+        protected int statMultiplier = 5;
+        protected int skillMultiplier = 4;
+
         public override void Initialize() {
+
+            //load data
+            if (File.Exists("Assets/Data/CurrentHero.txt")) {
+                using (StreamReader reader = new StreamReader("Assets/Data/CurrentHero.txt")) {
+                    CurrentHero = System.Convert.ToInt32(reader.ReadLine());
+                    Monies = System.Convert.ToInt32(reader.ReadLine());
+                }
+            }
+            if (File.Exists("Assets/Data/hero_" + CurrentHero + ".txt")) {
+                using (StreamReader reader = new StreamReader("Assets/Data/hero_" + CurrentHero + ".txt")) {
+                    heroHealth = System.Convert.ToInt32(reader.ReadLine());
+                    heroAttack = System.Convert.ToInt32(reader.ReadLine());
+                    heroSkill1 = System.Convert.ToInt32(reader.ReadLine());
+                    heroSkill2 = System.Convert.ToInt32(reader.ReadLine());
+                    heroSkill3 = System.Convert.ToInt32(reader.ReadLine());
+                }
+            }
             //background picture
             GameObject background = new GameObject("Background");
             Root.AddChild(background);
@@ -28,7 +56,7 @@ namespace Game {
             currencyAmtObj.LocalPosition = new Point(105, 12);//90,9
             FontRendererComponent currencyAmt = new FontRendererComponent(currencyAmtObj, "Assets/Font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
             currencyAmt.CurrentAllignment = FontRendererComponent.Allignment.Right;
-            currencyAmt.DrawString("0");//insert currency variable here
+            currencyAmt.DrawString(Monies.ToString());//insert currency variable here
 
             //health buy button
             GameObject healthBuyButton = new GameObject("Health");
@@ -51,30 +79,13 @@ namespace Game {
             heartBuy.AddSprite("HeartBuyHover", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 453, 45, 45));
             heartBuy.AddSprite("HeartBuyClick", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 498, 45, 45));
             ButtonComponent heartPurchase = new ButtonComponent(heartBuyObj);
-            heartPurchase.DoHover += delegate {
-                if (heartBuy.CurrentSprite != "HeartBuyHover") {
-                    heartBuy.SetSprite("HeartBuyHover");
-                }
-            };
-            heartPurchase.NoHover += delegate {
-                if (heartBuy.CurrentSprite != "HeartBuyDefault") {
-                    heartBuy.SetSprite("HeartBuyDefault");
-                }
-            };
-            heartPurchase.DoClick += delegate {
-                //increase level of skill
-                //increase cost
-                if (heartBuy.CurrentSprite != "HeartBuyClick") {
-                    heartBuy.SetSprite("HeartBuyClick");
-                }
-            };
 
             GameObject healthBuyAmtObj = new GameObject("HealthBuyAmtObj");
             healthBuyButton.AddChild(healthBuyAmtObj);
             healthBuyAmtObj.LocalPosition = new Point(120, 17);
             FontRendererComponent healthBuyAmt = new FontRendererComponent(healthBuyAmtObj, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
             healthBuyAmt.CurrentAllignment = FontRendererComponent.Allignment.Right;
-            healthBuyAmt.DrawString("0"); //insert variable for cost here
+            healthBuyAmt.DrawString(((heroHealth/10) * statMultiplier).ToString()); //insert variable for cost here
 
             //attack buy button
             GameObject attackBuyButton = new GameObject("Attack");
@@ -97,30 +108,13 @@ namespace Game {
             attackBuy.AddSprite("AttackBuyHover", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 453, 45, 45));
             attackBuy.AddSprite("AttackBuyClick", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 498, 45, 45));
             ButtonComponent attackPurchase = new ButtonComponent(attackBuyObj);
-            attackPurchase.DoHover += delegate {
-                if (attackBuy.CurrentSprite != "AttackBuyHover") {
-                    attackBuy.SetSprite("AttackBuyHover");
-                }
-            };
-            attackPurchase.NoHover += delegate {
-                if (attackBuy.CurrentSprite != "AttackBuyDefault") {
-                    attackBuy.SetSprite("AttackBuyDefault");
-                }
-            };
-            attackPurchase.DoClick += delegate {
-                //increase level of skill
-                //increase cost
-                if (attackBuy.CurrentSprite != "AttackBuyClick") {
-                    attackBuy.SetSprite("AttackBuyClick");
-                }
-            };
 
             GameObject attackBuyAmtObj = new GameObject("AttackBuyAmtObj");
             attackBuyButton.AddChild(attackBuyAmtObj);
             attackBuyAmtObj.LocalPosition = new Point(120, 17);
             FontRendererComponent attackBuyAmt = new FontRendererComponent(attackBuyAmtObj, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
             attackBuyAmt.CurrentAllignment = FontRendererComponent.Allignment.Right;
-            attackBuyAmt.DrawString("0"); //insert variable for cost here
+            attackBuyAmt.DrawString((heroAttack * statMultiplier).ToString()); //insert variable for cost here
 
             //skill 1 level up button
             GameObject skill1UpButtonObj = new GameObject("Skill1");
@@ -143,30 +137,13 @@ namespace Game {
             skill1UpBuy.AddSprite("Skill1UpBuyHover", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 453, 45, 45));
             skill1UpBuy.AddSprite("Skill1UpBuyClick", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 498, 45, 45));
             ButtonComponent skill1Up = new ButtonComponent(skill1UpBuyObj);
-            skill1Up.DoHover += delegate {
-                if (skill1UpBuy.CurrentSprite != "Skill1UpBuyHover") {
-                    skill1UpBuy.SetSprite("Skill1UpBuyHover");
-                }
-            };
-            skill1Up.NoHover += delegate {
-                if (skill1UpBuy.CurrentSprite != "Skill1UpBuyDefault") {
-                    skill1UpBuy.SetSprite("Skill1UpBuyDefault");
-                }
-            };
-            skill1Up.DoClick += delegate {
-                //increase level of skill
-                //increase cost
-                if (skill1UpBuy.CurrentSprite != "Skill1UpBuyClick") {
-                    skill1UpBuy.SetSprite("Skill1UpBuyClick");
-                }
-            };
 
             GameObject skill1BuyAmtObj = new GameObject("Skill1BuyAmtObj");
             skill1UpButtonObj.AddChild(skill1BuyAmtObj);
             skill1BuyAmtObj.LocalPosition = new Point(120, 17);
             FontRendererComponent skill1BuyAmt = new FontRendererComponent(skill1BuyAmtObj, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
             skill1BuyAmt.CurrentAllignment = FontRendererComponent.Allignment.Right;
-            skill1BuyAmt.DrawString("0"); //insert variable for cost here
+            skill1BuyAmt.DrawString((heroSkill1 * skillMultiplier).ToString()); //insert variable for cost here
 
             GameObject Skill1IdentifierObj = new GameObject("Skill1IdentifierObj");
             skill1UpButtonObj.AddChild(Skill1IdentifierObj);
@@ -195,30 +172,13 @@ namespace Game {
             skill2UpBuy.AddSprite("Skill2UpBuyHover", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 453, 45, 45));
             skill2UpBuy.AddSprite("Skill2UpBuyClick", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 498, 45, 45));
             ButtonComponent skill2Up = new ButtonComponent(skill2UpBuyObj);
-            skill2Up.DoHover += delegate {
-                if (skill2UpBuy.CurrentSprite != "Skill2UpBuyHover") {
-                    skill2UpBuy.SetSprite("Skill2UpBuyHover");
-                }
-            };
-            skill2Up.NoHover += delegate {
-                if (skill2UpBuy.CurrentSprite != "Skill2UpBuyDefault") {
-                    skill2UpBuy.SetSprite("Skill2UpBuyDefault");
-                }
-            };
-            skill2Up.DoClick += delegate {
-                //increase level of skill
-                //increase cost
-                if (skill2UpBuy.CurrentSprite != "Skill2UpBuyClick") {
-                    skill2UpBuy.SetSprite("Skill2UpBuyClick");
-                }
-            };
 
             GameObject skill2BuyAmtObj = new GameObject("Skill2BuyAmtObj");
             skill2UpButtonObj.AddChild(skill2BuyAmtObj);
             skill2BuyAmtObj.LocalPosition = new Point(120, 17);
             FontRendererComponent skill2BuyAmt = new FontRendererComponent(skill2BuyAmtObj, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
             skill2BuyAmt.CurrentAllignment = FontRendererComponent.Allignment.Right;
-            skill2BuyAmt.DrawString("0"); //insert variable for cost here
+            skill2BuyAmt.DrawString((heroSkill2 * skillMultiplier).ToString()); //insert variable for cost here
 
             GameObject Skill2IdentifierObj = new GameObject("Skill2IdentifierObj");
             skill2UpButtonObj.AddChild(Skill2IdentifierObj);
@@ -246,31 +206,15 @@ namespace Game {
             skill3UpBuy.AddSprite("Skill3UpBuyDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 365, 45, 45));
             skill3UpBuy.AddSprite("Skill3UpBuyHover", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 453, 45, 45));
             skill3UpBuy.AddSprite("Skill3UpBuyClick", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 498, 45, 45));
+
             ButtonComponent skill3Up = new ButtonComponent(skill3UpBuyObj);
-            skill3Up.DoHover += delegate {
-                if (skill3UpBuy.CurrentSprite != "Skill3UpBuyHover") {
-                    skill3UpBuy.SetSprite("Skill3UpBuyHover");
-                }
-            };
-            skill3Up.NoHover += delegate {
-                if (skill3UpBuy.CurrentSprite != "Skill3UpBuyDefault") {
-                    skill3UpBuy.SetSprite("Skill3UpBuyDefault");
-                }
-            };
-            skill3Up.DoClick += delegate {
-                //increase level of skill
-                //increase cost
-                if (skill3UpBuy.CurrentSprite != "Skill3UpBuyClick") {
-                    skill3UpBuy.SetSprite("Skill3UpBuyClick");
-                }
-            };
 
             GameObject skill3BuyAmtObj = new GameObject("Skill3BuyAmtObj");
             skill3UpButtonObj.AddChild(skill3BuyAmtObj);
             skill3BuyAmtObj.LocalPosition = new Point(120, 17);
             FontRendererComponent skill3BuyAmt = new FontRendererComponent(skill3BuyAmtObj, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
             skill3BuyAmt.CurrentAllignment = FontRendererComponent.Allignment.Right;
-            skill3BuyAmt.DrawString("0"); //insert variable for cost here
+            skill3BuyAmt.DrawString((heroSkill3 * skillMultiplier).ToString()); //insert variable for cost here
 
             GameObject Skill3IdentifierObj = new GameObject("Skill3IdentifierObj");
             skill3UpButtonObj.AddChild(Skill3IdentifierObj);
@@ -319,7 +263,7 @@ namespace Game {
             healthAmtObj.LocalPosition = new Point(27, 45);
             FontRendererComponent healthAmtFnt = new FontRendererComponent(healthAmtObj, "Assets/font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
             healthAmtFnt.CurrentAllignment = FontRendererComponent.Allignment.Center;
-            healthAmtFnt.DrawString("0"); //insert variable here
+            healthAmtFnt.DrawString(heroHealth.ToString()); //insert variable here
 
             //attack identifier
             GameObject attackObj = new GameObject("AttackObj");
@@ -339,7 +283,143 @@ namespace Game {
             attackAmtObj.LocalPosition = new Point(27, 45);
             FontRendererComponent attackAmtFnt = new FontRendererComponent(attackAmtObj, "Assets/font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
             attackAmtFnt.CurrentAllignment = FontRendererComponent.Allignment.Center;
-            attackAmtFnt.DrawString("0"); //insert variable here
+            attackAmtFnt.DrawString(heroAttack.ToString()); //insert variable here
+
+            heartPurchase.DoHover += delegate {
+                if (heartBuy.CurrentSprite != "HeartBuyHover") {
+                    heartBuy.SetSprite("HeartBuyHover");
+                }
+            };
+            heartPurchase.NoHover += delegate {
+                if (heartBuy.CurrentSprite != "HeartBuyDefault") {
+                    heartBuy.SetSprite("HeartBuyDefault");
+                }
+            };
+            heartPurchase.DoClick += delegate {
+                //increase level of skill
+                //increase cost
+                if (Monies >= (heroHealth * statMultiplier) / 10){
+                    if (heartBuy.CurrentSprite != "HeartBuyClick") {
+                        heartBuy.SetSprite("HeartBuyClick");
+                    }
+                    Monies -= (heroHealth * statMultiplier) / 10;
+                    heroHealth++;
+                    currencyAmt.DrawString(Monies.ToString());//insert currency variable here
+                    healthBuyAmt.DrawString(((heroHealth * statMultiplier) / 10).ToString()); //insert variable for cost here
+                    healthAmtFnt.DrawString(heroHealth.ToString()); //insert variable here
+                }
+            };
+
+
+            attackPurchase.DoHover += delegate {
+                if (attackBuy.CurrentSprite != "AttackBuyHover") {
+                    attackBuy.SetSprite("AttackBuyHover");
+                }
+            };
+            attackPurchase.NoHover += delegate {
+                if (attackBuy.CurrentSprite != "AttackBuyDefault") {
+                    attackBuy.SetSprite("AttackBuyDefault");
+                }
+            };
+            attackPurchase.DoClick += delegate {
+                //increase level of skill
+                //increase cost
+                if (Monies >= (heroAttack * statMultiplier)) {
+                    if (attackBuy.CurrentSprite != "AttackBuyClick") {
+                        attackBuy.SetSprite("AttackBuyClick");
+                    }
+                    Monies -= (heroAttack * statMultiplier);
+                    heroAttack++;
+                    currencyAmt.DrawString(Monies.ToString());//insert currency variable here
+                    attackBuyAmt.DrawString((heroAttack * statMultiplier).ToString()); //insert variable for cost here
+                    attackAmtFnt.DrawString(heroAttack.ToString()); //insert variable here
+                }
+            };
+
+            skill1Up.DoHover += delegate {
+                if (skill1UpBuy.CurrentSprite != "Skill1UpBuyHover") {
+                    skill1UpBuy.SetSprite("Skill1UpBuyHover");
+                }
+            };
+            skill1Up.NoHover += delegate {
+                if (skill1UpBuy.CurrentSprite != "Skill1UpBuyDefault") {
+                    skill1UpBuy.SetSprite("Skill1UpBuyDefault");
+                }
+            };
+            skill1Up.DoClick += delegate {
+                //increase level of skill
+                //increase cost
+                if (Monies >= heroSkill1 * skillMultiplier) {
+                    if (skill1UpBuy.CurrentSprite != "Skill1UpBuyClick") {
+                        skill1UpBuy.SetSprite("Skill1UpBuyClick");
+                    }
+                    Monies -= heroSkill1 * skillMultiplier;
+                    heroSkill1++;
+                    currencyAmt.DrawString(Monies.ToString());//insert currency variable here
+                    skill1BuyAmt.DrawString((heroSkill1 * skillMultiplier).ToString()); //insert variable for cost here
+                }
+            };
+
+            skill2Up.DoHover += delegate {
+                if (skill2UpBuy.CurrentSprite != "Skill2UpBuyHover") {
+                    skill2UpBuy.SetSprite("Skill2UpBuyHover");
+                }
+            };
+            skill2Up.NoHover += delegate {
+                if (skill2UpBuy.CurrentSprite != "Skill2UpBuyDefault") {
+                    skill2UpBuy.SetSprite("Skill2UpBuyDefault");
+                }
+            };
+            skill2Up.DoClick += delegate {
+                //increase level of skill
+                //increase cost
+                if (Monies >= heroSkill2 * skillMultiplier) {
+                    if (skill2UpBuy.CurrentSprite != "Skill2UpBuyClick") {
+                        skill2UpBuy.SetSprite("Skill2UpBuyClick");
+                    }
+                    Monies -= heroSkill2 * skillMultiplier;
+                    heroSkill2++;
+                    currencyAmt.DrawString(Monies.ToString());//insert currency variable here
+                    skill2BuyAmt.DrawString((heroSkill2 * skillMultiplier).ToString()); //insert variable for cost here
+                }
+            };
+
+            skill3Up.DoHover += delegate {
+                if (skill3UpBuy.CurrentSprite != "Skill3UpBuyHover") {
+                    skill3UpBuy.SetSprite("Skill3UpBuyHover");
+                }
+            };
+            skill3Up.NoHover += delegate {
+                if (skill3UpBuy.CurrentSprite != "Skill3UpBuyDefault") {
+                    skill3UpBuy.SetSprite("Skill3UpBuyDefault");
+                }
+            };
+            skill3Up.DoClick += delegate {
+                //increase level of skill
+                //increase cost
+                if (Monies >= heroSkill3 * skillMultiplier) {
+                    if (skill3UpBuy.CurrentSprite != "Skill3UpBuyClick") {
+                        skill3UpBuy.SetSprite("Skill3UpBuyClick");
+                    }
+                    Monies -= heroSkill3 * skillMultiplier;
+                    heroSkill3++;
+                    currencyAmt.DrawString(Monies.ToString());//insert currency variable here
+                    skill3BuyAmt.DrawString((heroSkill3 * skillMultiplier).ToString()); //insert variable for cost here
+                }
+            };
+        }//end initialize
+        public override void Exit() {
+            using (StreamWriter writer = new StreamWriter("Assets/Data/CurrentHero.txt")) {
+                writer.WriteLine(CurrentHero.ToString());
+                writer.WriteLine(Monies.ToString());
+            }
+            using (StreamWriter writer = new StreamWriter("Assets/Data/hero_" + CurrentHero + ".txt")) {
+                writer.WriteLine(heroHealth);
+                writer.WriteLine(heroAttack);
+                writer.WriteLine(heroSkill1);
+                writer.WriteLine(heroSkill2);
+                writer.WriteLine(heroSkill3);
+            }
         }
     }
 }

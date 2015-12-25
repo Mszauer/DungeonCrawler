@@ -10,17 +10,11 @@ using System.IO;
 
 namespace Game {
     class HeroSelectionScene : Scene{
-         protected int CurrentHero = 0;
-        
+        protected int CurrentHero = 0;
+        protected int Monies = 0;
+
         public override void Initialize() {
             List<GameObject> Heroes = new List<GameObject>();
-
-            //load last hero selected
-            if (File.Exists("Assets/Data/CurrentHero.txt")) {
-                using (TextReader reader = File.OpenText("Assets/Data/CurrentHero.txt")) {
-                    CurrentHero = System.Convert.ToInt32(reader.ReadLine());
-                }
-            }//end if
 
             //background
             GameObject background = new GameObject("Background");
@@ -44,7 +38,7 @@ namespace Game {
             currencyAmtObj.LocalPosition = new Point(105, 12);//90,9
             FontRendererComponent currencyAmt = new FontRendererComponent(currencyAmtObj, "Assets/Font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
             currencyAmt.CurrentAllignment = FontRendererComponent.Allignment.Right;
-            currencyAmt.DrawString("0");//insert currency variable here
+            currencyAmt.DrawString(Monies.ToString());//insert currency variable here
 
             //Back button
             GameObject backButton = new GameObject("BackButton");
@@ -133,6 +127,19 @@ namespace Game {
             petRock.AddSprite("Pet Rock4", "Assets/ObjectSpriteSheet.png", new Rectangle(365, 945, 80, 80));
             petRock.SetSprite("Pet Rock1");
 
+            //load hero stats
+            for (int i = 0; i < Heroes.Count; i++) {
+                using (StreamReader reader = new StreamReader("Assets/Data/hero_" + i + ".txt")) {
+                    HeroComponent currentHeroComponent = (HeroComponent)Heroes[i].FindComponent("HeroComponent");//get hero object, get hero skills component
+                    currentHeroComponent.Health = System.Convert.ToInt32(reader.ReadLine());
+                    currentHeroComponent.Attack = System.Convert.ToInt32(reader.ReadLine());
+                    List<string> skills = new List<string>(currentHeroComponent.Skills.Keys);
+                    foreach(string skill in skills) {
+                        currentHeroComponent.Skills[skill] = System.Convert.ToInt32(reader.ReadLine());
+                    }
+                }
+            }
+
             //health identifier
             GameObject healthObj = new GameObject("HealthObj");
             Root.AddChild(healthObj);
@@ -217,7 +224,7 @@ namespace Game {
                 }
             };
 
-            GameObject attackAmtObj = new GameObject("HealthIdentifierAmtObj");
+            GameObject attackAmtObj = new GameObject("AttackIdentifierAmtObj");
             attackObj.AddChild(attackAmtObj);
             attackAmtObj.LocalPosition = new Point(27, 45);
             FontRendererComponent attackAmtFnt = new FontRendererComponent(attackAmtObj, "Assets/font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
@@ -489,9 +496,73 @@ namespace Game {
             };
         }//end update
 
+        public override void Enter() {
+            HeroComponent currentHeroComponent = null;
+            GameObject currentHero = null;
+            GameObject heroAttack = null;
+            FontRendererComponent heroAttackFnt = null;
+            GameObject heroHealth = null;
+            FontRendererComponent heroHealthFnt = null;
+            GameObject heroSkill1 = null;
+            FontRendererComponent heroSkill1Fnt = null;
+            GameObject heroSkill2 = null;
+            FontRendererComponent heroSkill2Fnt = null;
+            GameObject heroSkill3 = null;
+            FontRendererComponent heroSkill3Fnt = null;
+            GameObject currencyAmtObj = null;
+            FontRendererComponent currencyAmt = null;
+            //load last hero selected
+            if (File.Exists("Assets/Data/CurrentHero.txt")) {
+                using (TextReader reader = File.OpenText("Assets/Data/CurrentHero.txt")) {
+                    CurrentHero = System.Convert.ToInt32(reader.ReadLine());
+                    Monies = System.Convert.ToInt32(reader.ReadLine());
+                }
+            }//end if
+            if (CurrentHero == 0) {
+                currentHero = Root.FindChild("That Gai");
+                currentHeroComponent = (HeroComponent)currentHero.FindComponent("HeroComponent");
+            }
+            else if (CurrentHero == 1) {
+                currentHero = Root.FindChild("BoveMaster");
+                currentHeroComponent = (HeroComponent)currentHero.FindComponent("HeroComponent");
+            }
+            else if (CurrentHero == 2) {
+                currentHero = Root.FindChild("Sassy Calves");
+                currentHeroComponent = (HeroComponent)currentHero.FindComponent("HeroComponent");
+            }
+            heroHealth = Root.FindChild("HealthIdentifierAmtObj");
+            heroHealthFnt = (FontRendererComponent)heroHealth.FindComponent("FontRendererComponent");
+            heroAttack = Root.FindChild("AttackIdentifierAmtObj");
+            heroAttackFnt = (FontRendererComponent)heroAttack.FindComponent("FontRendererComponent");
+            heroSkill1 = Root.FindChild("Skill1LevelText");
+            heroSkill1Fnt = (FontRendererComponent)heroSkill1.FindComponent("FontRendererComponent");
+            heroSkill2 = Root.FindChild("Skill2LevelText");
+            heroSkill2Fnt = (FontRendererComponent)heroSkill2.FindComponent("FontRendererComponent");
+            heroSkill3 = Root.FindChild("Skill3LevelText");
+            heroSkill3Fnt = (FontRendererComponent)heroSkill3.FindComponent("FontRendererComponent");
+            currencyAmtObj = Root.FindChild("CurrencyAmtObj");
+            currencyAmt = (FontRendererComponent)currencyAmtObj.FindComponent("FontRendererComponent");
+            if (File.Exists("Assets/Data/hero_" + CurrentHero + ".txt")) {
+                using (TextReader reader = File.OpenText("Assets/Data/hero_" + CurrentHero + ".txt")) {
+                    currentHeroComponent.Health = System.Convert.ToInt32(reader.ReadLine());
+                    currentHeroComponent.Attack = System.Convert.ToInt32(reader.ReadLine());
+                    currentHeroComponent.Skills[currentHeroComponent.SkillIndexer[1]] = System.Convert.ToInt32(reader.ReadLine());
+                    currentHeroComponent.Skills[currentHeroComponent.SkillIndexer[2]] = System.Convert.ToInt32(reader.ReadLine());
+                    currentHeroComponent.Skills[currentHeroComponent.SkillIndexer[3]] = System.Convert.ToInt32(reader.ReadLine());
+                }
+            }
+            heroHealthFnt.DrawString(currentHeroComponent.Health.ToString());
+            heroAttackFnt.DrawString(currentHeroComponent.Attack.ToString());
+            heroSkill1Fnt.DrawString(currentHeroComponent.Skills[currentHeroComponent.SkillIndexer[1]].ToString());
+            heroSkill2Fnt.DrawString(currentHeroComponent.Skills[currentHeroComponent.SkillIndexer[2]].ToString());
+            heroSkill3Fnt.DrawString(currentHeroComponent.Skills[currentHeroComponent.SkillIndexer[3]].ToString());
+            currencyAmt.DrawString(Monies.ToString());//insert currency variable here
+        }
+
         public override void Exit() {
             using (StreamWriter writer = new StreamWriter("Assets/Data/CurrentHero.txt")) {
-                writer.Write(CurrentHero.ToString());
+                writer.WriteLine(CurrentHero.ToString());
+                writer.WriteLine(Monies.ToString());
             }
         }
     }

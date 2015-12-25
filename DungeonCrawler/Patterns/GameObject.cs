@@ -145,7 +145,10 @@ namespace GameFramework {
                     return Children[i];
                 }
                 else if (recursive) {
-                    Children[i].FindChild(child);
+                    GameObject inChild = Children[i].FindChild(child);
+                    if (inChild != null) {
+                        return inChild;
+                    }
                 }
             }
 #if CHILDDEBUG
