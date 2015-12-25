@@ -71,6 +71,13 @@ namespace Game {
             StaticSpriteRendererComponent treeStumpSprite = new StaticSpriteRendererComponent(treeStumpObj);
             treeStumpSprite.AddSprite("TreeStumpSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(244, 904, 112, 85));
 
+            if (File.Exists("Assets/Data/CurrentHero.txt")) {
+                using (TextReader reader = File.OpenText("Assets/Data/CurrentHero.txt")) {
+                    CurrentHero = System.Convert.ToInt32(reader.ReadLine());
+                    Monies = System.Convert.ToInt32(reader.ReadLine());
+                }
+            }//end if
+
             //HEROES
             //That Gai hero
             GameObject thatGaiObj = new GameObject("That Gai");
@@ -421,7 +428,7 @@ namespace Game {
                 if (namePlateNextSprite.CurrentSprite != "NamePlatenextSpriteClick") {
                     namePlateNextSprite.SetSprite("NamePlatenextSpriteClick");
                 }
-                //do logic to swap her component and skills
+                //do logic to swap hero component and skills
                 Heroes[CurrentHero].Enabled = false;
                 CurrentHero++;
                 if (CurrentHero > Heroes.Count - 1) {
