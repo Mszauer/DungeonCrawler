@@ -45,10 +45,10 @@ namespace Game {
             Root.AddChild(backButton);
             backButton.LocalPosition = new Point(10, 423);
             StaticSpriteRendererComponent backSprite = new StaticSpriteRendererComponent(backButton);
-            backSprite.AddSprite("BackDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 181, 46, 46));
-            backSprite.AddSprite("BackHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 227, 46, 46));
-            backSprite.AddSprite("BackHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 273, 46, 46));
-            backSprite.AddSprite("BackClick", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 319, 46, 46));
+            backSprite.AddSprite("BackDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(976, 181, 46, 46));
+            backSprite.AddSprite("BackHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(976, 227, 46, 46));
+            backSprite.AddSprite("BackHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(976, 273, 46, 46));
+            backSprite.AddSprite("BackClick", "Assets/ObjectSpriteSheet.png", new Rectangle(976, 319, 46, 46));
             ButtonComponent back = new ButtonComponent(backButton);
             back.DoHover += delegate {
                 if (backSprite.CurrentSprite != "BackHover2") {
@@ -64,6 +64,31 @@ namespace Game {
                 }
             };
 
+            //switch to next scene
+            GameObject startButton = new GameObject("StartButton");
+            Root.AddChild(startButton);
+            startButton.LocalPosition = new Point(265, 1);
+            StaticSpriteRendererComponent sButton = new StaticSpriteRendererComponent(startButton);
+            sButton.AddSprite("PlayButtonDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(918, 126, 57, 57));
+            sButton.AddSprite("PlayButtonDefaultHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(918, 126, 58, 58));
+            sButton.AddSprite("PlayButtonDefaultHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(918, 238, 58, 58));
+            sButton.AddSprite("PlayButtonDefaultClick", "Assets/ObjectSpriteSheet.png", new Rectangle(918, 297, 58, 58));
+            ButtonComponent play = new ButtonComponent(startButton);
+            play.DoHover += delegate () {
+                if (sButton.CurrentSprite != "PlayButtonDefaultHover2") {
+                    sButton.SetSprite("PlayButtonDefaultHover2");
+                }
+            };
+            play.DoClick += delegate () {
+                SceneManager.Instance.PopScene();
+                SceneManager.Instance.PopScene();
+                SceneManager.Instance.PushScene(new InGameScene());
+            };
+            play.NoHover += delegate () {
+                if (sButton.CurrentSprite != "PlayButtonDefault") {
+                    sButton.SetSprite("PlayButtonDefault");
+                }
+            };
             //tree stump
             GameObject treeStumpObj = new GameObject("TreeStumpObj");
             Root.AddChild(treeStumpObj);
@@ -164,9 +189,9 @@ namespace Game {
             healthObj.AddChild(healthLevelObj);
             healthLevelObj.LocalPosition = new Point(54, 0);
             StaticSpriteRendererComponent healthLevelSprite = new StaticSpriteRendererComponent(healthLevelObj);
-            healthLevelSprite.AddSprite("HealthLevelSpriteDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(948, 350, 35, 35));
-            healthLevelSprite.AddSprite("HealthLevelSpriteHover", "Assets/ObjectSpriteSheet.png", new Rectangle(948, 418, 35, 35));
-            healthLevelSprite.AddSprite("HealthLevelSpriteClick", "Assets/ObjectSpriteSheet.png", new Rectangle(948, 453, 35, 35));
+            healthLevelSprite.AddSprite("HealthLevelSpriteDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(942, 350, 35, 35));
+            healthLevelSprite.AddSprite("HealthLevelSpriteHover", "Assets/ObjectSpriteSheet.png", new Rectangle(942, 418, 35, 35));
+            healthLevelSprite.AddSprite("HealthLevelSpriteClick", "Assets/ObjectSpriteSheet.png", new Rectangle(942, 453, 35, 35));
             ButtonComponent health = new ButtonComponent(healthLevelObj);
             health.DoClick += delegate {
                 if (healthLevelSprite.CurrentSprite != "HealthLevelSpriteClick") {
@@ -210,9 +235,9 @@ namespace Game {
             attackObj.AddChild(attackLevelObj);
             attackLevelObj.LocalPosition = new Point(54,0);//284,415 global
             StaticSpriteRendererComponent attackLevelSprite = new StaticSpriteRendererComponent(attackLevelObj);
-            attackLevelSprite.AddSprite("AttackLevelSpriteDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(948, 350, 35, 35));
-            attackLevelSprite.AddSprite("AttackLevelSpriteHover", "Assets/ObjectSpriteSheet.png", new Rectangle(948, 418, 35, 35));
-            attackLevelSprite.AddSprite("AttackLevelSpriteClick", "Assets/ObjectSpriteSheet.png", new Rectangle(948, 453, 35, 35));
+            attackLevelSprite.AddSprite("AttackLevelSpriteDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(942, 350, 35, 35));
+            attackLevelSprite.AddSprite("AttackLevelSpriteHover", "Assets/ObjectSpriteSheet.png", new Rectangle(942, 418, 35, 35));
+            attackLevelSprite.AddSprite("AttackLevelSpriteClick", "Assets/ObjectSpriteSheet.png", new Rectangle(942, 453, 35, 35));
             ButtonComponent attackShop = new ButtonComponent(attackLevelObj);
             attackShop.DoClick += delegate {
                 if (attackLevelSprite.CurrentSprite != "AttackLevelSpriteClick") {
@@ -259,20 +284,20 @@ namespace Game {
             namePlateObj.AddChild(namePlatePrevObj);
             namePlatePrevObj.LocalPosition = new Point(2, 5);
             StaticSpriteRendererComponent namePlatePrevSprite = new StaticSpriteRendererComponent(namePlatePrevObj);
-            namePlatePrevSprite.AddSprite("NamePlatePrevSpriteDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 723, 46, 46));
-            namePlatePrevSprite.AddSprite("NamePlatePrevSpriteHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 769, 46, 46));
-            namePlatePrevSprite.AddSprite("NamePlatePrevSpriteHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 811, 46, 46));
-            namePlatePrevSprite.AddSprite("NamePlatePrevSpriteClick", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 858, 46, 46));
+            namePlatePrevSprite.AddSprite("NamePlatePrevSpriteDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(978, 723, 46, 46));
+            namePlatePrevSprite.AddSprite("NamePlatePrevSpriteHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(978, 769, 46, 46));
+            namePlatePrevSprite.AddSprite("NamePlatePrevSpriteHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(978, 811, 46, 46));
+            namePlatePrevSprite.AddSprite("NamePlatePrevSpriteClick", "Assets/ObjectSpriteSheet.png", new Rectangle(978, 858, 46, 46));
 
             //name plate next button
             GameObject namePlateNextObj = new GameObject("NamePlateNextObj");
             namePlateObj.AddChild(namePlateNextObj);
             namePlateNextObj.LocalPosition = new Point(237, 5);
             StaticSpriteRendererComponent namePlateNextSprite = new StaticSpriteRendererComponent(namePlateNextObj);
-            namePlateNextSprite.AddSprite("NamePlateNextSpriteDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 543, 46, 46));
-            namePlateNextSprite.AddSprite("NamePlatenextSpriteHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 587, 46, 46));
-            namePlateNextSprite.AddSprite("NamePlatenextSpriteHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 632, 46, 46));
-            namePlateNextSprite.AddSprite("NamePlatenextSpriteClick", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 678, 46, 46));
+            namePlateNextSprite.AddSprite("NamePlateNextSpriteDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(977, 543, 46, 46));
+            namePlateNextSprite.AddSprite("NamePlatenextSpriteHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(977, 587, 46, 46));
+            namePlateNextSprite.AddSprite("NamePlatenextSpriteHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(977, 632, 46, 46));
+            namePlateNextSprite.AddSprite("NamePlatenextSpriteClick", "Assets/ObjectSpriteSheet.png", new Rectangle(977, 678, 46, 46));
 
             HeroComponent skillTooltips = (HeroComponent)Heroes[CurrentHero].FindComponent("HeroComponent");
 

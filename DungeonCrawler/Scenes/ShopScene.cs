@@ -75,9 +75,9 @@ namespace Game {
             healthBuyButton.AddChild(heartBuyObj);
             heartBuyObj.LocalPosition = new Point(133,10);
             StaticSpriteRendererComponent heartBuy = new StaticSpriteRendererComponent(heartBuyObj);
-            heartBuy.AddSprite("HeartBuyDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 365, 45, 45));
-            heartBuy.AddSprite("HeartBuyHover", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 453, 45, 45));
-            heartBuy.AddSprite("HeartBuyClick", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 498, 45, 45));
+            heartBuy.AddSprite("HeartBuyDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(976, 367, 45, 45));
+            heartBuy.AddSprite("HeartBuyHover", "Assets/ObjectSpriteSheet.png", new Rectangle(976, 455, 45, 45));
+            heartBuy.AddSprite("HeartBuyClick", "Assets/ObjectSpriteSheet.png", new Rectangle(976, 500, 45, 45));
             ButtonComponent heartPurchase = new ButtonComponent(heartBuyObj);
 
             GameObject healthBuyAmtObj = new GameObject("HealthBuyAmtObj");
@@ -104,9 +104,9 @@ namespace Game {
             attackBuyButton.AddChild(attackBuyObj);
             attackBuyObj.LocalPosition = new Point(133, 10);
             StaticSpriteRendererComponent attackBuy = new StaticSpriteRendererComponent(attackBuyObj);
-            attackBuy.AddSprite("AttackBuyDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 365, 45, 45));
-            attackBuy.AddSprite("AttackBuyHover", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 453, 45, 45));
-            attackBuy.AddSprite("AttackBuyClick", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 498, 45, 45));
+            attackBuy.AddSprite("AttackBuyDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(976, 367, 45, 45));
+            attackBuy.AddSprite("AttackBuyHover", "Assets/ObjectSpriteSheet.png", new Rectangle(976, 455, 45, 45));
+            attackBuy.AddSprite("AttackBuyClick", "Assets/ObjectSpriteSheet.png", new Rectangle(976, 500, 45, 45));
             ButtonComponent attackPurchase = new ButtonComponent(attackBuyObj);
 
             GameObject attackBuyAmtObj = new GameObject("AttackBuyAmtObj");
@@ -133,9 +133,9 @@ namespace Game {
             skill1UpButtonObj.AddChild(skill1UpBuyObj);
             skill1UpBuyObj.LocalPosition = new Point(136,8);
             StaticSpriteRendererComponent skill1UpBuy = new StaticSpriteRendererComponent(skill1UpBuyObj);
-            skill1UpBuy.AddSprite("Skill1UpBuyDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 365, 45, 45));
-            skill1UpBuy.AddSprite("Skill1UpBuyHover", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 453, 45, 45));
-            skill1UpBuy.AddSprite("Skill1UpBuyClick", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 498, 45, 45));
+            skill1UpBuy.AddSprite("Skill1UpBuyDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(976, 367, 45, 45));
+            skill1UpBuy.AddSprite("Skill1UpBuyHover", "Assets/ObjectSpriteSheet.png", new Rectangle(976, 455, 45, 45));
+            skill1UpBuy.AddSprite("Skill1UpBuyClick", "Assets/ObjectSpriteSheet.png", new Rectangle(976, 500, 45, 45));
             ButtonComponent skill1Up = new ButtonComponent(skill1UpBuyObj);
 
             GameObject skill1BuyAmtObj = new GameObject("Skill1BuyAmtObj");
@@ -168,9 +168,9 @@ namespace Game {
             skill2UpButtonObj.AddChild(skill2UpBuyObj);
             skill2UpBuyObj.LocalPosition = new Point(136, 8);
             StaticSpriteRendererComponent skill2UpBuy = new StaticSpriteRendererComponent(skill2UpBuyObj);
-            skill2UpBuy.AddSprite("Skill2UpBuyDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 365, 45, 45));
-            skill2UpBuy.AddSprite("Skill2UpBuyHover", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 453, 45, 45));
-            skill2UpBuy.AddSprite("Skill2UpBuyClick", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 498, 45, 45));
+            skill2UpBuy.AddSprite("Skill2UpBuyDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(976, 367, 45, 45));
+            skill2UpBuy.AddSprite("Skill2UpBuyHover", "Assets/ObjectSpriteSheet.png", new Rectangle(976, 455, 45, 45));
+            skill2UpBuy.AddSprite("Skill2UpBuyClick", "Assets/ObjectSpriteSheet.png", new Rectangle(976, 500, 45, 45));
             ButtonComponent skill2Up = new ButtonComponent(skill2UpBuyObj);
 
             GameObject skill2BuyAmtObj = new GameObject("Skill2BuyAmtObj");
@@ -203,9 +203,9 @@ namespace Game {
             skill3UpButtonObj.AddChild(skill3UpBuyObj);
             StaticSpriteRendererComponent skill3UpBuy = new StaticSpriteRendererComponent(skill3UpBuyObj);
             skill3UpBuyObj.LocalPosition = new Point(136, 8);
-            skill3UpBuy.AddSprite("Skill3UpBuyDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 365, 45, 45));
-            skill3UpBuy.AddSprite("Skill3UpBuyHover", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 453, 45, 45));
-            skill3UpBuy.AddSprite("Skill3UpBuyClick", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 498, 45, 45));
+            skill3UpBuy.AddSprite("Skill3UpBuyDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(976, 367, 45, 45));
+            skill3UpBuy.AddSprite("Skill3UpBuyHover", "Assets/ObjectSpriteSheet.png", new Rectangle(976, 455, 45, 45));
+            skill3UpBuy.AddSprite("Skill3UpBuyClick", "Assets/ObjectSpriteSheet.png", new Rectangle(976, 500, 45, 45));
 
             ButtonComponent skill3Up = new ButtonComponent(skill3UpBuyObj);
 
@@ -227,10 +227,10 @@ namespace Game {
             Root.AddChild(backButton);
             backButton.LocalPosition = new Point(10,423);
             StaticSpriteRendererComponent backSprite = new StaticSpriteRendererComponent(backButton);
-            backSprite.AddSprite("BackDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 181, 46, 46));
-            backSprite.AddSprite("BackHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 227, 46, 46));
-            backSprite.AddSprite("BackHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 273, 46, 46));
-            backSprite.AddSprite("BackClick", "Assets/ObjectSpriteSheet.png", new Rectangle(982, 319, 46, 46));
+            backSprite.AddSprite("BackDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(976, 181, 46, 46));
+            backSprite.AddSprite("BackHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(976, 227, 46, 46));
+            backSprite.AddSprite("BackHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(976, 273, 46, 46));
+            backSprite.AddSprite("BackClick", "Assets/ObjectSpriteSheet.png", new Rectangle(976, 319, 46, 46));
             ButtonComponent back = new ButtonComponent(backButton);
             back.DoClick += delegate {
                 SceneManager.Instance.PopScene();

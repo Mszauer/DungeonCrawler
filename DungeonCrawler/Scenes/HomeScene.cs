@@ -39,10 +39,10 @@ namespace Game {
             audioButton.LocalPosition = new Point(10, 425);
             Root.AddChild(audioButton);
             StaticSpriteRendererComponent aButton = new StaticSpriteRendererComponent(audioButton);
-            aButton.AddSprite("AudioButtonDisabled", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 0, 45, 45));
-            aButton.AddSprite("AudioButtonHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 46, 45, 45));
-            aButton.AddSprite("AudioButtonHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 91, 45, 45));
-            aButton.AddSprite("AudioButtonEnabled", "Assets/ObjectSpriteSheet.png", new Rectangle(983, 134, 45, 45));
+            aButton.AddSprite("AudioButtonDisabled", "Assets/ObjectSpriteSheet.png", new Rectangle(977, 0, 45, 45));
+            aButton.AddSprite("AudioButtonHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(977, 46, 45, 45));
+            aButton.AddSprite("AudioButtonHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(977, 91, 45, 45));
+            aButton.AddSprite("AudioButtonEnabled", "Assets/ObjectSpriteSheet.png", new Rectangle(977, 135, 45, 45));
             ButtonComponent audio = new ButtonComponent(audioButton);
             audio.DoClick += delegate {
                 audioEnabled = (audioEnabled) ? false : true;
@@ -77,10 +77,10 @@ namespace Game {
             welcomeBox.AddChild(startButton);
             startButton.LocalPosition = new Point(156, 18);
             StaticSpriteRendererComponent sButton = new StaticSpriteRendererComponent(startButton);
-            sButton.AddSprite("PlayButtonDefault","Assets/ObjectSpriteSheet.png",new Rectangle(926,126,57,57));
-            sButton.AddSprite("PlayButtonDefaultHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(925, 126, 57, 57));
-            sButton.AddSprite("PlayButtonDefaultHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(925, 240, 57, 57));
-            sButton.AddSprite("PlayButtonDefaultClick", "Assets/ObjectSpriteSheet.png", new Rectangle(926, 297, 57, 57));
+            sButton.AddSprite("PlayButtonDefault","Assets/ObjectSpriteSheet.png",new Rectangle(918,126,57,57));
+            sButton.AddSprite("PlayButtonDefaultHover1", "Assets/ObjectSpriteSheet.png", new Rectangle(918, 126, 57, 55));
+            sButton.AddSprite("PlayButtonDefaultHover2", "Assets/ObjectSpriteSheet.png", new Rectangle(918, 240, 57, 55));
+            sButton.AddSprite("PlayButtonDefaultClick", "Assets/ObjectSpriteSheet.png", new Rectangle(918, 297, 57, 55));
             ButtonComponent play = new ButtonComponent(startButton);
             play.DoHover += delegate () {
                 if (sButton.CurrentSprite != "PlayButtonDefaultHover2") {
