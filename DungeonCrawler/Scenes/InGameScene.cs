@@ -24,6 +24,8 @@ namespace Game {
             int UIHeight = 2;
             Enter();
 
+            GameManagerComponent GameManager = new GameManagerComponent(Root);
+
             GameObject Monster1Pool = new GameObject("Monster1Pool");
             Root.AddChild(Monster1Pool);
             Monster1Pool.Enabled = false;
@@ -189,30 +191,70 @@ namespace Game {
             GameObject PlayArea = new GameObject("PlayArea");
             Root.AddChild(PlayArea);
 
-            GameObject Tiles = new GameObject("Tiles");
-            PlayArea.AddChild(Tiles);
+            GameObject ActiveTile = new GameObject("Tiles");
+            PlayArea.AddChild(ActiveTile);
             for (int h = 0; h < tilesHeight; h++) {
                 for (int w = 0; w < tilesWidth; w++) {
                     GameObject tile = new GameObject("Tile" + h + "_" + w);
                     tile.LocalPosition = new Point((w * 64), (h * 64));//65 = sprite size, 1px overlap
-                    Tiles.AddChild(tile);
+                    ActiveTile.AddChild(tile);
+                    GameManager.ActiveTiles[w][h] = tile;
                     StaticSpriteRendererComponent tileSprite = new StaticSpriteRendererComponent(tile);
                     tileSprite.AddSprite("Tile_Active", "Assets/ObjectSpritesheet.png", new Rectangle(0, 605, 65, 65));
-                    tileSprite.AddSprite("Tile_Hidden", "Assets/ObjectSpritesheet.png", new Rectangle(400, 790, 65, 65));
+                    
                 }
             }
+            GameObject UnlockedExit = new GameObject("UnlockedExit");
+            PlayArea.AddChild(UnlockedExit);
+            GameManager.UnlockedExit = UnlockedExit;
+            UnlockedExit.Enabled = true;
+            StaticSpriteRendererComponent UnlockedexitSprite = new StaticSpriteRendererComponent(UnlockedExit);
+            UnlockedexitSprite.AddSprite("Exit_Active", "Assets/ObjectSpritesheet.png", new Rectangle(137, 605, 65, 65));
+            ButtonComponent UnlockedExitButton = new ButtonComponent(UnlockedExit);
+            UnlockedExitButton.DoClick += delegate {
+                GameManager.InitializeLevel();
+            };
 
-            GameObject Exit = new GameObject("Exit");
-            PlayArea.AddChild(Exit);
-            StaticSpriteRendererComponent exitSprite = new StaticSpriteRendererComponent(Exit);
-            exitSprite.AddSprite("Exit_Active", "Assets/ObjectSpritesheet.png", new Rectangle(137, 605, 65, 65));
-            exitSprite.AddSprite("Exit_Unlocked", "Assets/ObjectSpritesheet.png", new Rectangle(264,690,65,65));
+            GameObject LockedExit = new GameObject("LockedExit");
+            PlayArea.AddChild(LockedExit);
+            GameManager.LockedExit = LockedExit;
+            LockedExit.Enabled = true;
+            StaticSpriteRendererComponent exitSprite = new StaticSpriteRendererComponent(LockedExit);
             exitSprite.AddSprite("Exit_Locked", "Assets/ObjectSpritesheet.png", new Rectangle(71, 607, 65, 65));
-
+            
             GameObject Key = new GameObject("Key");
+            GameManager.Key = Key;
             PlayArea.AddChild(Key);
+            Key.Enabled = false;
             StaticSpriteRendererComponent keySprite = new StaticSpriteRendererComponent(Key);
             keySprite.AddSprite("KeySprite", "Assets/ObjectSpritesheet.png", new Rectangle(310, 862, 35, 40));
+            ButtonComponent keyButton = new ButtonComponent(Key);
+            keyButton.DoClick += delegate {
+                Key.Enabled = false;
+                GameManager.HasKey = true;
+                GameManager.LockedExit.Enabled = false;
+                GameManager.UnlockedExit.Enabled = true;
+            };
+
+            GameObject HiddenTile = new GameObject("Tiles");
+            PlayArea.AddChild(HiddenTile);
+            for (int h = 0; h < tilesHeight; h++) {
+                for (int w = 0; w < tilesWidth; w++) {
+                    GameObject tile = new GameObject("Tile" + h + "_" + w);
+                    tile.LocalPosition = new Point((w * 64), (h * 64));//65 = sprite size, 1px overlap
+                    HiddenTile.AddChild(tile);
+                    GameManager.HiddenTiles[w][h] = tile;
+                    StaticSpriteRendererComponent tileSprite = new StaticSpriteRendererComponent(tile);
+                    tileSprite.AddSprite("Tile_Hidden", "Assets/ObjectSpritesheet.png", new Rectangle(400, 790, 65, 65));
+                    ButtonComponent tileButton = new ButtonComponent(tile);
+                    tileButton.DoClick += delegate {
+                        if (tile.Enabled) {
+                            tile.Enabled = false;
+                            GameManager.TileClicked(InputManager.Instance.MousePosition);
+                        }
+                    };
+                }
+            }
 
             GameObject UI = new GameObject("UI");
             Root.AddChild(UI);
@@ -335,6 +377,8 @@ namespace Game {
             currentHeroStats.LocalPosition = new Point(0, -20);
             FontRendererComponent currentStatsAmt = new FontRendererComponent(currentHeroStats, "Assets/Font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
             currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
+
+            GameManager.InitializeLevel();
         }
         public override void Enter() {
             using (StreamReader reader = new StreamReader("Assets/Data/CurrentHero.txt")) {
