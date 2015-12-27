@@ -33,6 +33,9 @@ namespace Game {
                 using (StreamReader reader = new StreamReader("Assets/Data/hero_" + CurrentHero + ".txt")) {
                     heroHealth = System.Convert.ToInt32(reader.ReadLine());
                     heroAttack = System.Convert.ToInt32(reader.ReadLine());
+                    reader.ReadLine();
+                    reader.ReadLine();
+                    reader.ReadLine();
                     heroSkill1 = System.Convert.ToInt32(reader.ReadLine());
                     heroSkill2 = System.Convert.ToInt32(reader.ReadLine());
                     heroSkill3 = System.Convert.ToInt32(reader.ReadLine());

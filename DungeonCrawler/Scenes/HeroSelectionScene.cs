@@ -158,16 +158,33 @@ namespace Game {
             petRock.AddSprite("Pet Rock3", "Assets/ObjectSpriteSheet.png", new Rectangle(365, 859, 80, 80));
             petRock.AddSprite("Pet Rock4", "Assets/ObjectSpriteSheet.png", new Rectangle(365, 945, 80, 80));
             petRock.SetSprite("Pet Rock1");
+            if (sassy.Skills[sassy.SkillIndexer[3]] == 1) {
+                petRock.SetSprite("Pet Rock1");
+            }
+            else if (sassy.Skills[sassy.SkillIndexer[3]] == 2) {
+                petRock.SetSprite("Pet Rock2");
+            }
+            else if (sassy.Skills[sassy.SkillIndexer[3]] == 3) {
+                petRock.SetSprite("Pet Rock3");
+            }
+            else if (sassy.Skills[sassy.SkillIndexer[3]] >= 4) {
+                petRock.SetSprite("Pet Rock4");
+            }
 
             //load hero stats
-            for (int i = 0; i < Heroes.Count; i++) {
-                using (StreamReader reader = new StreamReader("Assets/Data/hero_" + i + ".txt")) {
-                    HeroComponent currentHeroComponent = (HeroComponent)Heroes[i].FindComponent("HeroComponent");//get hero object, get hero skills component
-                    currentHeroComponent.Health = System.Convert.ToInt32(reader.ReadLine());
-                    currentHeroComponent.Attack = System.Convert.ToInt32(reader.ReadLine());
-                    List<string> skills = new List<string>(currentHeroComponent.Skills.Keys);
-                    foreach(string skill in skills) {
-                        currentHeroComponent.Skills[skill] = System.Convert.ToInt32(reader.ReadLine());
+                for (int i = 0; i < Heroes.Count; i++) {
+                    if (File.Exists("Assets/Data/hero_" + i + ".txt")) {
+                    using (StreamReader reader = new StreamReader("Assets/Data/hero_" + i + ".txt")) {
+                        HeroComponent currentHeroComponent = (HeroComponent)Heroes[i].FindComponent("HeroComponent");//get hero object, get hero skills component
+                        currentHeroComponent.Health = System.Convert.ToInt32(reader.ReadLine());
+                        currentHeroComponent.Attack = System.Convert.ToInt32(reader.ReadLine());
+                        reader.ReadLine();
+                        reader.ReadLine();
+                        reader.ReadLine();
+                        List<string> skills = new List<string>(currentHeroComponent.Skills.Keys);
+                        foreach (string skill in skills) {
+                            currentHeroComponent.Skills[skill] = System.Convert.ToInt32(reader.ReadLine());
+                        }
                     }
                 }
             }
@@ -561,6 +578,22 @@ namespace Game {
             else if (CurrentHero == 2) {
                 currentHero = Root.FindChild("Sassy Calves");
                 currentHeroComponent = (HeroComponent)currentHero.FindComponent("HeroComponent");
+                GameObject petRockObj = currentHero.FindChild("PetRockObj");
+                if (petRockObj != null) {
+                    StaticSpriteRendererComponent petRock = (StaticSpriteRendererComponent)petRockObj.FindComponent("StaticSpriteRendererComponent");
+                    if (currentHeroComponent.Skills[currentHeroComponent.SkillIndexer[2]] == 1) {
+                        petRock.SetSprite("Pet Rock1");
+                    }
+                    else if (currentHeroComponent.Skills[currentHeroComponent.SkillIndexer[2]] == 2) {
+                        petRock.SetSprite("Pet Rock2");
+                    }
+                    else if (currentHeroComponent.Skills[currentHeroComponent.SkillIndexer[2]] == 3) {
+                        petRock.SetSprite("Pet Rock3");
+                    }
+                    else if (currentHeroComponent.Skills[currentHeroComponent.SkillIndexer[2]] >= 4) {
+                        petRock.SetSprite("Pet Rock4");
+                    }
+                }
             }
             heroHealth = Root.FindChild("HealthIdentifierAmtObj");
             heroHealthFnt = (FontRendererComponent)heroHealth.FindComponent("FontRendererComponent");
@@ -578,6 +611,9 @@ namespace Game {
                 using (TextReader reader = File.OpenText("Assets/Data/hero_" + CurrentHero + ".txt")) {
                     currentHeroComponent.Health = System.Convert.ToInt32(reader.ReadLine());
                     currentHeroComponent.Attack = System.Convert.ToInt32(reader.ReadLine());
+                    reader.ReadLine();
+                    reader.ReadLine();
+                    reader.ReadLine();
                     currentHeroComponent.Skills[currentHeroComponent.SkillIndexer[1]] = System.Convert.ToInt32(reader.ReadLine());
                     currentHeroComponent.Skills[currentHeroComponent.SkillIndexer[2]] = System.Convert.ToInt32(reader.ReadLine());
                     currentHeroComponent.Skills[currentHeroComponent.SkillIndexer[3]] = System.Convert.ToInt32(reader.ReadLine());
@@ -592,9 +628,31 @@ namespace Game {
         }
 
         public override void Exit() {
+            GameObject currentHero = null;
+            if(CurrentHero == 0) {
+                currentHero = Root.FindChild("That Gai");
+            }
+            else if (CurrentHero == 1) {
+                currentHero = Root.FindChild("BoveMaster");
+            }
+            else if (CurrentHero == 2) {
+                currentHero = Root.FindChild("Sassy Calves");
+            }
+            HeroComponent currentHeroComp = (HeroComponent)currentHero.FindComponent("HeroComponent");
             using (StreamWriter writer = new StreamWriter("Assets/Data/CurrentHero.txt")) {
                 writer.WriteLine(CurrentHero.ToString());
                 writer.WriteLine(Monies.ToString());
+            }
+            using (StreamWriter writer = new StreamWriter("Assets/Data/hero_" + CurrentHero + ".txt")) {
+                writer.WriteLine(currentHeroComp.Health);
+                writer.WriteLine(currentHeroComp.Attack);
+                writer.WriteLine(currentHeroComp.SkillIndexer[1]);
+                writer.WriteLine(currentHeroComp.SkillIndexer[2]);
+                writer.WriteLine(currentHeroComp.SkillIndexer[3]);
+                writer.WriteLine(currentHeroComp.Skills[currentHeroComp.SkillIndexer[1]]);
+                writer.WriteLine(currentHeroComp.Skills[currentHeroComp.SkillIndexer[2]]);
+                writer.WriteLine(currentHeroComp.Skills[currentHeroComp.SkillIndexer[3]]);
+
             }
         }
     }

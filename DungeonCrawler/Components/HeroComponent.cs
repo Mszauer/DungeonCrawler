@@ -59,7 +59,11 @@ namespace Components {
             using (StreamWriter writer = new StreamWriter("Assets/Data/hero_" + HeroIndex + ".txt")) {
                 writer.WriteLine(Health.ToString());
                 writer.WriteLine(Attack.ToString());
-                foreach(KeyValuePair<string,int> kvp in Skills) {
+                writer.WriteLine(SkillIndexer[1]);
+                writer.WriteLine(SkillIndexer[2]);
+                writer.WriteLine(SkillIndexer[3]);
+                foreach (KeyValuePair<string,int> kvp in Skills) {
+
                     writer.WriteLine(kvp.Value.ToString());
                 }
             }

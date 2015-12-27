@@ -12,12 +12,16 @@ namespace Game {
     class InGameScene : Scene{
         protected int CurrentHero = 0;
         protected int Monies = 0;
+        protected int currentHealth = 10;
+        protected int currentAttack = 1;
 
         public override void Initialize() {
             int monsterPoolAmt = 5; //amount of monsters in each unique pool
             int barrelPoolAmt = 3; //possible amount of barrels on screen
             int tilesWidth = 5;
             int tilesHeight = 5;
+            int UIWidth = 5;
+            int UIHeight = 2;
             Enter();
 
             GameObject Monster1Pool = new GameObject("Monster1Pool");
@@ -190,6 +194,7 @@ namespace Game {
             for (int h = 0; h < tilesHeight; h++) {
                 for (int w = 0; w < tilesWidth; w++) {
                     GameObject tile = new GameObject("Tile" + h + "_" + w);
+                    tile.LocalPosition = new Point((w * 64), (h * 64));//65 = sprite size, 1px overlap
                     Tiles.AddChild(tile);
                     StaticSpriteRendererComponent tileSprite = new StaticSpriteRendererComponent(tile);
                     tileSprite.AddSprite("Tile_Active", "Assets/ObjectSpritesheet.png", new Rectangle(0, 605, 65, 65));
@@ -209,7 +214,43 @@ namespace Game {
             StaticSpriteRendererComponent keySprite = new StaticSpriteRendererComponent(Key);
             keySprite.AddSprite("KeySprite", "Assets/ObjectSpritesheet.png", new Rectangle(310, 862, 35, 40));
 
+            GameObject UI = new GameObject("UI");
+            Root.AddChild(UI);
+
+            GameObject UITiles = new GameObject("UITiles");
+            UITiles.LocalPosition = new Point(0, 350);
+            UI.AddChild(UITiles);
+            for (int h = 0; h < UIHeight; h++) {
+                for (int w = 0; w < UIWidth; w++) {
+                    GameObject Tile = new GameObject("UITile"+h+"_"+w);
+                    UITiles.AddChild(Tile);
+                    Tile.LocalPosition = new Point(w * 64, h * 64);//1px overlap
+                    StaticSpriteRendererComponent tileSprite = new StaticSpriteRendererComponent(Tile);
+                    if (h==0 && w == 0) {
+                        tileSprite.AddSprite("TopLeftTile", "Assets/ObjectSpritesheet.png", new Rectangle(39, 857, 65, 65));
+                    }
+                    else if (h == 0 && w == UIWidth - 1) {
+                        tileSprite.AddSprite("TopRightTile", "Assets/ObjectSpritesheet.png", new Rectangle(106, 857, 65, 65));
+                    }
+                    else if (h==UIHeight-1 && w == 0) {
+                        tileSprite.AddSprite("BottomRightTile", "Assets/ObjectSpritesheet.png", new Rectangle(39, 924, 65, 65));
+                    }
+                    else if (h==UIHeight-1 && w == UIWidth - 1) {
+                        tileSprite.AddSprite("BottomLeftTile", "Assets/ObjectSpritesheet.png", new Rectangle(106, 924, 65, 65));
+                    }
+                    else if (h == 0) { 
+                        tileSprite.AddSprite("UpperTile", "Assets/ObjectSpriteSheet.png", new Rectangle(173, 923, 65, 65));
+                    }
+                    else if (h == UIHeight - 1) {
+                        tileSprite.AddSprite("LowerTile", "Assets/ObjectSpritesheet.png", new Rectangle(173, 857, 65, 65));
+                    }
+                }
+            }
+            GameObject petRockObj = new GameObject("PetRockObj");
+            UITiles.AddChild(petRockObj);
             GameObject heroObj = new GameObject("HeroObj");
+            UI.AddChild(heroObj);
+            heroObj.LocalPosition = new Point(15, 340);
             HeroComponent heroStats = new HeroComponent(heroObj);
             AnimatedSpriteRendererComponent heroSprite = new AnimatedSpriteRendererComponent(heroObj);
             if (CurrentHero == 0) {
@@ -235,14 +276,76 @@ namespace Game {
             using (StreamReader reader = new StreamReader("Assets/Data/hero_" + CurrentHero + ".txt")) {
                 heroStats.Health = System.Convert.ToInt32(reader.ReadLine());
                 heroStats.Attack = System.Convert.ToInt32(reader.ReadLine());
+                for (int i = 0; i < 3; i++) {
+                    heroStats.AddSkill(reader.ReadLine(),4,"");
+                }
+                heroStats.Skills[heroStats.SkillIndexer[1]] = System.Convert.ToInt32(reader.ReadLine());
+                heroStats.Skills[heroStats.SkillIndexer[2]] = System.Convert.ToInt32(reader.ReadLine());
+                heroStats.Skills[heroStats.SkillIndexer[3]] = System.Convert.ToInt32(reader.ReadLine());
+
             }
+            if (CurrentHero == 2) {
+                petRockObj.LocalPosition = new Point(-8, 35);
+                StaticSpriteRendererComponent petRock = new StaticSpriteRendererComponent(petRockObj);
+                petRock.Anchor = StaticSpriteRendererComponent.AnchorPosition.BottomMiddle;
+                if (heroStats.Skills[heroStats.SkillIndexer[2]] == 1) {
+                    petRock.AddSprite("Pet Rock1", "Assets/ObjectSpriteSheet.png", new Rectangle(448, 945, 80, 80));
+                }
+                else if (heroStats.Skills[heroStats.SkillIndexer[2]] == 2) {
+                    petRock.AddSprite("Pet Rock2", "Assets/ObjectSpriteSheet.png", new Rectangle(448, 859, 80, 80));
+                }
+                else if (heroStats.Skills[heroStats.SkillIndexer[2]] == 3) {
+                    petRock.AddSprite("Pet Rock3", "Assets/ObjectSpriteSheet.png", new Rectangle(365, 859, 80, 80));
+                }
+                else if (heroStats.Skills[heroStats.SkillIndexer[2]] >= 4) {
+                    petRock.AddSprite("Pet Rock4", "Assets/ObjectSpriteSheet.png", new Rectangle(365, 945, 80, 80));
+                }
+                else {
+                    Console.WriteLine("Skill indexer: "+heroStats.Skills[heroStats.SkillIndexer[2]].ToString());
+                }
+            }
+
+            GameObject HeroStats = new GameObject("HeroStats");
+            UITiles.AddChild(HeroStats);
+            HeroStats.LocalPosition = new Point(135, 13);
+            //health bar
+            GameObject healthBarBGObj = new GameObject("HealthBarBGObj");
+            HeroStats.AddChild(healthBarBGObj);
+            StaticSpriteRendererComponent healthBarBGSprite = new StaticSpriteRendererComponent(healthBarBGObj);
+            healthBarBGSprite.AddSprite("HealthBarBGSprite", "Assets/ObjectSpritesheet.png", new Rectangle(0,542,170,36));
+            GameObject healthBarObj = new GameObject("healthBarObj");
+            healthBarObj.LocalPosition = new Point(37, 5);
+            healthBarBGObj.AddChild(healthBarObj);
+            StaticSpriteRendererComponent healthBarSprite = new StaticSpriteRendererComponent(healthBarObj);
+            healthBarSprite.AddSprite("HealthBarSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(0, 579, 128, 24));
+            //armor bar
+            GameObject armorBarBgObj = new GameObject("ArmorBarBgObj");
+            HeroStats.AddChild(armorBarBgObj);
+            armorBarBgObj.LocalPosition = new Point(5, 35);
+            StaticSpriteRendererComponent armorBarBgSprite = new StaticSpriteRendererComponent(armorBarBgObj);
+            armorBarBgSprite.AddSprite("ArmorBarBgSprite", "Assets/ObjectSpritesheet.png", new Rectangle(165, 505, 165, 40));
+            GameObject armorBarObj = new GameObject("ArmorBarObj");
+            armorBarBgObj.AddChild(armorBarObj);
+            armorBarObj.LocalPosition = new Point(32, 8);
+            StaticSpriteRendererComponent armorBarSprite = new StaticSpriteRendererComponent(armorBarObj);
+            armorBarSprite.AddSprite("ArmorBarSprite", "Assets/ObjectSpritesheet.png", new Rectangle(195, 485, 130, 20));
+            //temporary stat displayer
+            GameObject currentHeroStats = new GameObject("CurrentHeroStats");
+            UITiles.AddChild(currentHeroStats);
+            currentHeroStats.LocalPosition = new Point(0, -20);
+            FontRendererComponent currentStatsAmt = new FontRendererComponent(currentHeroStats, "Assets/Font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
+            currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
         }
         public override void Enter() {
             using (StreamReader reader = new StreamReader("Assets/Data/CurrentHero.txt")) {
                 CurrentHero = System.Convert.ToInt32(reader.ReadLine());
                 Monies = System.Convert.ToInt32(reader.ReadLine());
             }
-            
+            using (StreamReader reader = new StreamReader("Assets/Data/hero_" + CurrentHero + ".txt")) {
+                currentHealth = System.Convert.ToInt32(reader.ReadLine());
+                currentAttack = System.Convert.ToInt32(reader.ReadLine());
+
+            }
         }
         public override void Exit() {
             using (StreamWriter writer = new StreamWriter("Assets/Data/CurrentHero.txt")) {
