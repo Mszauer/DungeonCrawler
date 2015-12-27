@@ -155,21 +155,31 @@ namespace Game {
             GameObject BarrelPool = new GameObject("BarrelPool");
             Root.AddChild(BarrelPool);
             BarrelPool.Enabled = false;
+            GameManager.BarrelPool = BarrelPool;
             for (int i = 0; i < barrelPoolAmt; i++) {
-                GameObject barrel = new GameObject("Barrel1_" + (i + 1));
+                GameObject barrel = new GameObject("Barrel");
                 BarrelPool.AddChild(barrel);
                 StaticSpriteRendererComponent BarrelSprite = new StaticSpriteRendererComponent(barrel);
                 BarrelSprite.AddSprite("BarrelSprite", "Assets/ObjectSpritesheet.png", new Rectangle(105,679,45,65));
+                ButtonComponent barrelClicked = new ButtonComponent(barrel);
+                barrelClicked.DoClick += delegate {
+                    GameManager.BarrelClicked(InputManager.Instance.MousePosition);
+                };
             }
 
             GameObject CoinPool = new GameObject("CoinPool");
             Root.AddChild(CoinPool);
             CoinPool.Enabled = false;
+            GameManager.CoinPool = CoinPool;
             for (int i = 0; i < 3; i++) {
-                GameObject coins = new GameObject("Coins1_" + (i + 1));
+                GameObject coins = new GameObject("Coins");
                 CoinPool.AddChild(coins);
                 StaticSpriteRendererComponent CoinsSprite = new StaticSpriteRendererComponent(coins);
                 CoinsSprite.AddSprite("CoinsSprite", "assets/ObjectSpritesheet.png", new Rectangle(245, 865, 60, 35));
+                ButtonComponent coinsClicked = new ButtonComponent(coins);
+                coinsClicked.DoClick += delegate {
+                    GameManager.CoinsClicked(InputManager.Instance.MousePosition);
+                };
             }
 
             GameObject ChestPool = new GameObject("ChestPool");
@@ -221,6 +231,8 @@ namespace Game {
             LockedExit.Enabled = true;
             StaticSpriteRendererComponent exitSprite = new StaticSpriteRendererComponent(LockedExit);
             exitSprite.AddSprite("Exit_Locked", "Assets/ObjectSpritesheet.png", new Rectangle(71, 607, 65, 65));
+            //add button component
+            //when clicked display helping tooltip to find the key
             
             GameObject Key = new GameObject("Key");
             GameManager.Key = Key;
@@ -255,6 +267,8 @@ namespace Game {
                     };
                 }
             }
+
+            //add gold and current level to UI
 
             GameObject UI = new GameObject("UI");
             Root.AddChild(UI);
