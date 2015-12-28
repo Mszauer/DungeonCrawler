@@ -37,7 +37,9 @@ namespace GameFramework {
             }
         }
         public List<GameObject> Children = null;
-        public GameObject Parent = null;
+        public GameObject Parent {
+            get; private set;
+        }
         public List<Component> Components = null;
         public GameObject(string name) {
             Name = name;
@@ -93,6 +95,9 @@ namespace GameFramework {
         public void AddChild(GameObject child) {
             if (Children == null) {
                 Children = new List<GameObject>();
+            }
+            if (child.Parent != null) {
+                child.Parent.RemoveChild(child);
             }
             Children.Add(child);
             child.Parent = this;

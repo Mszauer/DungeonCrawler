@@ -126,7 +126,7 @@ namespace Game {
 
             GameObject Helper1Pool = new GameObject("Helper1Pool");
             Root.AddChild(Helper1Pool);
-            Monster1Pool.Enabled = false;
+            Helper1Pool.Enabled = false;
             for (int i = 0; i < 1; i++) {
                 GameObject Helper1 = new GameObject("Helper1_" + (i + 1));
                 Helper1Pool.AddChild(Helper1);
@@ -163,7 +163,7 @@ namespace Game {
                 BarrelSprite.AddSprite("BarrelSprite", "Assets/ObjectSpritesheet.png", new Rectangle(105,679,45,65));
                 ButtonComponent barrelClicked = new ButtonComponent(barrel);
                 barrelClicked.DoClick += delegate {
-                    GameManager.BarrelClicked(InputManager.Instance.MousePosition);
+                    GameManager.BarrelClicked(InputManager.Instance.MousePosition, barrel);
                 };
             }
 
@@ -178,7 +178,8 @@ namespace Game {
                 CoinsSprite.AddSprite("CoinsSprite", "assets/ObjectSpritesheet.png", new Rectangle(245, 865, 60, 35));
                 ButtonComponent coinsClicked = new ButtonComponent(coins);
                 coinsClicked.DoClick += delegate {
-                    GameManager.CoinsClicked(InputManager.Instance.MousePosition);
+                    GameManager.CoinsClicked(InputManager.Instance.MousePosition,coins);
+                    Monies += 10;
                 };
             }
 
@@ -201,7 +202,7 @@ namespace Game {
             GameObject PlayArea = new GameObject("PlayArea");
             Root.AddChild(PlayArea);
 
-            GameObject ActiveTile = new GameObject("Tiles");
+            GameObject ActiveTile = new GameObject("Active Tiles");
             PlayArea.AddChild(ActiveTile);
             for (int h = 0; h < tilesHeight; h++) {
                 for (int w = 0; w < tilesWidth; w++) {
@@ -248,7 +249,7 @@ namespace Game {
                 GameManager.UnlockedExit.Enabled = true;
             };
 
-            GameObject HiddenTile = new GameObject("Tiles");
+            GameObject HiddenTile = new GameObject("Hidden Tiles");
             PlayArea.AddChild(HiddenTile);
             for (int h = 0; h < tilesHeight; h++) {
                 for (int w = 0; w < tilesWidth; w++) {

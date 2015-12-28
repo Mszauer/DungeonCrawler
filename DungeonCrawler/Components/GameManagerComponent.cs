@@ -27,9 +27,8 @@ namespace Components {
         public GameObject BarrelPool = null;
         public GameObject CoinPool = null;
 
-        public int BarrelSpawnChance = 3; //out of 21 1 in 7 chance
-        public int CoinSpawnChance = 10;//out of 100
-        public int GemSpawnChance = 5;//100
+        public int BarrelSpawnChance = 14;
+        public int CoinSpawnChance = 20;//out of 100
         public int EnemyDropChance = 30; //out of 100 for coins to drop
         public bool HasKey = false;
 
@@ -69,35 +68,65 @@ namespace Components {
             Key.LocalPosition = new Point((randomKeyX * 65)+15, (randomKeyY * 65)+15);//65 == tile sprite width, 15 offset to center
             for (int x = 0; x < ActiveTiles.Length; x++) {
                 for (int y = 0; y < ActiveTiles[x].Length; y++) {
-                    int rando = random.Next(18);
+                    HiddenTiles[x][y].Enabled = true;
+
+                    if (x == randomKeyX && y ==randomKeyY) {
+                        continue;
+                    }
+                    int rando = random.Next(100);
                     if (x == randomExitX && y == randomExitY) {
                         HiddenTiles[x][y].Enabled = false;
                         continue;
                     }
-                    if (rando == BarrelSpawnChance) {
+                    if (BarrelPool.FindChild("Barrel") != null) {
+                        if (rando <= BarrelSpawnChance) {
 #if BARRELDEBUG
-                        Console.WriteLine("Barrel Spawned at X: " + x + " Y: " + y);
+                            Console.WriteLine("Barrel Spawned at X: " + x + " Y: " + y);
 #endif
-                        BarrelPool.FindChild("Barrel").LocalPosition = new Point(x*65,y*65);
-                        BarrelPool.FindChild("Barrel").Parent = BarrelPool.Parent;
+                            BarrelPool.FindChild("Barrel").LocalPosition = new Point(10,0);
+                            ActiveTiles[x][y].AddChild(BarrelPool.FindChild("Barrel"));
+                            ActiveTiles[x][y].FindChild("Barrel").Enabled = false;
+                            rando = random.Next(100);
+                        }
                     }
-                    HiddenTiles[x][y].Enabled = true;
+                    if (CoinPool.FindChild("Coins") != null) {
+                        if (rando <= CoinSpawnChance) {
+#if BARRELDEBUG
+                            Console.WriteLine("Coin spawned at x: " + x + " y: " + y);
+#endif
+                            GameObject barrel = ActiveTiles[x][y].FindChild("Barrel");
+                            GameObject coins = CoinPool.FindChild("Coins");
+
+                            coins.LocalPosition = new Point(5, 20);
+                            if (barrel != null) {
+                                barrel.AddChild(coins);
+                                coins.Enabled = false;
+                                rando = random.Next(100);
+                                continue;
+                            }
+                            ActiveTiles[x][y].AddChild(coins);
+                            coins.Enabled = false;
+                            rando = random.Next(100);
+                        }
+                    }
+                    
                 }
             }
             LockedExit.LocalPosition = new Point(64 * randomExitX, 64 * randomExitY);
             UnlockedExit.LocalPosition = new Point(64 * randomExitX, 64 * randomExitY);
 
         }//end initializelevel
-        public void BarrelClicked(Point MousePosition) {
-            GameObject barrel = BarrelPool.FindChild("Barrel");
-            if (barrel.Parent != BarrelPool.Parent) {
-                barrel.Parent = BarrelPool.Parent;
-                return;
+        public void BarrelClicked(Point MousePosition, GameObject barrel) {
+            if (barrel.Children != null && barrel.Children.Count > 0) {
+                for (int i = barrel.Children.Count-1;i>= 0; i--) {
+                    barrel.FindChild(barrel.Children[i].Name).Enabled = true;
+                    ActiveTiles[(MousePosition.X / 65)][(MousePosition.Y / 65)].AddChild(barrel.Children[i]);
+                }
             }
-            barrel.Parent = BarrelPool;
+            BarrelPool.AddChild(barrel);
         }
-        public void CoinsClicked(Point MousePosition) {
-
+        public void CoinsClicked(Point MousePosition,GameObject coins) {
+            CoinPool.AddChild(coins);
         }
         public void TileClicked(Point MousePosition) {
 #if MOUSEPOSITIONDEBUG
@@ -109,6 +138,14 @@ namespace Components {
 #endif
                 //if no monster
                 Key.Enabled = true;
+            }
+            if (ActiveTiles[(MousePosition.X / 65)][(MousePosition.Y / 65)].Children != null) {
+                if (ActiveTiles[(MousePosition.X / 65)][(MousePosition.Y / 65)].FindChild("Barrel") != null) {
+                    ActiveTiles[(MousePosition.X / 65)][(MousePosition.Y / 65)].FindChild("Barrel").Enabled = true;
+                }
+                if (ActiveTiles[(MousePosition.X / 65)][(MousePosition.Y / 65)].FindChild("Coins", false) != null) {
+                    ActiveTiles[(MousePosition.X / 65)][(MousePosition.Y / 65)].FindChild("Coins").Enabled = true;
+                }
             }
         }//end tileCliked
     }//end component
