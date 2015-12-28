@@ -26,6 +26,20 @@ namespace Game {
 
             GameManagerComponent GameManager = new GameManagerComponent(Root);
 
+            //Currency Display
+            GameObject currency = new GameObject("Currency");
+            currency.LocalPosition = new Point(-140, -50);
+            StaticSpriteRendererComponent currencyBG = new StaticSpriteRendererComponent(currency);
+            currencyBG.AddSprite("Currency", "Assets/ObjectSpriteSheet.png", new Rectangle(327, 50, 113, 42));
+
+            GameObject currencyAmtObj = new GameObject("CurrencyAmtObj");
+            currency.AddChild(currencyAmtObj);
+            currencyAmtObj.LocalPosition = new Point(105, 12);//90,9
+            FontRendererComponent currencyAmt = new FontRendererComponent(currencyAmtObj, "Assets/Font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
+            currencyAmt.CurrentAllignment = FontRendererComponent.Allignment.Right;
+            currencyAmt.DrawString(Monies.ToString());//insert currency variable here
+
+
             GameObject Monster1Pool = new GameObject("Monster1Pool");
             Root.AddChild(Monster1Pool);
             Monster1Pool.Enabled = false;
@@ -167,6 +181,7 @@ namespace Game {
                 };
             }
 
+            
             GameObject CoinPool = new GameObject("CoinPool");
             Root.AddChild(CoinPool);
             CoinPool.Enabled = false;
@@ -180,6 +195,7 @@ namespace Game {
                 coinsClicked.DoClick += delegate {
                     GameManager.CoinsClicked(InputManager.Instance.MousePosition,coins);
                     Monies += 10;
+                    currencyAmt.DrawString(Monies.ToString());
                 };
             }
 
@@ -263,13 +279,11 @@ namespace Game {
                     tileButton.DoClick += delegate {
                         if (tile.Enabled) {
                             tile.Enabled = false;
-                            GameManager.TileClicked(InputManager.Instance.MousePosition);
+                            GameManager.TileClicked(InputManager.Instance.MousePosition,tile);
                         }
                     };
                 }
             }
-
-            //add gold and current level to UI
 
             GameObject UI = new GameObject("UI");
             Root.AddChild(UI);
@@ -389,11 +403,15 @@ namespace Game {
             //temporary stat displayer
             GameObject currentHeroStats = new GameObject("CurrentHeroStats");
             UITiles.AddChild(currentHeroStats);
-            currentHeroStats.LocalPosition = new Point(0, -20);
+            currentHeroStats.LocalPosition = new Point(130, -20);
             FontRendererComponent currentStatsAmt = new FontRendererComponent(currentHeroStats, "Assets/Font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
             currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
 
+            //money parent
+            HeroStats.AddChild(currency);
+
             GameManager.InitializeLevel();
+
         }
         public override void Enter() {
             using (StreamReader reader = new StreamReader("Assets/Data/CurrentHero.txt")) {

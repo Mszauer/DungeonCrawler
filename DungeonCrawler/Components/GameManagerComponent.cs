@@ -128,7 +128,7 @@ namespace Components {
         public void CoinsClicked(Point MousePosition,GameObject coins) {
             CoinPool.AddChild(coins);
         }
-        public void TileClicked(Point MousePosition) {
+        public void TileClicked(Point MousePosition,GameObject tile) {
 #if MOUSEPOSITIONDEBUG
             Console.WriteLine("MousePosition X: " + (MousePosition.X / 65) + " Y: " + (MousePosition.Y / 65));
 #endif
