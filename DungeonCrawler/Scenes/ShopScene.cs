@@ -19,6 +19,9 @@ namespace Game {
         protected int heroSkill3 = 1;
         protected int statMultiplier = 5;
         protected int skillMultiplier = 4;
+        protected string skill1Name;
+        protected string skill2Name;
+        protected string skill3Name;
 
         public override void Initialize() {
 
@@ -33,9 +36,9 @@ namespace Game {
                 using (StreamReader reader = new StreamReader("Assets/Data/hero_" + CurrentHero + ".txt")) {
                     heroHealth = System.Convert.ToInt32(reader.ReadLine());
                     heroAttack = System.Convert.ToInt32(reader.ReadLine());
-                    reader.ReadLine();
-                    reader.ReadLine();
-                    reader.ReadLine();
+                    skill1Name = reader.ReadLine();
+                    skill2Name = reader.ReadLine();
+                    skill3Name = reader.ReadLine();
                     heroSkill1 = System.Convert.ToInt32(reader.ReadLine());
                     heroSkill2 = System.Convert.ToInt32(reader.ReadLine());
                     heroSkill3 = System.Convert.ToInt32(reader.ReadLine());
@@ -419,9 +422,13 @@ namespace Game {
             using (StreamWriter writer = new StreamWriter("Assets/Data/hero_" + CurrentHero + ".txt")) {
                 writer.WriteLine(heroHealth);
                 writer.WriteLine(heroAttack);
+                writer.WriteLine(skill1Name);
+                writer.WriteLine(skill2Name);
+                writer.WriteLine(skill3Name);
                 writer.WriteLine(heroSkill1);
                 writer.WriteLine(heroSkill2);
                 writer.WriteLine(heroSkill3);
+
             }
         }
     }
