@@ -9,8 +9,8 @@ using System.Drawing;
 
 namespace Components {
     class AnimatedSpriteRendererComponent : Component{
-        Dictionary<string, Rectangle[]> AnimationBank = null;
-        Dictionary<string, int> SpriteBank = null;
+        public Dictionary<string, Rectangle[]> AnimationBank = null;
+        public Dictionary<string, int> SpriteBank = null;
         public int CurrentFrame = 0;
         protected float animTimer = 0.0f;
         protected float frameTimer = 1.0f / 15.0f;

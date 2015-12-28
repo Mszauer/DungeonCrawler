@@ -3,6 +3,7 @@
 //#define KEYDEBUG
 //#define EXITDEBUG
 #define BARRELDEBUG
+#define ENEMYDEBUG
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,12 +27,15 @@ namespace Components {
         public GameObject UnlockedExit = null;
         public GameObject BarrelPool = null;
         public GameObject CoinPool = null;
-
+        public GameObject MonsterPool = null;
+        public GameObject Helper1Pool = null;
+        public GameObject Helper2Pool = null;
         public int BarrelSpawnChance = 14;
         public int CoinSpawnChance = 20;//out of 100
         public int EnemyDropChance = 30; //out of 100 for coins to drop
         public bool HasKey = false;
 
+        int floor = 0;
         int randomKeyX = 0;
         int randomKeyY = 0;
         int randomExitX =  0;
@@ -48,10 +52,10 @@ namespace Components {
             }
         }
         public void InitializeLevel() {
+            floor++;
             UnlockedExit.Enabled = false;
             LockedExit.Enabled = true;
             Random random = new Random();
-
             randomKeyX = random.Next(ActiveTiles.Length);
             randomKeyY = random.Next(ActiveTiles[0].Length);
             randomExitX = random.Next(ActiveTiles.Length);
@@ -78,7 +82,7 @@ namespace Components {
                         HiddenTiles[x][y].Enabled = false;
                         continue;
                     }
-                    if (BarrelPool.FindChild("Barrel") != null) {
+                    if (BarrelPool.FindChild("Barrel") != null && BarrelPool.FindChild("Monster")==null) {
                         if (rando <= BarrelSpawnChance) {
 #if BARRELDEBUG
                             Console.WriteLine("Barrel Spawned at X: " + x + " Y: " + y);
@@ -96,7 +100,7 @@ namespace Components {
 #endif
                             GameObject barrel = ActiveTiles[x][y].FindChild("Barrel");
                             GameObject coins = CoinPool.FindChild("Coins");
-
+                            GameObject monster = ActiveTiles[x][y].FindChild("Monster");
                             coins.LocalPosition = new Point(5, 20);
                             if (barrel != null) {
                                 barrel.AddChild(coins);
@@ -104,9 +108,27 @@ namespace Components {
                                 rando = random.Next(100);
                                 continue;
                             }
+                            if (monster != null) {
+                                monster.AddChild(coins);
+                                coins.Enabled = false;
+                                rando = random.Next(100);
+                                continue;
+                            }
                             ActiveTiles[x][y].AddChild(coins);
                             coins.Enabled = false;
                             rando = random.Next(100);
+                        }
+                    }
+                    if (floor < 3) {
+                        if (MonsterPool.FindChild("Monster") != null) {
+                            if (true) {
+#if ENEMYDEBUG
+                                Console.WriteLine("Enemy spawned at X: " + x + " Y: " + y);
+#endif
+                                MonsterPool.FindChild("Monster").LocalPosition = new Point(10,10);
+                                ActiveTiles[x][y].AddChild(MonsterPool.FindChild("Monster"));
+                                ActiveTiles[x][y].FindChild("Monster").Enabled = true;
+                            }
                         }
                     }
                     
@@ -127,6 +149,18 @@ namespace Components {
         }
         public void CoinsClicked(Point MousePosition,GameObject coins) {
             CoinPool.AddChild(coins);
+        }
+        public void EnemyClicked(GameObject monsterPool, GameObject enemy) {
+           /* EnemyComponent enemystats = (EnemyComponent)enemy.FindComponent("EnemyComponent");
+            if (enemystats.Health == 0) {
+                //play death animation
+                monsterPool.AddChild(enemy);
+            }
+            */
+        }
+        public void HelperClicked(GameObject helperPool, GameObject helper) {
+            //play attack anim
+            helperPool.AddChild(helper);
         }
         public void TileClicked(Point MousePosition,GameObject tile) {
 #if MOUSEPOSITIONDEBUG

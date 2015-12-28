@@ -17,20 +17,30 @@ namespace Components {
         protected bool wasPushed = false;
         //gameobject location
         //image size of button, get component of the button
-        public StaticSpriteRendererComponent buttonRenderer;
-
+        public StaticSpriteRendererComponent StaticRenderer;
+        public AnimatedSpriteRendererComponent AnimRenderer;
         public ButtonComponent(GameObject game):base("ButtonComponent", game) {
         }
 
         public override void OnActivate() {
-            buttonRenderer = (StaticSpriteRendererComponent)gameObject.FindComponent("StaticSpriteRendererComponent");
-
+            StaticRenderer = (StaticSpriteRendererComponent)gameObject.FindComponent("StaticSpriteRendererComponent");
+            AnimRenderer = (AnimatedSpriteRendererComponent)gameObject.FindComponent("AnimatedSpriteRendererComponent");
         }
         public override void OnUpdate(float dTime) {
             //if mouse is in position?
             InputManager i = InputManager.Instance;
+            int width = 0;
+            int height = 0;
+            if (StaticRenderer != null) {
+                width = StaticRenderer.SourceRects[StaticRenderer.CurrentSprite].Width;
+                height = StaticRenderer.SourceRects[StaticRenderer.CurrentSprite].Height;
+            }
+            else if (AnimRenderer != null) {
+                width = AnimRenderer.AnimationBank[AnimRenderer.CurrentAnimation][AnimRenderer.CurrentFrame].Width;
+                height = AnimRenderer.AnimationBank[AnimRenderer.CurrentAnimation][AnimRenderer.CurrentFrame].Width;
+            }
             //is x inside?
-            if (gameObject.GlobalPosition.X < i.MousePosition.X && i.MousePosition.X < (gameObject.GlobalPosition.X+buttonRenderer.SourceRects[buttonRenderer.CurrentSprite].Width) && gameObject.GlobalPosition.Y < i.MousePosition.Y && i.MousePosition.Y < (gameObject.GlobalPosition.Y + buttonRenderer.SourceRects[buttonRenderer.CurrentSprite].Height)) {
+            if (gameObject.GlobalPosition.X < i.MousePosition.X && i.MousePosition.X < (gameObject.GlobalPosition.X+width) && gameObject.GlobalPosition.Y < i.MousePosition.Y && i.MousePosition.Y < (gameObject.GlobalPosition.Y + height)) {
                 if (DoHover != null) {
                         DoHover();
                 }

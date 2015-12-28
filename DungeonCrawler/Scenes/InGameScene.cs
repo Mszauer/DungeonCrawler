@@ -179,177 +179,10 @@ namespace Game {
             FontRendererComponent currentStatsAmt = new FontRendererComponent(currentHeroStats, "Assets/Font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
             currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
 
-            GameObject Monster1Pool = new GameObject("Monster1Pool");
-            Root.AddChild(Monster1Pool);
-            Monster1Pool.Enabled = false;
-            for (int i = 0; i < monsterPoolAmt; i++) {
-                GameObject Monster1 = new GameObject("Monster");
-                Monster1Pool.AddChild(Monster1);
-                EnemyComponent Monster = new EnemyComponent(Monster1);
-                Monster.Health = 4;
-                Monster.Attack = 1;
-                AnimatedSpriteRendererComponent MonsterAnimation = new AnimatedSpriteRendererComponent(Monster1);
-                MonsterAnimation.AddAnimation("Idle", "Assets/Characters/DarkKnight/DarkKnight_Idle.png", MonsterAnimation.AddAnimation(4,4,128,128));
-                MonsterAnimation.AddAnimation("Hit", "Assets/Characters/DarkKnight/DarkKnight_Hit.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.AddAnimation("Death", "Assets/Characters/DarkKnight/DarkKnight_Death.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.AddAnimation("Attack", "Assets/Characters/DarkKnight/DarkKnight_Attack.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.PlayAnimation("Idle");
-                ButtonComponent enemy = new ButtonComponent(Monster1);
-                enemy.DoClick += delegate {
-                    MonsterAnimation.PlayAnimation("Attack");
-                    currentHealth -= Monster.Attack;
-                    currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
-                    //enemy takes a hit
-                };
-            }
-
-            GameObject Monster2Pool = new GameObject("Monster2Pool");
-            Root.AddChild(Monster2Pool);
-            Monster2Pool.Enabled = false;
-            for (int i = 0; i < monsterPoolAmt; i++) {
-                GameObject Monster2 = new GameObject("Monster");
-                Monster2Pool.AddChild(Monster2);
-                EnemyComponent Monster = new EnemyComponent(Monster2);
-                Monster.Health = 10;
-                Monster.Attack = 2;
-                AnimatedSpriteRendererComponent MonsterAnimation = new AnimatedSpriteRendererComponent(Monster2);
-                MonsterAnimation.AddAnimation("Idle", "Assets/Characters/DarkKnight2/DarkKnight2_Idle.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.AddAnimation("Hit", "Assets/Characters/DarkKnight2/DarkKnight2_Hit.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.AddAnimation("Death", "Assets/Characters/DarkKnight2/DarkKnight2_Death.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.AddAnimation("Attack", "Assets/Characters/DarkKnight2/DarkKnight2_Attack.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.PlayAnimation("Idle");
-                ButtonComponent enemy = new ButtonComponent(Monster2);
-                enemy.DoClick += delegate {
-                    MonsterAnimation.PlayAnimation("Attack");
-                    currentHealth -= Monster.Attack;
-                    currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
-                    //enemy takes a hit
-                };
-            }
-
-            GameObject Monster3Pool = new GameObject("Monster3Pool");
-            Root.AddChild(Monster3Pool);
-            Monster3Pool.Enabled = false;
-            for (int i = 0; i < monsterPoolAmt; i++) {
-                GameObject Monster3 = new GameObject("Monster");
-                Monster3Pool.AddChild(Monster3);
-                EnemyComponent Monster = new EnemyComponent(Monster3);
-                Monster.Health = 12;
-                Monster.Attack = 4;
-                AnimatedSpriteRendererComponent MonsterAnimation = new AnimatedSpriteRendererComponent(Monster3);
-                MonsterAnimation.AddAnimation("Idle", "Assets/Characters/Skeleton1/Skeleton1_Idle.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.AddAnimation("Hit", "Assets/Characters/Skeleton1/Skeleton1_Hit.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.AddAnimation("Death", "Assets/Characters/Skeleton1/Skeleton1_Death.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.AddAnimation("Attack", "Assets/Characters/Skeleton1/Skeleton1_Attack.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.PlayAnimation("Idle");
-                ButtonComponent enemy = new ButtonComponent(Monster3);
-                enemy.DoClick += delegate {
-                    MonsterAnimation.PlayAnimation("Attack");
-                    currentHealth -= Monster.Attack;
-                    currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
-                    //enemy takes a hit
-                };
-            }
-
-            GameObject Monster4Pool = new GameObject("Monster4Pool");
-            Root.AddChild(Monster4Pool);
-            Monster4Pool.Enabled = false;
-            for (int i = 0; i < monsterPoolAmt; i++) {
-                GameObject Monster4 = new GameObject("Monster");
-                Monster4Pool.AddChild(Monster4);
-                EnemyComponent Monster = new EnemyComponent(Monster4);
-                Monster.Health = 15;
-                Monster.Attack = 6;
-                AnimatedSpriteRendererComponent MonsterAnimation = new AnimatedSpriteRendererComponent(Monster4);
-                MonsterAnimation.AddAnimation("Idle", "Assets/Characters/Skeleton2/Skeleton2_Idle.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.AddAnimation("Hit", "Assets/Characters/Skeleton2/Skeleton2_Hit.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.AddAnimation("Death", "Assets/Characters/Skeleton2/Skeleton2_Death.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.AddAnimation("Attack", "Assets/Characters/Skeleton2/Skeleton2_Attack.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.PlayAnimation("Idle");
-                ButtonComponent enemy = new ButtonComponent(Monster4);
-                enemy.DoClick += delegate {
-                    MonsterAnimation.PlayAnimation("Attack");
-                    currentHealth -= Monster.Attack;
-                    currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
-                    //enemy takes a hit
-                };
-            }
-
-            GameObject Monster5Pool = new GameObject("Monster5Pool");
-            Root.AddChild(Monster5Pool);
-            Monster5Pool.Enabled = false;
-            for (int i = 0; i < monsterPoolAmt; i++) {
-                GameObject Monster5 = new GameObject("Monster");
-                Monster5Pool.AddChild(Monster5);
-                EnemyComponent Monster = new EnemyComponent(Monster5);
-                Monster.Health = 20;
-                Monster.Attack = 9;
-                AnimatedSpriteRendererComponent MonsterAnimation = new AnimatedSpriteRendererComponent(Monster5);
-                MonsterAnimation.AddAnimation("Idle", "Assets/Characters/Ogre/Ogre_Idle.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.AddAnimation("Hit", "Assets/Characters/Ogre/Ogre_Hit.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.AddAnimation("Death", "Assets/Characters/Ogre/Ogre_Death.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.AddAnimation("Attack", "Assets/Characters/Ogre/Ogre_Attack.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.PlayAnimation("Idle");
-                ButtonComponent enemy = new ButtonComponent(Monster5);
-                enemy.DoClick += delegate {
-                    MonsterAnimation.PlayAnimation("Attack");
-                    currentHealth -= Monster.Attack;
-                    currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
-                    //enemy takes a hit
-                };
-            }
-
-            GameObject Monster6Pool = new GameObject("Monster6Pool");
-            Root.AddChild(Monster6Pool);
-            Monster6Pool.Enabled = false;
-            for (int i = 0; i < monsterPoolAmt; i++) {
-                GameObject Monster6 = new GameObject("Monster");
-                Monster6Pool.AddChild(Monster6);
-                EnemyComponent Monster = new EnemyComponent(Monster6);
-                Monster.Health = 22;
-                Monster.Attack = 11;
-                AnimatedSpriteRendererComponent MonsterAnimation = new AnimatedSpriteRendererComponent(Monster6);
-                MonsterAnimation.AddAnimation("Idle", "Assets/Characters/Ogre2/Ogre2_Idle.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.AddAnimation("Hit", "Assets/Characters/Ogre2/Ogre2_Hit.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.AddAnimation("Death", "Assets/Characters/Ogre2/Ogre2_Death.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.AddAnimation("Attack", "Assets/Characters/Ogre2/Ogre2_Attack.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.PlayAnimation("Idle");
-                ButtonComponent enemy = new ButtonComponent(Monster6);
-                enemy.DoClick += delegate {
-                    MonsterAnimation.PlayAnimation("Attack");
-                    currentHealth -= Monster.Attack;
-                    currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
-                    //enemy takes a hit
-                };
-            }
-
-            GameObject Monster7Pool = new GameObject("Monster7Pool");
-            Root.AddChild(Monster7Pool);
-            Monster7Pool.Enabled = false;
-            for (int i = 0; i < monsterPoolAmt; i++) {
-                GameObject Monster7 = new GameObject("Monster");
-                Monster7Pool.AddChild(Monster7);
-                EnemyComponent Monster = new EnemyComponent(Monster7);
-                Monster.Health = 12;
-                Monster.Attack = 11;
-                AnimatedSpriteRendererComponent MonsterAnimation = new AnimatedSpriteRendererComponent(Monster7);
-                MonsterAnimation.AddAnimation("Idle", "Assets/Characters/Ninja/Ninja_Idle.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.AddAnimation("Hit", "Assets/Characters/Ninja/Ninja_Hit.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.AddAnimation("Death", "Assets/Characters/Ninja/Ninja_Death.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.AddAnimation("Attack", "Assets/Characters/Ninja/Ninja_Attack.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.PlayAnimation("Idle");
-                ButtonComponent enemy = new ButtonComponent(Monster7);
-                enemy.DoClick += delegate {
-                    MonsterAnimation.PlayAnimation("Attack");
-                    currentHealth -= Monster.Attack;
-                    currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
-                    //enemy takes a hit
-                };
-            }
-
             GameObject Helper1Pool = new GameObject("Helper1Pool");
             Root.AddChild(Helper1Pool);
             Helper1Pool.Enabled = false;
+            GameManager.Helper1Pool = Helper1Pool;
             for (int i = 0; i < 1; i++) {
                 GameObject Helper1 = new GameObject("Helper");
                 Helper1Pool.AddChild(Helper1);
@@ -364,12 +197,14 @@ namespace Game {
                     HelperAnimation.PlayAnimation("Attack");
                     currentHealth += helper.Heal;
                     currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
+                    GameManager.HelperClicked(Helper1Pool,Helper1);
                 };
             }
 
             GameObject Helper2Pool = new GameObject("Helper2Pool");
             Root.AddChild(Helper2Pool);
             Helper2Pool.Enabled = false;
+            GameManager.Helper2Pool = Helper2Pool;
             for (int i = 0; i < 1; i++) {
                 GameObject Helper2 = new GameObject("Helper");
                 Helper2Pool.AddChild(Helper2);
@@ -383,6 +218,8 @@ namespace Game {
                 helperAction.DoClick += delegate {
                     HelperAnimation.PlayAnimation("Attack");
                     //game manager do attack all active
+                    GameManager.HelperClicked(Helper2Pool,Helper2);
+
                 };
             }
 
@@ -505,6 +342,33 @@ namespace Game {
                         }
                     };
                 }
+            }
+            GameObject MonsterPool = new GameObject("MonsterPool");
+            Root.AddChild(MonsterPool);
+            MonsterPool.Enabled = false;
+            GameManager.MonsterPool = MonsterPool;
+            for (int i = 0; i < monsterPoolAmt; i++) {
+                GameObject Monster = new GameObject("Monster");
+                MonsterPool.AddChild(Monster);
+                EnemyComponent monster = new EnemyComponent(Monster);
+                monster.Health = 12;
+                monster.Attack = 4;
+                AnimatedSpriteRendererComponent MonsterAnimation = new AnimatedSpriteRendererComponent(Monster);
+                MonsterAnimation.AddAnimation("Idle", "Assets/Characters/Skeleton1/Skeleton1_Idle.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
+                MonsterAnimation.AddAnimation("Hit", "Assets/Characters/Skeleton1/Skeleton1_Hit.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
+                MonsterAnimation.AddAnimation("Death", "Assets/Characters/Skeleton1/Skeleton1_Death.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
+                MonsterAnimation.AddAnimation("Attack", "Assets/Characters/Skeleton1/Skeleton1_Attack.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
+                MonsterAnimation.PlayAnimation("Idle");
+                ButtonComponent enemy = new ButtonComponent(Monster);
+                enemy.DoClick += delegate {
+                    MonsterAnimation.PlayAnimation("Attack");
+                    currentHealth -= monster.Attack;
+                    currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
+                    //enemy takes a hit
+                    heroSprite.PlayAnimation("Attack");
+                    monster.Health -= currentAttack;
+                    GameManager.EnemyClicked(MonsterPool, Monster);
+                };
             }
 
             //money parent
