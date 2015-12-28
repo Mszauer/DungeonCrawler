@@ -14,6 +14,7 @@ namespace Game {
         protected int Monies = 0;
         protected int currentHealth = 10;
         protected int currentAttack = 1;
+        protected int Floor = 1;
 
         public override void Initialize() {
             int monsterPoolAmt = 5; //amount of monsters in each unique pool
@@ -39,6 +40,22 @@ namespace Game {
             currencyAmt.CurrentAllignment = FontRendererComponent.Allignment.Right;
             currencyAmt.DrawString(Monies.ToString());//insert currency variable here
 
+            GameObject levelObj = new GameObject("Level");
+            levelObj.LocalPosition = new Point(10,-47);
+            StaticSpriteRendererComponent levelBgObj = new StaticSpriteRendererComponent(levelObj);
+            levelBgObj.AddSprite("Level", "Assets/ObjectSpritesheet.png", new Rectangle(325, 238, 180, 40));
+
+            GameObject levelFntObj = new GameObject("LevelFntObj");
+            levelObj.AddChild(levelFntObj);
+            levelFntObj.LocalPosition = new Point(5, 5);
+            FontRendererComponent floor = new FontRendererComponent(levelFntObj, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
+            floor.DrawString("Floor: ");
+            GameObject levelAmtObj = new GameObject("LevelAmtObj");
+            levelObj.AddChild(levelAmtObj);
+            levelAmtObj.LocalPosition = new Point(170, 5);
+            FontRendererComponent flooramt = new FontRendererComponent(levelAmtObj, "Assets/Font/22Fontsheet.png", "Assets/Font/22Fontsheet.fnt");
+            flooramt.CurrentAllignment = FontRendererComponent.Allignment.Right;
+            flooramt.DrawString(Floor.ToString());
 
             GameObject Monster1Pool = new GameObject("Monster1Pool");
             Root.AddChild(Monster1Pool);
@@ -239,6 +256,8 @@ namespace Game {
             UnlockedexitSprite.AddSprite("Exit_Active", "Assets/ObjectSpritesheet.png", new Rectangle(137, 605, 65, 65));
             ButtonComponent UnlockedExitButton = new ButtonComponent(UnlockedExit);
             UnlockedExitButton.DoClick += delegate {
+                Floor++;
+                flooramt.DrawString(Floor.ToString());
                 GameManager.InitializeLevel();
             };
 
@@ -403,13 +422,13 @@ namespace Game {
             //temporary stat displayer
             GameObject currentHeroStats = new GameObject("CurrentHeroStats");
             UITiles.AddChild(currentHeroStats);
-            currentHeroStats.LocalPosition = new Point(130, -20);
+            currentHeroStats.LocalPosition = new Point(130, 85);
             FontRendererComponent currentStatsAmt = new FontRendererComponent(currentHeroStats, "Assets/Font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
             currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
 
             //money parent
             HeroStats.AddChild(currency);
-
+            HeroStats.AddChild(levelObj);
             GameManager.InitializeLevel();
 
         }
