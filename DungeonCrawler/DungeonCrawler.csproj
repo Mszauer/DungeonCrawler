@@ -53,7 +53,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\ButtonComponent.cs" />
+    <Compile Include="Components\EnemyComponent.cs" />
     <Compile Include="Components\GameManagerComponent.cs" />
+    <Compile Include="Components\HelperComponent.cs" />
     <Compile Include="Components\HeroComponent.cs" />
     <Compile Include="Scenes\AnimationTest.cs" />
     <Compile Include="Components\AnimatedSpriteRendererComponent.cs" />

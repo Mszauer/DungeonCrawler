@@ -57,130 +57,333 @@ namespace Game {
             flooramt.CurrentAllignment = FontRendererComponent.Allignment.Right;
             flooramt.DrawString(Floor.ToString());
 
+            GameObject UI = new GameObject("UI");
+            Root.AddChild(UI);
+
+            GameObject UITiles = new GameObject("UITiles");
+            UITiles.LocalPosition = new Point(0, 350);
+            UI.AddChild(UITiles);
+            for (int h = 0; h < UIHeight; h++) {
+                for (int w = 0; w < UIWidth; w++) {
+                    GameObject Tile = new GameObject("UITile" + h + "_" + w);
+                    UITiles.AddChild(Tile);
+                    Tile.LocalPosition = new Point(w * 64, h * 64);//1px overlap
+                    StaticSpriteRendererComponent tileSprite = new StaticSpriteRendererComponent(Tile);
+                    if (h == 0 && w == 0) {
+                        tileSprite.AddSprite("TopLeftTile", "Assets/ObjectSpritesheet.png", new Rectangle(39, 857, 65, 65));
+                    }
+                    else if (h == 0 && w == UIWidth - 1) {
+                        tileSprite.AddSprite("TopRightTile", "Assets/ObjectSpritesheet.png", new Rectangle(106, 857, 65, 65));
+                    }
+                    else if (h == UIHeight - 1 && w == 0) {
+                        tileSprite.AddSprite("BottomRightTile", "Assets/ObjectSpritesheet.png", new Rectangle(39, 924, 65, 65));
+                    }
+                    else if (h == UIHeight - 1 && w == UIWidth - 1) {
+                        tileSprite.AddSprite("BottomLeftTile", "Assets/ObjectSpritesheet.png", new Rectangle(106, 924, 65, 65));
+                    }
+                    else if (h == 0) {
+                        tileSprite.AddSprite("UpperTile", "Assets/ObjectSpriteSheet.png", new Rectangle(173, 923, 65, 65));
+                    }
+                    else if (h == UIHeight - 1) {
+                        tileSprite.AddSprite("LowerTile", "Assets/ObjectSpritesheet.png", new Rectangle(173, 857, 65, 65));
+                    }
+                }
+            }
+            GameObject petRockObj = new GameObject("PetRockObj");
+            UITiles.AddChild(petRockObj);
+            GameObject heroObj = new GameObject("HeroObj");
+            UI.AddChild(heroObj);
+            heroObj.LocalPosition = new Point(15, 340);
+            HeroComponent heroStats = new HeroComponent(heroObj);
+            AnimatedSpriteRendererComponent heroSprite = new AnimatedSpriteRendererComponent(heroObj);
+            if (CurrentHero == 0) {
+                heroSprite.AddAnimation("Idle", "Assets/Characters/Archer/Archer_Idle.png", heroSprite.AddAnimation(4, 4, 128, 128));
+                heroSprite.AddAnimation("Attack", "Assets/Characters/Archer/Archer_Attack.png", heroSprite.AddAnimation(4, 4, 128, 128));
+                heroSprite.AddAnimation("Hit", "Assets/Characters/Archer/Archer_Hit.png", heroSprite.AddAnimation(4, 4, 128, 128));
+                heroSprite.AddAnimation("Death", "Assets/Characters/Archer/Archer_Death.png", heroSprite.AddAnimation(4, 4, 128, 128));
+            }
+            else if (CurrentHero == 1) {
+                heroSprite.AddAnimation("Idle", "Assets/Characters/Knight/Knight_Idle.png", heroSprite.AddAnimation(4, 4, 128, 128));
+                heroSprite.AddAnimation("Attack", "Assets/Characters/Knight/Knight_Attack.png", heroSprite.AddAnimation(4, 4, 128, 128));
+                heroSprite.AddAnimation("Hit", "Assets/Characters/Knight/Knight_Hit.png", heroSprite.AddAnimation(4, 4, 128, 128));
+                heroSprite.AddAnimation("Death", "Assets/Characters/Knight/Knight_Death.png", heroSprite.AddAnimation(4, 4, 128, 128));
+            }
+            else if (CurrentHero == 2) {
+                heroSprite.AddAnimation("Idle", "Assets/Characters/Barbarian/Barbarian_Idle.png", heroSprite.AddAnimation(4, 4, 128, 128));
+                heroSprite.AddAnimation("Attack", "Assets/Characters/Barbarian/Barbarian_Attack.png", heroSprite.AddAnimation(4, 4, 128, 128));
+                heroSprite.AddAnimation("Hit", "Assets/Characters/Barbarian/Barbarian_Hit.png", heroSprite.AddAnimation(4, 4, 128, 128));
+                heroSprite.AddAnimation("Death", "Assets/Characters/Barbarian/Barbarian_Death.png", heroSprite.AddAnimation(4, 4, 128, 128));
+            }
+            heroSprite.PlayAnimation("Idle");
+
+            using (StreamReader reader = new StreamReader("Assets/Data/hero_" + CurrentHero + ".txt")) {
+                heroStats.Health = System.Convert.ToInt32(reader.ReadLine());
+                heroStats.Attack = System.Convert.ToInt32(reader.ReadLine());
+                for (int i = 0; i < 3; i++) {
+                    heroStats.AddSkill(reader.ReadLine(), 4, "");
+                }
+                heroStats.Skills[heroStats.SkillIndexer[1]] = System.Convert.ToInt32(reader.ReadLine());
+                heroStats.Skills[heroStats.SkillIndexer[2]] = System.Convert.ToInt32(reader.ReadLine());
+                heroStats.Skills[heroStats.SkillIndexer[3]] = System.Convert.ToInt32(reader.ReadLine());
+
+            }
+            if (CurrentHero == 2) {
+                petRockObj.LocalPosition = new Point(-8, 35);
+                StaticSpriteRendererComponent petRock = new StaticSpriteRendererComponent(petRockObj);
+                petRock.Anchor = StaticSpriteRendererComponent.AnchorPosition.BottomMiddle;
+                if (heroStats.Skills[heroStats.SkillIndexer[2]] == 1) {
+                    petRock.AddSprite("Pet Rock1", "Assets/ObjectSpriteSheet.png", new Rectangle(448, 945, 80, 80));
+                }
+                else if (heroStats.Skills[heroStats.SkillIndexer[2]] == 2) {
+                    petRock.AddSprite("Pet Rock2", "Assets/ObjectSpriteSheet.png", new Rectangle(448, 859, 80, 80));
+                }
+                else if (heroStats.Skills[heroStats.SkillIndexer[2]] == 3) {
+                    petRock.AddSprite("Pet Rock3", "Assets/ObjectSpriteSheet.png", new Rectangle(365, 859, 80, 80));
+                }
+                else if (heroStats.Skills[heroStats.SkillIndexer[2]] >= 4) {
+                    petRock.AddSprite("Pet Rock4", "Assets/ObjectSpriteSheet.png", new Rectangle(365, 945, 80, 80));
+                }
+                else {
+                    Console.WriteLine("Skill indexer: " + heroStats.Skills[heroStats.SkillIndexer[2]].ToString());
+                }
+            }
+
+            GameObject HeroStats = new GameObject("HeroStats");
+            UITiles.AddChild(HeroStats);
+            HeroStats.LocalPosition = new Point(135, 13);
+            //health bar
+            GameObject healthBarBGObj = new GameObject("HealthBarBGObj");
+            HeroStats.AddChild(healthBarBGObj);
+            StaticSpriteRendererComponent healthBarBGSprite = new StaticSpriteRendererComponent(healthBarBGObj);
+            healthBarBGSprite.AddSprite("HealthBarBGSprite", "Assets/ObjectSpritesheet.png", new Rectangle(0, 542, 170, 36));
+            GameObject healthBarObj = new GameObject("healthBarObj");
+            healthBarObj.LocalPosition = new Point(37, 5);
+            healthBarBGObj.AddChild(healthBarObj);
+            StaticSpriteRendererComponent healthBarSprite = new StaticSpriteRendererComponent(healthBarObj);
+            healthBarSprite.AddSprite("HealthBarSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(0, 579, 128, 24));
+            //armor bar
+            GameObject armorBarBgObj = new GameObject("ArmorBarBgObj");
+            HeroStats.AddChild(armorBarBgObj);
+            armorBarBgObj.LocalPosition = new Point(5, 35);
+            StaticSpriteRendererComponent armorBarBgSprite = new StaticSpriteRendererComponent(armorBarBgObj);
+            armorBarBgSprite.AddSprite("ArmorBarBgSprite", "Assets/ObjectSpritesheet.png", new Rectangle(165, 505, 165, 40));
+            GameObject armorBarObj = new GameObject("ArmorBarObj");
+            armorBarBgObj.AddChild(armorBarObj);
+            armorBarObj.LocalPosition = new Point(32, 8);
+            StaticSpriteRendererComponent armorBarSprite = new StaticSpriteRendererComponent(armorBarObj);
+            armorBarSprite.AddSprite("ArmorBarSprite", "Assets/ObjectSpritesheet.png", new Rectangle(195, 485, 130, 20));
+            //temporary stat displayer
+            GameObject currentHeroStats = new GameObject("CurrentHeroStats");
+            UITiles.AddChild(currentHeroStats);
+            currentHeroStats.LocalPosition = new Point(130, 85);
+            FontRendererComponent currentStatsAmt = new FontRendererComponent(currentHeroStats, "Assets/Font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
+            currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
+
             GameObject Monster1Pool = new GameObject("Monster1Pool");
             Root.AddChild(Monster1Pool);
             Monster1Pool.Enabled = false;
             for (int i = 0; i < monsterPoolAmt; i++) {
-                GameObject Monster1 = new GameObject("Monster1_" + (i+1));
+                GameObject Monster1 = new GameObject("Monster");
                 Monster1Pool.AddChild(Monster1);
+                EnemyComponent Monster = new EnemyComponent(Monster1);
+                Monster.Health = 4;
+                Monster.Attack = 1;
                 AnimatedSpriteRendererComponent MonsterAnimation = new AnimatedSpriteRendererComponent(Monster1);
                 MonsterAnimation.AddAnimation("Idle", "Assets/Characters/DarkKnight/DarkKnight_Idle.png", MonsterAnimation.AddAnimation(4,4,128,128));
                 MonsterAnimation.AddAnimation("Hit", "Assets/Characters/DarkKnight/DarkKnight_Hit.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Death", "Assets/Characters/DarkKnight/DarkKnight_Death.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Attack", "Assets/Characters/DarkKnight/DarkKnight_Attack.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.PlayAnimation("Idle");
+                ButtonComponent enemy = new ButtonComponent(Monster1);
+                enemy.DoClick += delegate {
+                    MonsterAnimation.PlayAnimation("Attack");
+                    currentHealth -= Monster.Attack;
+                    currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
+                    //enemy takes a hit
+                };
             }
 
             GameObject Monster2Pool = new GameObject("Monster2Pool");
             Root.AddChild(Monster2Pool);
             Monster2Pool.Enabled = false;
             for (int i = 0; i < monsterPoolAmt; i++) {
-                GameObject Monster2 = new GameObject("Monster2_" + (i + 1));
+                GameObject Monster2 = new GameObject("Monster");
                 Monster2Pool.AddChild(Monster2);
+                EnemyComponent Monster = new EnemyComponent(Monster2);
+                Monster.Health = 10;
+                Monster.Attack = 2;
                 AnimatedSpriteRendererComponent MonsterAnimation = new AnimatedSpriteRendererComponent(Monster2);
                 MonsterAnimation.AddAnimation("Idle", "Assets/Characters/DarkKnight2/DarkKnight2_Idle.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Hit", "Assets/Characters/DarkKnight2/DarkKnight2_Hit.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Death", "Assets/Characters/DarkKnight2/DarkKnight2_Death.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Attack", "Assets/Characters/DarkKnight2/DarkKnight2_Attack.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.PlayAnimation("Idle");
+                ButtonComponent enemy = new ButtonComponent(Monster2);
+                enemy.DoClick += delegate {
+                    MonsterAnimation.PlayAnimation("Attack");
+                    currentHealth -= Monster.Attack;
+                    currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
+                    //enemy takes a hit
+                };
             }
 
             GameObject Monster3Pool = new GameObject("Monster3Pool");
             Root.AddChild(Monster3Pool);
             Monster3Pool.Enabled = false;
             for (int i = 0; i < monsterPoolAmt; i++) {
-                GameObject Monster3 = new GameObject("Monster3_" + (i + 1));
+                GameObject Monster3 = new GameObject("Monster");
                 Monster3Pool.AddChild(Monster3);
+                EnemyComponent Monster = new EnemyComponent(Monster3);
+                Monster.Health = 12;
+                Monster.Attack = 4;
                 AnimatedSpriteRendererComponent MonsterAnimation = new AnimatedSpriteRendererComponent(Monster3);
                 MonsterAnimation.AddAnimation("Idle", "Assets/Characters/Skeleton1/Skeleton1_Idle.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Hit", "Assets/Characters/Skeleton1/Skeleton1_Hit.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Death", "Assets/Characters/Skeleton1/Skeleton1_Death.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Attack", "Assets/Characters/Skeleton1/Skeleton1_Attack.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.PlayAnimation("Idle");
+                ButtonComponent enemy = new ButtonComponent(Monster3);
+                enemy.DoClick += delegate {
+                    MonsterAnimation.PlayAnimation("Attack");
+                    currentHealth -= Monster.Attack;
+                    currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
+                    //enemy takes a hit
+                };
             }
 
             GameObject Monster4Pool = new GameObject("Monster4Pool");
             Root.AddChild(Monster4Pool);
             Monster4Pool.Enabled = false;
             for (int i = 0; i < monsterPoolAmt; i++) {
-                GameObject Monster4 = new GameObject("Monster4_" + (i + 1));
+                GameObject Monster4 = new GameObject("Monster");
                 Monster4Pool.AddChild(Monster4);
+                EnemyComponent Monster = new EnemyComponent(Monster4);
+                Monster.Health = 15;
+                Monster.Attack = 6;
                 AnimatedSpriteRendererComponent MonsterAnimation = new AnimatedSpriteRendererComponent(Monster4);
                 MonsterAnimation.AddAnimation("Idle", "Assets/Characters/Skeleton2/Skeleton2_Idle.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Hit", "Assets/Characters/Skeleton2/Skeleton2_Hit.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Death", "Assets/Characters/Skeleton2/Skeleton2_Death.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Attack", "Assets/Characters/Skeleton2/Skeleton2_Attack.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.PlayAnimation("Idle");
+                ButtonComponent enemy = new ButtonComponent(Monster4);
+                enemy.DoClick += delegate {
+                    MonsterAnimation.PlayAnimation("Attack");
+                    currentHealth -= Monster.Attack;
+                    currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
+                    //enemy takes a hit
+                };
             }
 
             GameObject Monster5Pool = new GameObject("Monster5Pool");
             Root.AddChild(Monster5Pool);
             Monster5Pool.Enabled = false;
             for (int i = 0; i < monsterPoolAmt; i++) {
-                GameObject Monster5 = new GameObject("Monster5_" + (i + 1));
+                GameObject Monster5 = new GameObject("Monster");
                 Monster5Pool.AddChild(Monster5);
+                EnemyComponent Monster = new EnemyComponent(Monster5);
+                Monster.Health = 20;
+                Monster.Attack = 9;
                 AnimatedSpriteRendererComponent MonsterAnimation = new AnimatedSpriteRendererComponent(Monster5);
                 MonsterAnimation.AddAnimation("Idle", "Assets/Characters/Ogre/Ogre_Idle.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Hit", "Assets/Characters/Ogre/Ogre_Hit.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Death", "Assets/Characters/Ogre/Ogre_Death.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Attack", "Assets/Characters/Ogre/Ogre_Attack.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.PlayAnimation("Idle");
+                ButtonComponent enemy = new ButtonComponent(Monster5);
+                enemy.DoClick += delegate {
+                    MonsterAnimation.PlayAnimation("Attack");
+                    currentHealth -= Monster.Attack;
+                    currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
+                    //enemy takes a hit
+                };
             }
 
             GameObject Monster6Pool = new GameObject("Monster6Pool");
             Root.AddChild(Monster6Pool);
             Monster6Pool.Enabled = false;
             for (int i = 0; i < monsterPoolAmt; i++) {
-                GameObject Monster6 = new GameObject("Monster6_" + (i + 1));
+                GameObject Monster6 = new GameObject("Monster");
                 Monster6Pool.AddChild(Monster6);
+                EnemyComponent Monster = new EnemyComponent(Monster6);
+                Monster.Health = 22;
+                Monster.Attack = 11;
                 AnimatedSpriteRendererComponent MonsterAnimation = new AnimatedSpriteRendererComponent(Monster6);
                 MonsterAnimation.AddAnimation("Idle", "Assets/Characters/Ogre2/Ogre2_Idle.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Hit", "Assets/Characters/Ogre2/Ogre2_Hit.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Death", "Assets/Characters/Ogre2/Ogre2_Death.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Attack", "Assets/Characters/Ogre2/Ogre2_Attack.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.PlayAnimation("Idle");
+                ButtonComponent enemy = new ButtonComponent(Monster6);
+                enemy.DoClick += delegate {
+                    MonsterAnimation.PlayAnimation("Attack");
+                    currentHealth -= Monster.Attack;
+                    currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
+                    //enemy takes a hit
+                };
             }
 
             GameObject Monster7Pool = new GameObject("Monster7Pool");
             Root.AddChild(Monster7Pool);
             Monster7Pool.Enabled = false;
             for (int i = 0; i < monsterPoolAmt; i++) {
-                GameObject Monster7 = new GameObject("Monster7_" + (i + 1));
+                GameObject Monster7 = new GameObject("Monster");
                 Monster7Pool.AddChild(Monster7);
+                EnemyComponent Monster = new EnemyComponent(Monster7);
+                Monster.Health = 12;
+                Monster.Attack = 11;
                 AnimatedSpriteRendererComponent MonsterAnimation = new AnimatedSpriteRendererComponent(Monster7);
                 MonsterAnimation.AddAnimation("Idle", "Assets/Characters/Ninja/Ninja_Idle.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Hit", "Assets/Characters/Ninja/Ninja_Hit.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Death", "Assets/Characters/Ninja/Ninja_Death.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Attack", "Assets/Characters/Ninja/Ninja_Attack.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.PlayAnimation("Idle");
+                ButtonComponent enemy = new ButtonComponent(Monster7);
+                enemy.DoClick += delegate {
+                    MonsterAnimation.PlayAnimation("Attack");
+                    currentHealth -= Monster.Attack;
+                    currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
+                    //enemy takes a hit
+                };
             }
 
             GameObject Helper1Pool = new GameObject("Helper1Pool");
             Root.AddChild(Helper1Pool);
             Helper1Pool.Enabled = false;
             for (int i = 0; i < 1; i++) {
-                GameObject Helper1 = new GameObject("Helper1_" + (i + 1));
+                GameObject Helper1 = new GameObject("Helper");
                 Helper1Pool.AddChild(Helper1);
+                HelperComponent helper = new HelperComponent(Helper1);
+                helper.Heal = 7;
                 AnimatedSpriteRendererComponent HelperAnimation = new AnimatedSpriteRendererComponent(Helper1);
                 HelperAnimation.AddAnimation("Idle", "Assets/Characters/Mage2/Mage2_Idle.png", HelperAnimation.AddAnimation(4, 4, 128, 128));
-                HelperAnimation.AddAnimation("Hit", "Assets/Characters/Mage2/Mage2_Hit.png", HelperAnimation.AddAnimation(4, 4, 128, 128));
-                HelperAnimation.AddAnimation("Death", "Assets/Characters/Mage2/Mage2_Death.png", HelperAnimation.AddAnimation(4, 4, 128, 128));
                 HelperAnimation.AddAnimation("Attack", "Assets/Characters/Mage2/Mage2_Attack.png", HelperAnimation.AddAnimation(4, 4, 128, 128));
                 HelperAnimation.PlayAnimation("Idle");
+                ButtonComponent helperAction = new ButtonComponent(Helper1);
+                helperAction.DoClick += delegate {
+                    HelperAnimation.PlayAnimation("Attack");
+                    currentHealth += helper.Heal;
+                    currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
+                };
             }
 
             GameObject Helper2Pool = new GameObject("Helper2Pool");
             Root.AddChild(Helper2Pool);
             Helper2Pool.Enabled = false;
             for (int i = 0; i < 1; i++) {
-                GameObject Helper2 = new GameObject("Helper2_" + (i + 1));
+                GameObject Helper2 = new GameObject("Helper");
                 Helper2Pool.AddChild(Helper2);
+                HelperComponent helper = new HelperComponent(Helper2);
+                helper.Attack = 4;
                 AnimatedSpriteRendererComponent HelperAnimation = new AnimatedSpriteRendererComponent(Helper2);
                 HelperAnimation.AddAnimation("Idle", "Assets/Characters/Mage2/Mage2_Idle.png", HelperAnimation.AddAnimation(4, 4, 128, 128));
-                HelperAnimation.AddAnimation("Hit", "Assets/Characters/Mage2/Mage2_Hit.png", HelperAnimation.AddAnimation(4, 4, 128, 128));
-                HelperAnimation.AddAnimation("Death", "Assets/Characters/Mage2/Mage2_Death.png", HelperAnimation.AddAnimation(4, 4, 128, 128));
                 HelperAnimation.AddAnimation("Attack", "Assets/Characters/Mage2/Mage2_Attack.png", HelperAnimation.AddAnimation(4, 4, 128, 128));
                 HelperAnimation.PlayAnimation("Idle");
+                ButtonComponent helperAction = new ButtonComponent(Helper2);
+                helperAction.DoClick += delegate {
+                    HelperAnimation.PlayAnimation("Attack");
+                    //game manager do attack all active
+                };
             }
 
             GameObject BarrelPool = new GameObject("BarrelPool");
@@ -303,128 +506,6 @@ namespace Game {
                     };
                 }
             }
-
-            GameObject UI = new GameObject("UI");
-            Root.AddChild(UI);
-
-            GameObject UITiles = new GameObject("UITiles");
-            UITiles.LocalPosition = new Point(0, 350);
-            UI.AddChild(UITiles);
-            for (int h = 0; h < UIHeight; h++) {
-                for (int w = 0; w < UIWidth; w++) {
-                    GameObject Tile = new GameObject("UITile"+h+"_"+w);
-                    UITiles.AddChild(Tile);
-                    Tile.LocalPosition = new Point(w * 64, h * 64);//1px overlap
-                    StaticSpriteRendererComponent tileSprite = new StaticSpriteRendererComponent(Tile);
-                    if (h==0 && w == 0) {
-                        tileSprite.AddSprite("TopLeftTile", "Assets/ObjectSpritesheet.png", new Rectangle(39, 857, 65, 65));
-                    }
-                    else if (h == 0 && w == UIWidth - 1) {
-                        tileSprite.AddSprite("TopRightTile", "Assets/ObjectSpritesheet.png", new Rectangle(106, 857, 65, 65));
-                    }
-                    else if (h==UIHeight-1 && w == 0) {
-                        tileSprite.AddSprite("BottomRightTile", "Assets/ObjectSpritesheet.png", new Rectangle(39, 924, 65, 65));
-                    }
-                    else if (h==UIHeight-1 && w == UIWidth - 1) {
-                        tileSprite.AddSprite("BottomLeftTile", "Assets/ObjectSpritesheet.png", new Rectangle(106, 924, 65, 65));
-                    }
-                    else if (h == 0) { 
-                        tileSprite.AddSprite("UpperTile", "Assets/ObjectSpriteSheet.png", new Rectangle(173, 923, 65, 65));
-                    }
-                    else if (h == UIHeight - 1) {
-                        tileSprite.AddSprite("LowerTile", "Assets/ObjectSpritesheet.png", new Rectangle(173, 857, 65, 65));
-                    }
-                }
-            }
-            GameObject petRockObj = new GameObject("PetRockObj");
-            UITiles.AddChild(petRockObj);
-            GameObject heroObj = new GameObject("HeroObj");
-            UI.AddChild(heroObj);
-            heroObj.LocalPosition = new Point(15, 340);
-            HeroComponent heroStats = new HeroComponent(heroObj);
-            AnimatedSpriteRendererComponent heroSprite = new AnimatedSpriteRendererComponent(heroObj);
-            if (CurrentHero == 0) {
-                heroSprite.AddAnimation("Idle", "Assets/Characters/Archer/Archer_Idle.png", heroSprite.AddAnimation(4, 4, 128, 128));
-                heroSprite.AddAnimation("Attack", "Assets/Characters/Archer/Archer_Attack.png", heroSprite.AddAnimation(4, 4, 128, 128));
-                heroSprite.AddAnimation("Hit", "Assets/Characters/Archer/Archer_Hit.png", heroSprite.AddAnimation(4, 4, 128, 128));
-                heroSprite.AddAnimation("Death", "Assets/Characters/Archer/Archer_Death.png", heroSprite.AddAnimation(4, 4, 128, 128));
-            }
-            else if (CurrentHero == 1) {
-                heroSprite.AddAnimation("Idle", "Assets/Characters/Knight/Knight_Idle.png", heroSprite.AddAnimation(4, 4, 128, 128));
-                heroSprite.AddAnimation("Attack", "Assets/Characters/Knight/Knight_Attack.png", heroSprite.AddAnimation(4, 4, 128, 128));
-                heroSprite.AddAnimation("Hit", "Assets/Characters/Knight/Knight_Hit.png", heroSprite.AddAnimation(4, 4, 128, 128));
-                heroSprite.AddAnimation("Death", "Assets/Characters/Knight/Knight_Death.png", heroSprite.AddAnimation(4, 4, 128, 128));
-            }
-            else if (CurrentHero == 2) {
-                heroSprite.AddAnimation("Idle", "Assets/Characters/Barbarian/Barbarian_Idle.png", heroSprite.AddAnimation(4, 4, 128, 128));
-                heroSprite.AddAnimation("Attack", "Assets/Characters/Barbarian/Barbarian_Attack.png", heroSprite.AddAnimation(4, 4, 128, 128));
-                heroSprite.AddAnimation("Hit", "Assets/Characters/Barbarian/Barbarian_Hit.png", heroSprite.AddAnimation(4, 4, 128, 128));
-                heroSprite.AddAnimation("Death", "Assets/Characters/Barbarian/Barbarian_Death.png", heroSprite.AddAnimation(4, 4, 128, 128));
-            }
-            heroSprite.PlayAnimation("Idle");
-
-            using (StreamReader reader = new StreamReader("Assets/Data/hero_" + CurrentHero + ".txt")) {
-                heroStats.Health = System.Convert.ToInt32(reader.ReadLine());
-                heroStats.Attack = System.Convert.ToInt32(reader.ReadLine());
-                for (int i = 0; i < 3; i++) {
-                    heroStats.AddSkill(reader.ReadLine(),4,"");
-                }
-                heroStats.Skills[heroStats.SkillIndexer[1]] = System.Convert.ToInt32(reader.ReadLine());
-                heroStats.Skills[heroStats.SkillIndexer[2]] = System.Convert.ToInt32(reader.ReadLine());
-                heroStats.Skills[heroStats.SkillIndexer[3]] = System.Convert.ToInt32(reader.ReadLine());
-
-            }
-            if (CurrentHero == 2) {
-                petRockObj.LocalPosition = new Point(-8, 35);
-                StaticSpriteRendererComponent petRock = new StaticSpriteRendererComponent(petRockObj);
-                petRock.Anchor = StaticSpriteRendererComponent.AnchorPosition.BottomMiddle;
-                if (heroStats.Skills[heroStats.SkillIndexer[2]] == 1) {
-                    petRock.AddSprite("Pet Rock1", "Assets/ObjectSpriteSheet.png", new Rectangle(448, 945, 80, 80));
-                }
-                else if (heroStats.Skills[heroStats.SkillIndexer[2]] == 2) {
-                    petRock.AddSprite("Pet Rock2", "Assets/ObjectSpriteSheet.png", new Rectangle(448, 859, 80, 80));
-                }
-                else if (heroStats.Skills[heroStats.SkillIndexer[2]] == 3) {
-                    petRock.AddSprite("Pet Rock3", "Assets/ObjectSpriteSheet.png", new Rectangle(365, 859, 80, 80));
-                }
-                else if (heroStats.Skills[heroStats.SkillIndexer[2]] >= 4) {
-                    petRock.AddSprite("Pet Rock4", "Assets/ObjectSpriteSheet.png", new Rectangle(365, 945, 80, 80));
-                }
-                else {
-                    Console.WriteLine("Skill indexer: "+heroStats.Skills[heroStats.SkillIndexer[2]].ToString());
-                }
-            }
-
-            GameObject HeroStats = new GameObject("HeroStats");
-            UITiles.AddChild(HeroStats);
-            HeroStats.LocalPosition = new Point(135, 13);
-            //health bar
-            GameObject healthBarBGObj = new GameObject("HealthBarBGObj");
-            HeroStats.AddChild(healthBarBGObj);
-            StaticSpriteRendererComponent healthBarBGSprite = new StaticSpriteRendererComponent(healthBarBGObj);
-            healthBarBGSprite.AddSprite("HealthBarBGSprite", "Assets/ObjectSpritesheet.png", new Rectangle(0,542,170,36));
-            GameObject healthBarObj = new GameObject("healthBarObj");
-            healthBarObj.LocalPosition = new Point(37, 5);
-            healthBarBGObj.AddChild(healthBarObj);
-            StaticSpriteRendererComponent healthBarSprite = new StaticSpriteRendererComponent(healthBarObj);
-            healthBarSprite.AddSprite("HealthBarSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(0, 579, 128, 24));
-            //armor bar
-            GameObject armorBarBgObj = new GameObject("ArmorBarBgObj");
-            HeroStats.AddChild(armorBarBgObj);
-            armorBarBgObj.LocalPosition = new Point(5, 35);
-            StaticSpriteRendererComponent armorBarBgSprite = new StaticSpriteRendererComponent(armorBarBgObj);
-            armorBarBgSprite.AddSprite("ArmorBarBgSprite", "Assets/ObjectSpritesheet.png", new Rectangle(165, 505, 165, 40));
-            GameObject armorBarObj = new GameObject("ArmorBarObj");
-            armorBarBgObj.AddChild(armorBarObj);
-            armorBarObj.LocalPosition = new Point(32, 8);
-            StaticSpriteRendererComponent armorBarSprite = new StaticSpriteRendererComponent(armorBarObj);
-            armorBarSprite.AddSprite("ArmorBarSprite", "Assets/ObjectSpritesheet.png", new Rectangle(195, 485, 130, 20));
-            //temporary stat displayer
-            GameObject currentHeroStats = new GameObject("CurrentHeroStats");
-            UITiles.AddChild(currentHeroStats);
-            currentHeroStats.LocalPosition = new Point(130, 85);
-            FontRendererComponent currentStatsAmt = new FontRendererComponent(currentHeroStats, "Assets/Font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
-            currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
 
             //money parent
             HeroStats.AddChild(currency);
