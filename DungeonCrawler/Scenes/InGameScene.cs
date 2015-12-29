@@ -345,7 +345,6 @@ namespace Game {
                 monster.Attack = 1;
                 AnimatedSpriteRendererComponent MonsterAnimation = new AnimatedSpriteRendererComponent(Monster);
                 MonsterAnimation.AddAnimation("Idle", "Assets/Characters/Skeleton1/Skeleton1_Idle.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
-                MonsterAnimation.AddAnimation("Hit", "Assets/Characters/Skeleton1/Skeleton1_Hit.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Death", "Assets/Characters/Skeleton1/Skeleton1_Death.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Attack", "Assets/Characters/Skeleton1/Skeleton1_Attack.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.PlayAnimation("Idle");
