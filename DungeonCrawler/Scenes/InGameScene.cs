@@ -354,6 +354,10 @@ namespace Game {
                         enemy.Clickable = false;
                         MonsterAnimation.PlayAnimation("Attack");
                         currentHealth -= monster.Attack;
+                        if (currentHealth <= 0) {
+                            SceneManager.Instance.PopScene();
+                            SceneManager.Instance.PushScene(new DeathScene());
+                        }
                         currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
                         //enemy takes a hit
                         heroSprite.PlayAnimation("Attack");

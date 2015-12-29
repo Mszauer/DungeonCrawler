@@ -29,11 +29,11 @@ namespace Components {
         public GameObject CoinPool = null;
         public GameObject MonsterPool = null;
         public GameObject Helper1Pool = null;
-        public GameObject Helper2Pool = null;
-        public int BarrelSpawnChance = 14;
-        public int CoinSpawnChance = 20;//out of 100
-        public int EnemySpawnChance = 25;
-        public bool HasKey = false;
+
+       protected int BarrelSpawnChance = 14;
+       protected int CoinSpawnChance = 20;//out of 100
+       protected int EnemySpawnChance = 25;
+       public bool HasKey = false;
 
         int floor = 0;
         int randomKeyX = 0;
@@ -82,16 +82,14 @@ namespace Components {
                         HiddenTiles[x][y].Enabled = false;
                         continue;
                     }
-                    if (floor < 3) {
-                        if (MonsterPool.FindChild("Monster") != null) {
-                            if (rando<EnemySpawnChance) {
+                    if (MonsterPool.FindChild("Monster") != null) {
+                        if (rando<EnemySpawnChance) {
 #if ENEMYDEBUG
-                                Console.WriteLine("Enemy spawned at X: " + x + " Y: " + y);
+                            Console.WriteLine("Enemy spawned at X: " + x + " Y: " + y);
 #endif
-                                MonsterPool.FindChild("Monster").LocalPosition = new Point(-40,-50);
-                                ActiveTiles[x][y].AddChild(MonsterPool.FindChild("Monster"));
-                                ActiveTiles[x][y].FindChild("Monster").Enabled = false;
-                            }
+                            MonsterPool.FindChild("Monster").LocalPosition = new Point(-40,-50);
+                            ActiveTiles[x][y].AddChild(MonsterPool.FindChild("Monster"));
+                            ActiveTiles[x][y].FindChild("Monster").Enabled = false;
                         }
                     }
                     if (BarrelPool.FindChild("Barrel") != null && ActiveTiles[x][y].FindChild("Monster") == null) {
