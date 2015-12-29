@@ -364,7 +364,7 @@ namespace Game {
                     //enemy takes a hit
                     heroSprite.PlayAnimation("Attack");
                     monster.Health -= heroStats.Attack;
-                    GameManager.EnemyClicked(MonsterPool, Monster);
+                    GameManager.EnemyClicked(MonsterPool, Monster,InputManager.Instance.MousePosition);
                 };
             }
 

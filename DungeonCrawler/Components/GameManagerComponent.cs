@@ -95,7 +95,7 @@ namespace Components {
                         }
                     }
                     if (BarrelPool.FindChild("Barrel") != null && ActiveTiles[x][y].FindChild("Monster") == null) {
-                        if (ActiveTiles[x][y].FindChild("Monster") == null) {
+                        if (ActiveTiles[x][y].FindChild("Monster") != null) {
                             rando = random.Next(100);
                             continue;
                         }
@@ -156,11 +156,17 @@ namespace Components {
         public void CoinsClicked(Point MousePosition,GameObject coins) {
             CoinPool.AddChild(coins);
         }
-        public void EnemyClicked(GameObject monsterPool, GameObject enemy) {
+        public void EnemyClicked(GameObject monsterPool, GameObject enemy,Point MousePosition) {
             EnemyComponent enemystats = (EnemyComponent)enemy.FindComponent("EnemyComponent");
             AnimatedSpriteRendererComponent enemyAnims = (AnimatedSpriteRendererComponent)enemy.FindComponent("AnimatedSpriteRendererComponent");
             if (enemystats.Health <= 0) {
                 enemyAnims.PlayAnimation("Death");
+                if (enemy.Children != null && enemy.Children.Count > 0) {
+                    for (int i = enemy.Children.Count - 1; i >= 0; i--) {
+                        enemy.FindChild(enemy.Children[i].Name).Enabled = true;
+                        ActiveTiles[(MousePosition.X / 65)][(MousePosition.Y / 65)].AddChild(enemy.Children[i]);
+                    }
+                }
             }
             
         }
