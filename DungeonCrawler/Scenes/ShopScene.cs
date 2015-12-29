@@ -361,6 +361,14 @@ namespace Game {
                     }
                     Monies -= heroSkill1 * skillMultiplier;
                     heroSkill1++;
+                    if (CurrentHero == 0 || CurrentHero == 1) {
+                        heroHealth += heroSkill1 * 2;
+                    }
+                    else if (CurrentHero == 2) {
+                        heroHealth += heroSkill1;
+                    }
+                    healthAmtFnt.DrawString(heroHealth.ToString()); //insert variable here
+                    attackAmtFnt.DrawString(heroAttack.ToString()); //insert variable here
                     currencyAmt.DrawString(Monies.ToString());//insert currency variable here
                     skill1BuyAmt.DrawString((heroSkill1 * skillMultiplier).ToString()); //insert variable for cost here
                 }
@@ -385,6 +393,11 @@ namespace Game {
                     }
                     Monies -= heroSkill2 * skillMultiplier;
                     heroSkill2++;
+                    if (CurrentHero == 0 || CurrentHero == 1) {
+                        heroAttack += heroSkill2;
+                    }
+                    healthAmtFnt.DrawString(heroHealth.ToString()); //insert variable here
+                    attackAmtFnt.DrawString(heroAttack.ToString()); //insert variable here
                     currencyAmt.DrawString(Monies.ToString());//insert currency variable here
                     skill2BuyAmt.DrawString((heroSkill2 * skillMultiplier).ToString()); //insert variable for cost here
                 }
@@ -409,6 +422,14 @@ namespace Game {
                     }
                     Monies -= heroSkill3 * skillMultiplier;
                     heroSkill3++;
+                    if (CurrentHero == 0) {
+                        heroHealth += heroSkill3;
+                    }
+                    else if (CurrentHero == 1 || CurrentHero == 2) {
+                        heroAttack += heroSkill3;
+                    }
+                    healthAmtFnt.DrawString(heroHealth.ToString()); //insert variable here
+                    attackAmtFnt.DrawString(heroAttack.ToString()); //insert variable here
                     currencyAmt.DrawString(Monies.ToString());//insert currency variable here
                     skill3BuyAmt.DrawString((heroSkill3 * skillMultiplier).ToString()); //insert variable for cost here
                 }

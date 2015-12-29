@@ -17,6 +17,7 @@ namespace Components {
         public int Health = 10;
         public int Attack = 1;
         protected int maxLevel = 4;
+        public int Armor = 10;
         public HeroComponent(GameObject game) : base("HeroComponent",game) {
             SkillIndexer = new Dictionary<int, string>();
             Skills = new Dictionary<string, int>();

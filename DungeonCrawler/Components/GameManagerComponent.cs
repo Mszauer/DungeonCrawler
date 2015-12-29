@@ -88,8 +88,10 @@ namespace Components {
                             Console.WriteLine("Enemy spawned at X: " + x + " Y: " + y);
 #endif
                             MonsterPool.FindChild("Monster").LocalPosition = new Point(-40,-50);
-                            ActiveTiles[x][y].AddChild(MonsterPool.FindChild("Monster"));
-                            ActiveTiles[x][y].FindChild("Monster").Enabled = false;
+                            if (ActiveTiles[x][y].FindChild("Monster") == null) {
+                                ActiveTiles[x][y].AddChild(MonsterPool.FindChild("Monster"));
+                                ActiveTiles[x][y].FindChild("Monster").Enabled = false;
+                            }
                         }
                     }
                     if (BarrelPool.FindChild("Barrel") != null && ActiveTiles[x][y].FindChild("Monster") == null) {

@@ -14,6 +14,7 @@ namespace Components {
         public Dictionary<string, int> SpriteBank = null;
         public Dictionary<string,Rectangle> SourceRects = null;
         protected string currentSprite = null;
+        public float Scale = 1.0f;
         public string CurrentSprite {
             get {
                 return currentSprite;
@@ -45,7 +46,7 @@ namespace Components {
             else if (Anchor == AnchorPosition.BottomMiddle) {
                 renderPos.X /= 2;
             }
-            TextureManager.Instance.Draw(SpriteBank[CurrentSprite],renderPos,1.0f, SourceRects[CurrentSprite]);
+            TextureManager.Instance.Draw(SpriteBank[CurrentSprite],renderPos,Scale, SourceRects[CurrentSprite]);
         }
         public void AddSprite(string name, string spriteSheet, Rectangle source) {
             if (SpriteBank.ContainsKey(name) || SourceRects.ContainsKey(name)) {

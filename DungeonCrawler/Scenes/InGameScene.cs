@@ -148,28 +148,22 @@ namespace Game {
             HeroStats.AddChild(healthBarBGObj);
             StaticSpriteRendererComponent healthBarBGSprite = new StaticSpriteRendererComponent(healthBarBGObj);
             healthBarBGSprite.AddSprite("HealthBarBGSprite", "Assets/ObjectSpritesheet.png", new Rectangle(0, 542, 170, 36));
-            GameObject healthBarObj = new GameObject("healthBarObj");
-            healthBarObj.LocalPosition = new Point(37, 5);
-            healthBarBGObj.AddChild(healthBarObj);
-            StaticSpriteRendererComponent healthBarSprite = new StaticSpriteRendererComponent(healthBarObj);
-            healthBarSprite.AddSprite("HealthBarSprite", "Assets/ObjectSpriteSheet.png", new Rectangle(0, 579, 128, 24));
+            GameObject currentHeroStats = new GameObject("CurrentHeroStats");
+            healthBarBGObj.AddChild(currentHeroStats);
+            currentHeroStats.LocalPosition = new Point(56, 9);
+            FontRendererComponent currentStatsAmt = new FontRendererComponent(currentHeroStats, "Assets/Font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
+            currentStatsAmt.DrawString("Health: " + currentHealth.ToString());
             //armor bar
             GameObject armorBarBgObj = new GameObject("ArmorBarBgObj");
             HeroStats.AddChild(armorBarBgObj);
             armorBarBgObj.LocalPosition = new Point(5, 35);
             StaticSpriteRendererComponent armorBarBgSprite = new StaticSpriteRendererComponent(armorBarBgObj);
             armorBarBgSprite.AddSprite("ArmorBarBgSprite", "Assets/ObjectSpritesheet.png", new Rectangle(165, 505, 165, 40));
-            GameObject armorBarObj = new GameObject("ArmorBarObj");
-            armorBarBgObj.AddChild(armorBarObj);
-            armorBarObj.LocalPosition = new Point(32, 8);
-            StaticSpriteRendererComponent armorBarSprite = new StaticSpriteRendererComponent(armorBarObj);
-            armorBarSprite.AddSprite("ArmorBarSprite", "Assets/ObjectSpritesheet.png", new Rectangle(195, 485, 130, 20));
-            //temporary stat displayer
-            GameObject currentHeroStats = new GameObject("CurrentHeroStats");
-            UITiles.AddChild(currentHeroStats);
-            currentHeroStats.LocalPosition = new Point(130, 85);
-            FontRendererComponent currentStatsAmt = new FontRendererComponent(currentHeroStats, "Assets/Font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
-            currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
+            GameObject currentArmor = new GameObject("CurrentHeroStats");
+            armorBarBgObj.AddChild(currentArmor);
+            currentArmor.LocalPosition = new Point(56, 9);
+            FontRendererComponent currentArmorAmt = new FontRendererComponent(currentArmor, "Assets/Font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
+            currentArmorAmt.DrawString("Armor: " + heroStats.Armor.ToString());
 
             GameObject Helper1Pool = new GameObject("Helper1Pool");
             Root.AddChild(Helper1Pool);
@@ -349,16 +343,26 @@ namespace Game {
                 MonsterAnimation.AddAnimation("Attack", "Assets/Characters/Skeleton1/Skeleton1_Attack.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.PlayAnimation("Idle");
                 ButtonComponent enemy = new ButtonComponent(Monster);
+                enemy.wOffset = -100;
+                enemy.HOffset = -65;
+                enemy.xOffset = 60;
+                enemy.yOffset = 50;
                 enemy.DoClick += delegate() {
-                    if (enemy.Clickable) {
-                        enemy.Clickable = false;
+                    if (enemy.Active) {
+                        enemy.Active = false;
                         MonsterAnimation.PlayAnimation("Attack");
-                        currentHealth -= monster.Attack;
-                        if (currentHealth <= 0) {
-                            SceneManager.Instance.PopScene();
-                            SceneManager.Instance.PushScene(new DeathScene());
+                        if (heroStats.Armor > 0) {
+                            heroStats.Armor -= monster.Attack;
                         }
-                        currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
+                        else {
+                            currentHealth -= monster.Attack;
+                            if (currentHealth <= 0) {
+                                SceneManager.Instance.PopScene();
+                                SceneManager.Instance.PushScene(new DeathScene());
+                            }
+                        }
+                        currentStatsAmt.DrawString("Health: " + currentHealth.ToString());
+                        currentArmorAmt.DrawString("Armor: " + heroStats.Armor.ToString());
                         //enemy takes a hit
                         heroSprite.PlayAnimation("Attack");
                         monster.Health -= heroStats.Attack;
@@ -367,11 +371,11 @@ namespace Game {
                 };
                 MonsterAnimation.AnimationFinished += delegate () {
                     if (MonsterAnimation.CurrentAnimation == "Death") {
-                        enemy.Clickable = true;
+                        enemy.Active = true;
                         MonsterPool.AddChild(Monster);
                     }
                     else if (MonsterAnimation.CurrentAnimation != "Idle") {
-                        enemy.Clickable = true;
+                        enemy.Active = true;
                         MonsterAnimation.PlayAnimation("Idle");
                     }
                 };
