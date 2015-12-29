@@ -82,12 +82,29 @@ namespace Components {
                         HiddenTiles[x][y].Enabled = false;
                         continue;
                     }
-                    if (BarrelPool.FindChild("Barrel") != null && BarrelPool.FindChild("Monster")==null) {
+                    if (floor < 3) {
+                        if (MonsterPool.FindChild("Monster") != null) {
+                            if (true) {
+#if ENEMYDEBUG
+                                Console.WriteLine("Enemy spawned at X: " + x + " Y: " + y);
+#endif
+                                MonsterPool.FindChild("Monster").LocalPosition = new Point(-40,-50);
+                                ActiveTiles[x][y].AddChild(MonsterPool.FindChild("Monster"));
+                                ActiveTiles[x][y].FindChild("Monster").Enabled = false;
+                            }
+                        }
+                    }
+                    if (BarrelPool.FindChild("Barrel") != null && ActiveTiles[x][y].FindChild("Monster") == null) {
+                        if (ActiveTiles[x][y].FindChild("Monster") == null) {
+                            rando = random.Next(100);
+                            continue;
+                        }
                         if (rando <= BarrelSpawnChance) {
 #if BARRELDEBUG
                             Console.WriteLine("Barrel Spawned at X: " + x + " Y: " + y);
 #endif
                             BarrelPool.FindChild("Barrel").LocalPosition = new Point(10,0);
+                            
                             ActiveTiles[x][y].AddChild(BarrelPool.FindChild("Barrel"));
                             ActiveTiles[x][y].FindChild("Barrel").Enabled = false;
                             rando = random.Next(100);
@@ -119,18 +136,7 @@ namespace Components {
                             rando = random.Next(100);
                         }
                     }
-                    if (floor < 3) {
-                        if (MonsterPool.FindChild("Monster") != null) {
-                            if (true) {
-#if ENEMYDEBUG
-                                Console.WriteLine("Enemy spawned at X: " + x + " Y: " + y);
-#endif
-                                MonsterPool.FindChild("Monster").LocalPosition = new Point(10,10);
-                                ActiveTiles[x][y].AddChild(MonsterPool.FindChild("Monster"));
-                                ActiveTiles[x][y].FindChild("Monster").Enabled = true;
-                            }
-                        }
-                    }
+                    
                     
                 }
             }
@@ -151,16 +157,12 @@ namespace Components {
             CoinPool.AddChild(coins);
         }
         public void EnemyClicked(GameObject monsterPool, GameObject enemy) {
-           /* EnemyComponent enemystats = (EnemyComponent)enemy.FindComponent("EnemyComponent");
-            if (enemystats.Health == 0) {
-                //play death animation
-                monsterPool.AddChild(enemy);
+            EnemyComponent enemystats = (EnemyComponent)enemy.FindComponent("EnemyComponent");
+            AnimatedSpriteRendererComponent enemyAnims = (AnimatedSpriteRendererComponent)enemy.FindComponent("AnimatedSpriteRendererComponent");
+            if (enemystats.Health <= 0) {
+                enemyAnims.PlayAnimation("Death");
             }
-            */
-        }
-        public void HelperClicked(GameObject helperPool, GameObject helper) {
-            //play attack anim
-            helperPool.AddChild(helper);
+            
         }
         public void TileClicked(Point MousePosition,GameObject tile) {
 #if MOUSEPOSITIONDEBUG
@@ -179,6 +181,9 @@ namespace Components {
                 }
                 if (ActiveTiles[(MousePosition.X / 65)][(MousePosition.Y / 65)].FindChild("Coins", false) != null) {
                     ActiveTiles[(MousePosition.X / 65)][(MousePosition.Y / 65)].FindChild("Coins").Enabled = true;
+                }
+                if (ActiveTiles[(MousePosition.X / 65)][(MousePosition.Y / 65)].FindChild("Monster", false) != null) {
+                    ActiveTiles[(MousePosition.X / 65)][(MousePosition.Y / 65)].FindChild("Monster").Enabled = true;
                 }
             }
         }//end tileCliked

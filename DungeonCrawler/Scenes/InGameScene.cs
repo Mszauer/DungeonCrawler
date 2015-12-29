@@ -115,6 +115,11 @@ namespace Game {
                 heroSprite.AddAnimation("Death", "Assets/Characters/Barbarian/Barbarian_Death.png", heroSprite.AddAnimation(4, 4, 128, 128));
             }
             heroSprite.PlayAnimation("Idle");
+            heroSprite.AnimationFinished += delegate () {
+                if (heroSprite.CurrentAnimation != "Idle") {
+                    heroSprite.PlayAnimation("Idle");
+                }
+            };
 
             using (StreamReader reader = new StreamReader("Assets/Data/hero_" + CurrentHero + ".txt")) {
                 heroStats.Health = System.Convert.ToInt32(reader.ReadLine());
@@ -192,34 +197,17 @@ namespace Game {
                 HelperAnimation.AddAnimation("Idle", "Assets/Characters/Mage2/Mage2_Idle.png", HelperAnimation.AddAnimation(4, 4, 128, 128));
                 HelperAnimation.AddAnimation("Attack", "Assets/Characters/Mage2/Mage2_Attack.png", HelperAnimation.AddAnimation(4, 4, 128, 128));
                 HelperAnimation.PlayAnimation("Idle");
+                HelperAnimation.AnimationFinished += delegate () {
+                    if (HelperAnimation.CurrentAnimation != "Idle") {
+                        HelperAnimation.PlayAnimation("Idle");
+                    }
+                };
                 ButtonComponent helperAction = new ButtonComponent(Helper1);
                 helperAction.DoClick += delegate {
                     HelperAnimation.PlayAnimation("Attack");
                     currentHealth += helper.Heal;
                     currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
-                    GameManager.HelperClicked(Helper1Pool,Helper1);
-                };
-            }
-
-            GameObject Helper2Pool = new GameObject("Helper2Pool");
-            Root.AddChild(Helper2Pool);
-            Helper2Pool.Enabled = false;
-            GameManager.Helper2Pool = Helper2Pool;
-            for (int i = 0; i < 1; i++) {
-                GameObject Helper2 = new GameObject("Helper");
-                Helper2Pool.AddChild(Helper2);
-                HelperComponent helper = new HelperComponent(Helper2);
-                helper.Attack = 4;
-                AnimatedSpriteRendererComponent HelperAnimation = new AnimatedSpriteRendererComponent(Helper2);
-                HelperAnimation.AddAnimation("Idle", "Assets/Characters/Mage2/Mage2_Idle.png", HelperAnimation.AddAnimation(4, 4, 128, 128));
-                HelperAnimation.AddAnimation("Attack", "Assets/Characters/Mage2/Mage2_Attack.png", HelperAnimation.AddAnimation(4, 4, 128, 128));
-                HelperAnimation.PlayAnimation("Idle");
-                ButtonComponent helperAction = new ButtonComponent(Helper2);
-                helperAction.DoClick += delegate {
-                    HelperAnimation.PlayAnimation("Attack");
-                    //game manager do attack all active
-                    GameManager.HelperClicked(Helper2Pool,Helper2);
-
+                    //GameManager.HelperClicked(Helper1Pool,Helper1);
                 };
             }
 
@@ -359,14 +347,23 @@ namespace Game {
                 MonsterAnimation.AddAnimation("Death", "Assets/Characters/Skeleton1/Skeleton1_Death.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Attack", "Assets/Characters/Skeleton1/Skeleton1_Attack.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.PlayAnimation("Idle");
+                MonsterAnimation.AnimationFinished += delegate () {
+                    if (MonsterAnimation.CurrentAnimation == "Death") {
+                        MonsterPool.AddChild(Monster);
+                    }
+                    else if (MonsterAnimation.CurrentAnimation != "Idle") {
+                        MonsterAnimation.PlayAnimation("Idle");
+                    }
+                };
                 ButtonComponent enemy = new ButtonComponent(Monster);
-                enemy.DoClick += delegate {
+                enemy.DoClick += delegate() {
                     MonsterAnimation.PlayAnimation("Attack");
+
                     currentHealth -= monster.Attack;
                     currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
                     //enemy takes a hit
                     heroSprite.PlayAnimation("Attack");
-                    monster.Health -= currentAttack;
+                    monster.Health -= heroStats.Attack;
                     GameManager.EnemyClicked(MonsterPool, Monster);
                 };
             }

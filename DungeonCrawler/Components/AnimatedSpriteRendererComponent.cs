@@ -9,6 +9,8 @@ using System.Drawing;
 
 namespace Components {
     class AnimatedSpriteRendererComponent : Component{
+        public delegate void OnAnimationFinished();
+        public OnAnimationFinished AnimationFinished = null;
         public Dictionary<string, Rectangle[]> AnimationBank = null;
         public Dictionary<string, int> SpriteBank = null;
         public int CurrentFrame = 0;
@@ -64,9 +66,13 @@ namespace Components {
                 CurrentFrame++;
                 if (CurrentFrame > AnimationBank[CurrentAnimation].Length - 1) {
                     CurrentFrame = 0;
+                    if (AnimationFinished != null) {
+                        AnimationFinished();
+                    }
                 }
             }
         }
+
         public void PlayAnimation(string name) {
             if (!SpriteBank.ContainsKey(name)) {
 #if ANIMATEDSPRITEDEBUG
@@ -103,5 +109,6 @@ namespace Components {
             }
             return frames;
         }
+
     }
 }
