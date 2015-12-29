@@ -32,7 +32,7 @@ namespace Components {
         public GameObject Helper2Pool = null;
         public int BarrelSpawnChance = 14;
         public int CoinSpawnChance = 20;//out of 100
-        public int EnemyDropChance = 30; //out of 100 for coins to drop
+        public int EnemySpawnChance = 25;
         public bool HasKey = false;
 
         int floor = 0;
@@ -84,7 +84,7 @@ namespace Components {
                     }
                     if (floor < 3) {
                         if (MonsterPool.FindChild("Monster") != null) {
-                            if (true) {
+                            if (rando<EnemySpawnChance) {
 #if ENEMYDEBUG
                                 Console.WriteLine("Enemy spawned at X: " + x + " Y: " + y);
 #endif
@@ -157,6 +157,7 @@ namespace Components {
             CoinPool.AddChild(coins);
         }
         public void EnemyClicked(GameObject monsterPool, GameObject enemy,Point MousePosition) {
+            ButtonComponent enemyClick = (ButtonComponent)enemy.FindComponent("ButtonComponent");
             EnemyComponent enemystats = (EnemyComponent)enemy.FindComponent("EnemyComponent");
             AnimatedSpriteRendererComponent enemyAnims = (AnimatedSpriteRendererComponent)enemy.FindComponent("AnimatedSpriteRendererComponent");
             if (enemystats.Health <= 0) {
@@ -168,7 +169,6 @@ namespace Components {
                     }
                 }
             }
-            
         }
         public void TileClicked(Point MousePosition,GameObject tile) {
 #if MOUSEPOSITIONDEBUG

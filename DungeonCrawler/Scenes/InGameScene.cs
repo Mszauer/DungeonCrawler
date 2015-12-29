@@ -26,20 +26,7 @@ namespace Game {
             Enter();
 
             GameManagerComponent GameManager = new GameManagerComponent(Root);
-
-            //Currency Display
-            GameObject currency = new GameObject("Currency");
-            currency.LocalPosition = new Point(-140, -50);
-            StaticSpriteRendererComponent currencyBG = new StaticSpriteRendererComponent(currency);
-            currencyBG.AddSprite("Currency", "Assets/ObjectSpriteSheet.png", new Rectangle(327, 50, 113, 42));
-
-            GameObject currencyAmtObj = new GameObject("CurrencyAmtObj");
-            currency.AddChild(currencyAmtObj);
-            currencyAmtObj.LocalPosition = new Point(105, 12);//90,9
-            FontRendererComponent currencyAmt = new FontRendererComponent(currencyAmtObj, "Assets/Font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
-            currencyAmt.CurrentAllignment = FontRendererComponent.Allignment.Right;
-            currencyAmt.DrawString(Monies.ToString());//insert currency variable here
-
+            
             GameObject levelObj = new GameObject("Level");
             levelObj.LocalPosition = new Point(10,-47);
             StaticSpriteRendererComponent levelBgObj = new StaticSpriteRendererComponent(levelObj);
@@ -226,24 +213,6 @@ namespace Game {
                 };
             }
 
-            
-            GameObject CoinPool = new GameObject("CoinPool");
-            Root.AddChild(CoinPool);
-            CoinPool.Enabled = false;
-            GameManager.CoinPool = CoinPool;
-            for (int i = 0; i < 3; i++) {
-                GameObject coins = new GameObject("Coins");
-                CoinPool.AddChild(coins);
-                StaticSpriteRendererComponent CoinsSprite = new StaticSpriteRendererComponent(coins);
-                CoinsSprite.AddSprite("CoinsSprite", "assets/ObjectSpritesheet.png", new Rectangle(245, 865, 60, 35));
-                ButtonComponent coinsClicked = new ButtonComponent(coins);
-                coinsClicked.DoClick += delegate {
-                    GameManager.CoinsClicked(InputManager.Instance.MousePosition,coins);
-                    Monies += 10;
-                    currencyAmt.DrawString(Monies.ToString());
-                };
-            }
-
             GameObject ChestPool = new GameObject("ChestPool");
             Root.AddChild(ChestPool);
             ChestPool.Enabled = false;
@@ -331,6 +300,39 @@ namespace Game {
                     };
                 }
             }
+
+
+            //Currency Display
+            GameObject currency = new GameObject("Currency");
+            UITiles.AddChild(currency);
+            currency.LocalPosition = new Point(-140, -47);
+            StaticSpriteRendererComponent currencyBG = new StaticSpriteRendererComponent(currency);
+            currencyBG.AddSprite("Currency", "Assets/ObjectSpriteSheet.png", new Rectangle(327, 50, 113, 42));
+
+            GameObject currencyAmtObj = new GameObject("CurrencyAmtObj");
+            currency.AddChild(currencyAmtObj);
+            currencyAmtObj.LocalPosition = new Point(105, 12);//90,9
+            FontRendererComponent currencyAmt = new FontRendererComponent(currencyAmtObj, "Assets/Font/14Fontsheet.png", "Assets/Font/14Fontsheet.fnt");
+            currencyAmt.CurrentAllignment = FontRendererComponent.Allignment.Right;
+            currencyAmt.DrawString(Monies.ToString());//insert currency variable here
+
+            GameObject CoinPool = new GameObject("CoinPool");
+            Root.AddChild(CoinPool);
+            CoinPool.Enabled = false;
+            GameManager.CoinPool = CoinPool;
+            for (int i = 0; i < 3; i++) {
+                GameObject coins = new GameObject("Coins");
+                CoinPool.AddChild(coins);
+                StaticSpriteRendererComponent CoinsSprite = new StaticSpriteRendererComponent(coins);
+                CoinsSprite.AddSprite("CoinsSprite", "assets/ObjectSpritesheet.png", new Rectangle(245, 865, 60, 35));
+                ButtonComponent coinsClicked = new ButtonComponent(coins);
+                coinsClicked.DoClick += delegate {
+                    GameManager.CoinsClicked(InputManager.Instance.MousePosition, coins);
+                    Monies += 10;
+                    currencyAmt.DrawString(Monies.ToString());
+                };
+            }
+
             GameObject MonsterPool = new GameObject("MonsterPool");
             Root.AddChild(MonsterPool);
             MonsterPool.Enabled = false;
@@ -339,32 +341,36 @@ namespace Game {
                 GameObject Monster = new GameObject("Monster");
                 MonsterPool.AddChild(Monster);
                 EnemyComponent monster = new EnemyComponent(Monster);
-                monster.Health = 12;
-                monster.Attack = 4;
+                monster.Health = 10;
+                monster.Attack = 1;
                 AnimatedSpriteRendererComponent MonsterAnimation = new AnimatedSpriteRendererComponent(Monster);
                 MonsterAnimation.AddAnimation("Idle", "Assets/Characters/Skeleton1/Skeleton1_Idle.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Hit", "Assets/Characters/Skeleton1/Skeleton1_Hit.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Death", "Assets/Characters/Skeleton1/Skeleton1_Death.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Attack", "Assets/Characters/Skeleton1/Skeleton1_Attack.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.PlayAnimation("Idle");
+                ButtonComponent enemy = new ButtonComponent(Monster);
+                enemy.DoClick += delegate() {
+                    if (enemy.Clickable) {
+                        enemy.Clickable = false;
+                        MonsterAnimation.PlayAnimation("Attack");
+                        currentHealth -= monster.Attack;
+                        currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
+                        //enemy takes a hit
+                        heroSprite.PlayAnimation("Attack");
+                        monster.Health -= heroStats.Attack;
+                        GameManager.EnemyClicked(MonsterPool, Monster, InputManager.Instance.MousePosition);
+                    }
+                };
                 MonsterAnimation.AnimationFinished += delegate () {
                     if (MonsterAnimation.CurrentAnimation == "Death") {
+                        enemy.Clickable = true;
                         MonsterPool.AddChild(Monster);
                     }
                     else if (MonsterAnimation.CurrentAnimation != "Idle") {
+                        enemy.Clickable = true;
                         MonsterAnimation.PlayAnimation("Idle");
                     }
-                };
-                ButtonComponent enemy = new ButtonComponent(Monster);
-                enemy.DoClick += delegate() {
-                    MonsterAnimation.PlayAnimation("Attack");
-
-                    currentHealth -= monster.Attack;
-                    currentStatsAmt.DrawString("Health: " + currentHealth.ToString() + "   Attack: " + currentAttack.ToString());
-                    //enemy takes a hit
-                    heroSprite.PlayAnimation("Attack");
-                    monster.Health -= heroStats.Attack;
-                    GameManager.EnemyClicked(MonsterPool, Monster,InputManager.Instance.MousePosition);
                 };
             }
 
