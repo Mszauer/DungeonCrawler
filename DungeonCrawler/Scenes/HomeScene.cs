@@ -30,15 +30,19 @@ namespace Game {
                 Root.AddChild(background);
                 StaticSpriteRendererComponent backgroundPicture = new StaticSpriteRendererComponent(background);
                 backgroundPicture.AddSprite("Background","Assets/ObjectSpriteSheet.png",new Rectangle(0,0,320,480));
+            AudioSourceComponent GenericSounds = new AudioSourceComponent(background);
+            //add background sounds
+            GenericSounds.AddSound("ButtonClicked", "Assets/Sounds/ButtonClicked.wav");
 
-                //currency counter
-                GameObject currency = new GameObject("Currency");
+            //currency counter
+            GameObject currency = new GameObject("Currency");
                 Root.AddChild(currency);
                 currency.LocalPosition = new Point(7,5);
                 StaticSpriteRendererComponent currencyBG = new StaticSpriteRendererComponent(currency);
                 currencyBG.AddSprite("Currency", "Assets/ObjectSpriteSheet.png", new Rectangle(327, 50, 113, 42));
                 ButtonComponent currencyShop = new ButtonComponent(currency);
                 currencyShop.DoClick += delegate {
+                    GenericSounds.PlaySound("ButtonClicked");
                     SceneManager.Instance.PushScene(new ShopScene());
                 };
 
@@ -103,6 +107,7 @@ namespace Game {
                     }
                 };
                 play.DoClick += delegate () {
+                    GenericSounds.PlaySound("ButtonClicked");
                     SceneManager.Instance.PushScene(new HeroSelectionScene());
                 };
                 play.NoHover += delegate () {

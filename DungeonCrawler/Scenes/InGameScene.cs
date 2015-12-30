@@ -27,11 +27,14 @@ namespace Game {
 
             GameManagerComponent GameManager = new GameManagerComponent(Root);
             
+
             GameObject levelObj = new GameObject("Level");
             levelObj.LocalPosition = new Point(10,-47);
             StaticSpriteRendererComponent levelBgObj = new StaticSpriteRendererComponent(levelObj);
             levelBgObj.AddSprite("Level", "Assets/ObjectSpritesheet.png", new Rectangle(325, 238, 180, 40));
-
+            AudioSourceComponent background = new AudioSourceComponent(levelObj);
+            background.AddSound("Background", "Assets/Sounds/background.mp3");
+            background.PlaySound("Background", true);
             GameObject levelFntObj = new GameObject("LevelFntObj");
             levelObj.AddChild(levelFntObj);
             levelFntObj.LocalPosition = new Point(5, 5);
@@ -81,6 +84,7 @@ namespace Game {
             GameObject heroObj = new GameObject("HeroObj");
             UI.AddChild(heroObj);
             heroObj.LocalPosition = new Point(15, 340);
+            AudioSourceComponent heroSounds = new AudioSourceComponent(heroObj);
             HeroComponent heroStats = new HeroComponent(heroObj);
             AnimatedSpriteRendererComponent heroSprite = new AnimatedSpriteRendererComponent(heroObj);
             if (CurrentHero == 0) {
@@ -88,19 +92,24 @@ namespace Game {
                 heroSprite.AddAnimation("Attack", "Assets/Characters/Archer/Archer_Attack.png", heroSprite.AddAnimation(4, 4, 128, 128));
                 heroSprite.AddAnimation("Hit", "Assets/Characters/Archer/Archer_Hit.png", heroSprite.AddAnimation(4, 4, 128, 128));
                 heroSprite.AddAnimation("Death", "Assets/Characters/Archer/Archer_Death.png", heroSprite.AddAnimation(4, 4, 128, 128));
+                heroSounds.AddSound("Attack", "Assets/Sounds/Archer_Attack.mp3");
             }
             else if (CurrentHero == 1) {
                 heroSprite.AddAnimation("Idle", "Assets/Characters/Knight/Knight_Idle.png", heroSprite.AddAnimation(4, 4, 128, 128));
                 heroSprite.AddAnimation("Attack", "Assets/Characters/Knight/Knight_Attack.png", heroSprite.AddAnimation(4, 4, 128, 128));
                 heroSprite.AddAnimation("Hit", "Assets/Characters/Knight/Knight_Hit.png", heroSprite.AddAnimation(4, 4, 128, 128));
                 heroSprite.AddAnimation("Death", "Assets/Characters/Knight/Knight_Death.png", heroSprite.AddAnimation(4, 4, 128, 128));
+                heroSounds.AddSound("Attack", "Assets/Sounds/Knight_Attack.mp3");
             }
             else if (CurrentHero == 2) {
                 heroSprite.AddAnimation("Idle", "Assets/Characters/Barbarian/Barbarian_Idle.png", heroSprite.AddAnimation(4, 4, 128, 128));
                 heroSprite.AddAnimation("Attack", "Assets/Characters/Barbarian/Barbarian_Attack.png", heroSprite.AddAnimation(4, 4, 128, 128));
                 heroSprite.AddAnimation("Hit", "Assets/Characters/Barbarian/Barbarian_Hit.png", heroSprite.AddAnimation(4, 4, 128, 128));
                 heroSprite.AddAnimation("Death", "Assets/Characters/Barbarian/Barbarian_Death.png", heroSprite.AddAnimation(4, 4, 128, 128));
+                heroSounds.AddSound("Attack", "Assets/Sounds/Barbarian_Attck.mp3");
             }
+            heroSounds.AddSound("Death", "Assets/Sounds/Hero_Death.mp3");
+            heroSounds.SetVolume("Attack",0.75f);
             heroSprite.PlayAnimation("Idle");
             heroSprite.AnimationFinished += delegate () {
                 if (heroSprite.CurrentAnimation != "Idle") {
@@ -202,7 +211,11 @@ namespace Game {
                 StaticSpriteRendererComponent BarrelSprite = new StaticSpriteRendererComponent(barrel);
                 BarrelSprite.AddSprite("BarrelSprite", "Assets/ObjectSpritesheet.png", new Rectangle(105,679,45,65));
                 ButtonComponent barrelClicked = new ButtonComponent(barrel);
+                AudioSourceComponent barrelSounds = new AudioSourceComponent(barrel);
+                barrelSounds.AddSound("Break", "Assets/Sounds/BarrelBreak.mp3");
+                barrelSounds.SetVolume("Break", 0.75f);
                 barrelClicked.DoClick += delegate {
+                    barrelSounds.PlaySound("Break");
                     GameManager.BarrelClicked(InputManager.Instance.MousePosition, barrel);
                 };
             }
@@ -267,8 +280,11 @@ namespace Game {
             Key.Enabled = false;
             StaticSpriteRendererComponent keySprite = new StaticSpriteRendererComponent(Key);
             keySprite.AddSprite("KeySprite", "Assets/ObjectSpritesheet.png", new Rectangle(310, 862, 35, 40));
+            AudioSourceComponent keySounds = new AudioSourceComponent(Key);
+            keySounds.AddSound("PickedUp", "Assets/Sounds/PickUpKey.mp3");
             ButtonComponent keyButton = new ButtonComponent(Key);
             keyButton.DoClick += delegate {
+                keySounds.PlaySound("PickedUp");
                 Key.Enabled = false;
                 GameManager.HasKey = true;
                 GameManager.LockedExit.Enabled = false;
@@ -320,7 +336,10 @@ namespace Game {
                 StaticSpriteRendererComponent CoinsSprite = new StaticSpriteRendererComponent(coins);
                 CoinsSprite.AddSprite("CoinsSprite", "assets/ObjectSpritesheet.png", new Rectangle(245, 865, 60, 35));
                 ButtonComponent coinsClicked = new ButtonComponent(coins);
+                AudioSourceComponent coinsPickUp = new AudioSourceComponent(coins);
+                coinsPickUp.AddSound("CoinsPickedUp", "Assets/Sounds/Coins.mp3");
                 coinsClicked.DoClick += delegate {
+                    coinsPickUp.PlaySound("CoinsPickedUp");
                     GameManager.CoinsClicked(InputManager.Instance.MousePosition, coins);
                     Monies += 10;
                     currencyAmt.DrawString(Monies.ToString());
@@ -342,6 +361,11 @@ namespace Game {
                 MonsterAnimation.AddAnimation("Death", "Assets/Characters/Skeleton1/Skeleton1_Death.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.AddAnimation("Attack", "Assets/Characters/Skeleton1/Skeleton1_Attack.png", MonsterAnimation.AddAnimation(4, 4, 128, 128));
                 MonsterAnimation.PlayAnimation("Idle");
+                AudioSourceComponent MonsterSounds = new AudioSourceComponent(Monster);
+                MonsterSounds.AddSound("Death", "Assets/Sounds/SkeletonDeath.wav");
+                MonsterSounds.AddSound("Attack", "Assets/Sounds/Barbarian_Attack.mp3");
+                MonsterSounds.SetVolume("Death", 0.25f);
+                MonsterSounds.SetVolume("Attack", 0.25f);
                 ButtonComponent enemy = new ButtonComponent(Monster);
                 enemy.wOffset = -100;
                 enemy.HOffset = -65;
@@ -350,21 +374,24 @@ namespace Game {
                 enemy.DoClick += delegate() {
                     if (enemy.Active) {
                         enemy.Active = false;
-                        MonsterAnimation.PlayAnimation("Attack");
-                        if (heroStats.Armor > 0) {
-                            heroStats.Armor -= monster.Attack;
-                        }
-                        else {
-                            currentHealth -= monster.Attack;
-                            if (currentHealth <= 0) {
-                                SceneManager.Instance.PopScene();
-                                SceneManager.Instance.PushScene(new DeathScene());
+                        if (monster.Health > 0) {
+                            MonsterAnimation.PlayAnimation("Attack");
+                            MonsterSounds.PlaySound("Attack");
+                            if (heroStats.Armor > 0) {
+                                heroStats.Armor -= monster.Attack;
+                            }
+                            else {
+                                currentHealth -= monster.Attack;
+                                if (currentHealth <= 0) {
+                                    heroSounds.PlaySound("Death");
+                                    SceneManager.Instance.PopScene();
+                                    SceneManager.Instance.PushScene(new DeathScene());
+                                }
                             }
                         }
                         currentStatsAmt.DrawString("Health: " + currentHealth.ToString());
                         currentArmorAmt.DrawString("Armor: " + heroStats.Armor.ToString());
                         //enemy takes a hit
-                        heroSprite.PlayAnimation("Attack");
                         monster.Health -= heroStats.Attack;
                         GameManager.EnemyClicked(MonsterPool, Monster, InputManager.Instance.MousePosition);
                     }
@@ -375,6 +402,10 @@ namespace Game {
                         MonsterPool.AddChild(Monster);
                     }
                     else if (MonsterAnimation.CurrentAnimation != "Idle") {
+                        if (MonsterAnimation.CurrentAnimation == "Attack") {
+                                heroSounds.PlaySound("Attack");
+                                heroSprite.PlayAnimation("Attack");
+                            }
                         enemy.Active = true;
                         MonsterAnimation.PlayAnimation("Idle");
                     }

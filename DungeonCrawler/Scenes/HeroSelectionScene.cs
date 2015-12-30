@@ -16,11 +16,16 @@ namespace Game {
         public override void Initialize() {
             List<GameObject> Heroes = new List<GameObject>();
 
+
             //background
             GameObject background = new GameObject("Background");
             Root.AddChild(background);
             StaticSpriteRendererComponent backgroundPicture = new StaticSpriteRendererComponent(background);
             backgroundPicture.AddSprite("Background", "Assets/ObjectSpriteSheet.png", new Rectangle(0, 0, 320, 480));
+            AudioSourceComponent GenericSounds = new AudioSourceComponent(background);
+            //add background sounds
+            GenericSounds.AddSound("ButtonClicked", "Assets/Sounds/ButtonClicked.wav");
+            GenericSounds.SetVolume("ButtonClicked", 0.25f);
 
             //currency counter
             GameObject currency = new GameObject("Currency");
@@ -30,7 +35,10 @@ namespace Game {
             currencyBG.AddSprite("Currency", "Assets/ObjectSpriteSheet.png", new Rectangle(327, 50, 113, 42));
             ButtonComponent currencyShop = new ButtonComponent(currency);
             currencyShop.DoClick += delegate {
+                currencyShop.Active = false;
+                GenericSounds.PlaySound("ButtonClicked");
                 SceneManager.Instance.PushScene(new ShopScene());
+                currencyShop.Active = true;
             };
 
             GameObject currencyAmtObj = new GameObject("CurrencyAmtObj");
@@ -56,7 +64,10 @@ namespace Game {
                 }
             };
             back.DoClick += delegate {
+                currencyShop.Active = false;
                 SceneManager.Instance.PopScene();
+                GenericSounds.PlaySound("ButtonClicked");
+                currencyShop.Active = true;
             };
             back.NoHover += delegate {
                 if (backSprite.CurrentSprite != "BackDefault") {
@@ -83,6 +94,7 @@ namespace Game {
                 SceneManager.Instance.PopScene();
                 SceneManager.Instance.PopScene();
                 SceneManager.Instance.PushScene(new InGameScene());
+                GenericSounds.PlaySound("ButtonClicked");
             };
             play.NoHover += delegate () {
                 if (sButton.CurrentSprite != "PlayButtonDefault") {
@@ -206,9 +218,9 @@ namespace Game {
             healthObj.AddChild(healthLevelObj);
             healthLevelObj.LocalPosition = new Point(54, 0);
             StaticSpriteRendererComponent healthLevelSprite = new StaticSpriteRendererComponent(healthLevelObj);
-            healthLevelSprite.AddSprite("HealthLevelSpriteDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(942, 350, 35, 35));
-            healthLevelSprite.AddSprite("HealthLevelSpriteHover", "Assets/ObjectSpriteSheet.png", new Rectangle(942, 418, 35, 35));
-            healthLevelSprite.AddSprite("HealthLevelSpriteClick", "Assets/ObjectSpriteSheet.png", new Rectangle(942, 453, 35, 35));
+            healthLevelSprite.AddSprite("HealthLevelSpriteDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(942, 352, 35, 35));
+            healthLevelSprite.AddSprite("HealthLevelSpriteHover", "Assets/ObjectSpriteSheet.png", new Rectangle(942, 420, 35, 35));
+            healthLevelSprite.AddSprite("HealthLevelSpriteClick", "Assets/ObjectSpriteSheet.png", new Rectangle(942, 455, 35, 35));
             ButtonComponent health = new ButtonComponent(healthLevelObj);
             health.DoClick += delegate {
                 if (healthLevelSprite.CurrentSprite != "HealthLevelSpriteClick") {
@@ -252,15 +264,16 @@ namespace Game {
             attackObj.AddChild(attackLevelObj);
             attackLevelObj.LocalPosition = new Point(54,0);//284,415 global
             StaticSpriteRendererComponent attackLevelSprite = new StaticSpriteRendererComponent(attackLevelObj);
-            attackLevelSprite.AddSprite("AttackLevelSpriteDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(942, 350, 35, 35));
-            attackLevelSprite.AddSprite("AttackLevelSpriteHover", "Assets/ObjectSpriteSheet.png", new Rectangle(942, 418, 35, 35));
-            attackLevelSprite.AddSprite("AttackLevelSpriteClick", "Assets/ObjectSpriteSheet.png", new Rectangle(942, 453, 35, 35));
+            attackLevelSprite.AddSprite("AttackLevelSpriteDefault", "Assets/ObjectSpriteSheet.png", new Rectangle(942, 352, 35, 35));
+            attackLevelSprite.AddSprite("AttackLevelSpriteHover", "Assets/ObjectSpriteSheet.png", new Rectangle(942, 420, 35, 35));
+            attackLevelSprite.AddSprite("AttackLevelSpriteClick", "Assets/ObjectSpriteSheet.png", new Rectangle(942, 455, 35, 35));
             ButtonComponent attackShop = new ButtonComponent(attackLevelObj);
             attackShop.DoClick += delegate {
                 if (attackLevelSprite.CurrentSprite != "AttackLevelSpriteClick") {
                     attackLevelSprite.SetSprite("AttackLevelSpriteClick");
                 }
-                 SceneManager.Instance.PushScene(new ShopScene());
+                GenericSounds.PlaySound("ButtonClicked");
+                SceneManager.Instance.PushScene(new ShopScene());
              };
             attackShop.DoHover += delegate {
                 if (attackLevelSprite.CurrentSprite != "AttackLevelSpriteHover") {
@@ -470,6 +483,8 @@ namespace Game {
                 if (namePlateNextSprite.CurrentSprite != "NamePlatenextSpriteClick") {
                     namePlateNextSprite.SetSprite("NamePlatenextSpriteClick");
                 }
+                currencyShop.Active = false;
+                GenericSounds.PlaySound("ButtonClicked");
                 //do logic to swap hero component and skills
                 Heroes[CurrentHero].Enabled = false;
                 CurrentHero++;
@@ -493,6 +508,7 @@ namespace Game {
                 skill1LvlTxt.DrawString(heroSkills.Skills[heroSkills.SkillIndexer[1]].ToString());
                 skill2LvlTxt.DrawString(heroSkills.Skills[heroSkills.SkillIndexer[2]].ToString());
                 skill3LvlTxt.DrawString(heroSkills.Skills[heroSkills.SkillIndexer[3]].ToString());
+                currencyShop.Active = true; ;
             };
             namePlateNext.DoHover += delegate {
                 if (namePlateNextSprite.CurrentSprite != "NamePlatenextSpriteHover2") {
@@ -509,6 +525,8 @@ namespace Game {
                 if (namePlatePrevSprite.CurrentSprite != "NamePlatePrevSpriteClick") {
                     namePlatePrevSprite.SetSprite("NamePlatePrevSpriteClick");
                 }
+                currencyShop.Active = false;
+                GenericSounds.PlaySound("ButtonClicked");
                 Heroes[CurrentHero].Enabled = false;
                 CurrentHero--;
                 if (CurrentHero < 0) {
@@ -531,7 +549,7 @@ namespace Game {
                 skill1LvlTxt.DrawString(heroSkills.Skills[heroSkills.SkillIndexer[1]].ToString());
                 skill2LvlTxt.DrawString(heroSkills.Skills[heroSkills.SkillIndexer[2]].ToString());
                 skill3LvlTxt.DrawString(heroSkills.Skills[heroSkills.SkillIndexer[3]].ToString());
-
+                currencyShop.Active = true;
             };
             namePlatePrev.DoHover += delegate {
                 if (namePlatePrevSprite.CurrentSprite != "NamePlatePrevSpriteHover2") {
@@ -625,6 +643,10 @@ namespace Game {
             heroSkill2Fnt.DrawString(currentHeroComponent.Skills[currentHeroComponent.SkillIndexer[2]].ToString());
             heroSkill3Fnt.DrawString(currentHeroComponent.Skills[currentHeroComponent.SkillIndexer[3]].ToString());
             currencyAmt.DrawString(Monies.ToString());//insert currency variable here
+            AudioSourceComponent sounds = new AudioSourceComponent(currentHero);
+            sounds.AddSound("Enter", "Assets/Sounds/DoorOpen.mp3");
+            sounds.PlaySound("Enter");
+
         }
 
         public override void Exit() {

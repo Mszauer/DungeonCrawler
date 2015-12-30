@@ -73,7 +73,9 @@ namespace Components {
 #endif
                 return;
             }
-            loopBank.Add(name, looping);
+            if (!loopBank.ContainsKey(name)) {
+                loopBank.Add(name, looping);
+            }
             SoundManager.Instance.StopSound(SoundBank[CurrentSound]);
             CurrentSound = name;
             SoundManager.Instance.PlaySound(SoundBank[name]);
@@ -83,6 +85,15 @@ namespace Components {
             SoundManager.Instance.SetVolume(SoundBank[name], volume);
         }
         public override void OnUpdate(float dTime) {
+            if (loopBank == null) {
+                return;
+            }
+            if (string.IsNullOrEmpty(CurrentSound)) {
+                return;
+            }
+            if (!loopBank.ContainsKey(CurrentSound)) {
+                return;
+            }
             if (loopBank[CurrentSound]) {
                 if (!SoundManager.Instance.IsPlaying(SoundBank[CurrentSound])) {
                     SoundManager.Instance.PlaySound(SoundBank[CurrentSound]);

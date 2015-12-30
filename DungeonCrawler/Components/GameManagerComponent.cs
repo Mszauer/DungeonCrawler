@@ -159,8 +159,11 @@ namespace Components {
         public void EnemyClicked(GameObject monsterPool, GameObject enemy,Point MousePosition) {
             ButtonComponent enemyClick = (ButtonComponent)enemy.FindComponent("ButtonComponent");
             EnemyComponent enemystats = (EnemyComponent)enemy.FindComponent("EnemyComponent");
+            AudioSourceComponent enemySounds = (AudioSourceComponent)enemy.FindComponent("AudioSourceComponent");
             AnimatedSpriteRendererComponent enemyAnims = (AnimatedSpriteRendererComponent)enemy.FindComponent("AnimatedSpriteRendererComponent");
             if (enemystats.Health <= 0) {
+                enemystats.Health = 11;
+                enemySounds.PlaySound("Death");
                 enemyAnims.PlayAnimation("Death");
                 if (enemy.Children != null && enemy.Children.Count > 0) {
                     for (int i = enemy.Children.Count - 1; i >= 0; i--) {
@@ -181,6 +184,7 @@ namespace Components {
                 //if no monster
                 Key.Enabled = true;
             }
+
             if (ActiveTiles[(MousePosition.X / 65)][(MousePosition.Y / 65)].Children != null) {
                 if (ActiveTiles[(MousePosition.X / 65)][(MousePosition.Y / 65)].FindChild("Barrel") != null) {
                     ActiveTiles[(MousePosition.X / 65)][(MousePosition.Y / 65)].FindChild("Barrel").Enabled = true;
